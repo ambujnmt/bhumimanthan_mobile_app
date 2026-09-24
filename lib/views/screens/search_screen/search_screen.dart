@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:bhumi_manthan/utils/app_imports.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -10,6 +10,22 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: AppDimentions.defaultScreenPadding,
+        ),
+        child: Column(
+          children: [
+            SizedBox(height: Get.mediaQuery.padding.top + 20),
+            AppTextfield(
+              hintText: 'Search locality, projects or builders',
+              prefixIcon: Image.asset(Images.searchIcon, height: 20, width: 20),
+            ),
+            Expanded(child: ListView(children: [])),
+          ],
+        ),
+      ),
+    );
   }
 }

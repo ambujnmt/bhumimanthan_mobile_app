@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           SizedBox(height: Get.mediaQuery.padding.top),
           SizedBox(
-            height: 70,
+            height: 65,
             child: Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: AppDimentions.defaultScreenPadding,
@@ -80,7 +80,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-
           ListenableBuilder(
             listenable: sc,
             builder: (context, child) {

@@ -29,6 +29,7 @@ class _MainScreenState extends State<MainScreen> {
       child: Scaffold(
         key: scaffoldKey,
         endDrawer: Drawer(
+          backgroundColor: AppColors.backgroundColor,
           shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
           child: Column(
             children: [
