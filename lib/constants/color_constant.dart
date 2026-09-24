@@ -1,0 +1,42 @@
+import '../utils/app_imports.dart';
+
+const transparent = Colors.transparent;
+const red = Colors.red;
+const pink = Colors.pink;
+const purple = Colors.purple;
+const deepPurple = Colors.deepPurple;
+const indigo = Colors.indigo;
+const blue = Colors.blue;
+const lightBlue = Colors.lightBlue;
+const cyan = Colors.cyan;
+const teal = Colors.teal;
+const green = Colors.green;
+const lightGreen = Colors.lightGreen;
+const lime = Colors.lime;
+const yellow = Colors.yellow;
+const amber = Colors.amber;
+const orange = Colors.orange;
+const deepOrange = Colors.deepOrange;
+const brown = Colors.brown;
+const grey = Colors.grey;
+const blueGrey = Colors.blueGrey;
+const black = Colors.black;
+const white = Colors.white;
+
+// Accents
+const redAccent = Colors.redAccent;
+const pinkAccent = Colors.pinkAccent;
+const purpleAccent = Colors.purpleAccent;
+const deepPurpleAccent = Colors.deepPurpleAccent;
+const indigoAccent = Colors.indigoAccent;
+const blueAccent = Colors.blueAccent;
+const lightBlueAccent = Colors.lightBlueAccent;
+const cyanAccent = Colors.cyanAccent;
+const tealAccent = Colors.tealAccent;
+const greenAccent = Colors.greenAccent;
+const lightGreenAccent = Colors.lightGreenAccent;
+const limeAccent = Colors.limeAccent;
+const yellowAccent = Colors.yellowAccent;
+const amberAccent = Colors.amberAccent;
+const orangeAccent = Colors.orangeAccent;
+const deepOrangeAccent = Colors.deepOrangeAccent;
