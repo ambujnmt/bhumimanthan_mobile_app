@@ -1,4 +1,6 @@
 import 'package:bhumi_manthan/utils/app_imports.dart';
+import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/home_data.dart';
+import 'package:bhumi_manthan/views/widgets/app_network_image.dart';
 import 'package:bhumi_manthan/views/widgets/section_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -154,98 +156,103 @@ class _HomeScreenState extends State<HomeScreen> {
                   content: SizedBox(
                     height: 160,
                     child: ListView.separated(
-                      itemCount: 4,
+                      itemCount: featuredItems.length,
                       scrollDirection: Axis.horizontal,
                       padding: EdgeInsets.symmetric(
                         horizontal: AppDimentions.defaultScreenPadding,
                         vertical: 2,
                       ),
-                      itemBuilder: (context, index) => AppContainer(
-                        width: 330,
-                        clip: Clip.hardEdge,
-                        padding: EdgeInsets.zero,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 4,
-                              child: Image.asset(
-                                height: Get.height,
-                                width: Get.width,
-                                Images.placeholder,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 6,
-                              child: Container(
-                                width: Get.width,
-                                padding: EdgeInsets.symmetric(
-                                  vertical: AppDimentions.screenPaddingXS,
-                                  horizontal: AppDimentions.screenPaddingS,
+                      itemBuilder: (context, index) {
+                        final item = featuredItems[index];
+                        return AppContainer(
+                          width: 330,
+                          clip: Clip.hardEdge,
+                          padding: EdgeInsets.zero,
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 4,
+                                child: AppNetworkImage(
+                                  imgUrl: item.img,
+                                  height: Get.height,
+                                  width: Get.width,
+                                  fit: BoxFit.cover,
                                 ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    CustomText.kText(
-                                      '2 BHK Apartment',
-                                      size: 16,
-                                      weight: FontWeight.w600,
-                                      family: CustomFonts.outfit,
-                                    ),
-                                    heightSpace7,
-                                    Row(
-                                      children: [
-                                        Image.asset(
-                                          Images.mapPinIcon,
-                                          height: 15,
-                                          width: 15,
-                                        ),
-                                        widthSpace5,
-                                        Expanded(
-                                          child: CustomText.kText(
-                                            'Wadala, Mumbai',
+                              ),
+                              Expanded(
+                                flex: 6,
+                                child: Container(
+                                  width: Get.width,
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: AppDimentions.screenPaddingXS,
+                                    horizontal: AppDimentions.screenPaddingS,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      CustomText.kText(
+                                        item.title,
+                                        size: 16,
+                                        weight: FontWeight.w600,
+                                        family: CustomFonts.outfit,
+                                      ),
+                                      heightSpace7,
+                                      Row(
+                                        children: [
+                                          Image.asset(
+                                            Images.mapPinIcon,
+                                            height: 15,
+                                            width: 15,
+                                          ),
+                                          widthSpace5,
+                                          Expanded(
+                                            child: CustomText.kText(
+                                              item.location,
+                                              size: 12,
+                                              lines: 1,
+                                              color: AppColors.subtitle,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Spacer(),
+                                      CustomText.kText(
+                                        '₹${item.price}',
+                                        size: 14,
+                                        lines: 1,
+                                        weight: FontWeight.w700,
+                                        color: AppColors.primary,
+                                        family: CustomFonts.outfit,
+                                      ),
+                                      CustomText.kText(
+                                        item.size,
+                                        size: 12,
+                                        lines: 1,
+                                        color: AppColors.subtitle,
+                                      ),
+                                      Spacer(),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: [
+                                          CustomText.kText(
+                                            'Ready to Move',
                                             size: 12,
                                             lines: 1,
-                                            color: AppColors.subtitle,
+                                            weight: FontWeight.w600,
+                                            family: CustomFonts.outfit,
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Spacer(),
-                                    CustomText.kText(
-                                      '₹78.60 Lakh',
-                                      size: 14,
-                                      lines: 1,
-                                      weight: FontWeight.w700,
-                                      color: AppColors.primary,
-                                      family: CustomFonts.outfit,
-                                    ),
-                                    CustomText.kText(
-                                      '1050 Sq.Ft.',
-                                      size: 12,
-                                      lines: 1,
-                                      color: AppColors.subtitle,
-                                    ),
-                                    Spacer(),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        CustomText.kText(
-                                          'Ready to Move',
-                                          size: 12,
-                                          lines: 1,
-                                          weight: FontWeight.w600,
-                                          family: CustomFonts.outfit,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
+                            ],
+                          ),
+                        );
+                      },
                       separatorBuilder: (context, index) => widthSpace15,
                     ),
                   ),
@@ -257,77 +264,81 @@ class _HomeScreenState extends State<HomeScreen> {
                   content: SizedBox(
                     height: 300,
                     child: ListView.separated(
-                      itemCount: 4,
+                      itemCount: newLaunchedItems.length,
                       scrollDirection: Axis.horizontal,
                       padding: EdgeInsets.symmetric(
                         horizontal: AppDimentions.defaultScreenPadding,
                         vertical: 2,
                       ),
-                      itemBuilder: (context, index) => AppContainer(
-                        width: 250,
-                        clip: Clip.hardEdge,
-                        padding: EdgeInsets.zero,
-                        child: Column(
-                          children: [
-                            Expanded(
-                              flex: 7,
-                              child: Image.asset(
-                                width: Get.width,
-                                Images.placeholder,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 6,
-                              child: Container(
-                                width: Get.width,
-                                padding: EdgeInsets.symmetric(
-                                  vertical: AppDimentions.screenPaddingXS,
-                                  horizontal: AppDimentions.screenPaddingS,
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    CustomText.kText(
-                                      'Godrej Properties',
-                                      size: 12,
-                                      weight: FontWeight.bold,
-                                      color: AppColors.subtitle,
-                                    ),
-                                    CustomText.kText(
-                                      'Godrej Properties',
-                                      size: 17,
-                                      weight: FontWeight.w700,
-                                      family: CustomFonts.outfit,
-                                    ),
-                                    CustomText.kText(
-                                      'Wadala, Mumbai',
-                                      size: 12,
-                                      color: AppColors.subtitle,
-                                    ),
-                                    Spacer(),
-                                    CustomText.kText(
-                                      '₹2.45 Cr onwards',
-                                      size: 14,
-                                      lines: 1,
-                                      weight: FontWeight.w700,
-                                      color: AppColors.primary,
-                                      family: CustomFonts.outfit,
-                                    ),
-                                    CustomText.kText(
-                                      '2 & 3 BHK Apartments',
-                                      size: 12,
-                                      lines: 1,
-                                      color: AppColors.subtitle,
-                                    ),
-                                    Spacer(),
-                                  ],
+                      itemBuilder: (context, index) {
+                        final item = newLaunchedItems[index];
+                        return AppContainer(
+                          width: 250,
+                          clip: Clip.hardEdge,
+                          padding: EdgeInsets.zero,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                flex: 7,
+                                child: AppNetworkImage(
+                                  imgUrl: item.img,
+                                  width: Get.width,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
+                              Expanded(
+                                flex: 6,
+                                child: Container(
+                                  width: Get.width,
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: AppDimentions.screenPaddingXS,
+                                    horizontal: AppDimentions.screenPaddingS,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      CustomText.kText(
+                                        item.owner,
+                                        size: 12,
+                                        weight: FontWeight.bold,
+                                        color: AppColors.subtitle,
+                                      ),
+                                      CustomText.kText(
+                                        item.title,
+                                        size: 17,
+                                        weight: FontWeight.w700,
+                                        family: CustomFonts.outfit,
+                                      ),
+                                      CustomText.kText(
+                                        item.location,
+                                        size: 12,
+                                        color: AppColors.subtitle,
+                                      ),
+                                      Spacer(),
+                                      CustomText.kText(
+                                        '₹${item.price}',
+                                        size: 14,
+                                        lines: 1,
+                                        weight: FontWeight.w700,
+                                        color: AppColors.primary,
+                                        family: CustomFonts.outfit,
+                                      ),
+                                      CustomText.kText(
+                                        item.size,
+                                        size: 12,
+                                        lines: 1,
+                                        color: AppColors.subtitle,
+                                      ),
+                                      Spacer(),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                       separatorBuilder: (context, index) => widthSpace15,
                     ),
                   ),
@@ -340,39 +351,43 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 85,
                     width: Get.width,
                     child: ListView.separated(
-                      itemCount: 8,
+                      itemCount: cityItems.length,
                       scrollDirection: Axis.horizontal,
                       padding: EdgeInsets.symmetric(
                         horizontal: AppDimentions.defaultScreenPadding,
                         vertical: 2,
                       ),
-                      itemBuilder: (context, index) => SizedBox(
-                        width: 65,
-                        child: Column(
-                          children: [
-                            AppContainer(
-                              width: 56,
-                              height: 56,
-                              shape: BoxShape.circle,
-                              padding: EdgeInsets.zero,
-                              clip: Clip.hardEdge,
-                              child: Image.asset(
-                                Images.placeholder,
-                                fit: BoxFit.cover,
+                      itemBuilder: (context, index) {
+                        final item = cityItems[index];
+                        return SizedBox(
+                          width: 65,
+                          child: Column(
+                            children: [
+                              AppContainer(
+                                width: 56,
+                                height: 56,
+                                shape: BoxShape.circle,
+                                padding: EdgeInsets.zero,
+                                clip: Clip.hardEdge,
+                                borderColor: AppColors.hint1,
+                                child: AppNetworkImage(
+                                  imgUrl: item.img,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
-                            ),
-                            Spacer(flex: 10),
-                            CustomText.kText(
-                              'Delhi',
-                              size: 13,
-                              lines: 1,
-                              weight: FontWeight.bold,
-                              color: AppColors.subtitle,
-                            ),
-                            Spacer(flex: 2),
-                          ],
-                        ),
-                      ),
+                              Spacer(flex: 10),
+                              CustomText.kText(
+                                item.location,
+                                size: 13,
+                                lines: 1,
+                                weight: FontWeight.bold,
+                                color: AppColors.subtitle,
+                              ),
+                              Spacer(flex: 2),
+                            ],
+                          ),
+                        );
+                      },
                       separatorBuilder: (context, index) => widthSpace15,
                     ),
                   ),
@@ -384,100 +399,104 @@ class _HomeScreenState extends State<HomeScreen> {
                   content: SizedBox(
                     height: 330,
                     child: ListView.separated(
-                      itemCount: 4,
+                      itemCount: luxuryItems.length,
                       scrollDirection: Axis.horizontal,
                       padding: EdgeInsets.symmetric(
                         horizontal: AppDimentions.defaultScreenPadding,
                         vertical: 2,
                       ),
-                      itemBuilder: (context, index) => AppContainer(
-                        width: 340,
-                        clip: Clip.hardEdge,
-                        padding: EdgeInsets.zero,
-                        child: Column(
-                          children: [
-                            Expanded(
-                              flex: 7,
-                              child: Image.asset(
-                                width: Get.width,
-                                Images.placeholder,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 6,
-                              child: Container(
-                                width: Get.width,
-                                padding: EdgeInsets.symmetric(
-                                  vertical: AppDimentions.screenPaddingXS,
-                                  horizontal: AppDimentions.screenPaddingS,
+                      itemBuilder: (context, index) {
+                        final item = luxuryItems[index];
+                        return AppContainer(
+                          width: 340,
+                          clip: Clip.hardEdge,
+                          padding: EdgeInsets.zero,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                flex: 7,
+                                child: AppNetworkImage(
+                                  imgUrl: item.img,
+                                  width: Get.width,
+                                  fit: BoxFit.cover,
                                 ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    CustomText.kText(
-                                      'The Trump Towers',
-                                      size: 17,
-                                      lines: 1,
-                                      weight: FontWeight.w700,
-                                      family: CustomFonts.outfit,
-                                    ),
-                                    CustomText.kText(
-                                      'Kalyani Nagar, Pune',
-                                      size: 12,
-                                      lines: 1,
-                                      color: AppColors.subtitle,
-                                    ),
-                                    heightSpace10,
-                                    Row(
-                                      spacing: 12,
-                                      children: [
-                                        _customPrope(
-                                          'Security',
-                                          Icons.shield_outlined,
-                                        ),
-                                        _customPrope(
-                                          'Parking',
-                                          Icons.local_parking_outlined,
-                                        ),
-                                        _customPrope(
-                                          'Gym',
-                                          Icons.sports_gymnastics,
-                                        ),
-                                      ],
-                                    ),
-                                    Spacer(),
-                                    Row(
-                                      children: [
-                                        CustomText.kText(
-                                          '₹9.20 Cr',
-                                          size: 18,
-                                          lines: 1,
-                                          weight: FontWeight.w800,
-                                          color: AppColors.primary,
-                                          family: CustomFonts.outfit,
-                                        ),
-                                        widthSpace6,
-                                        Expanded(
-                                          child: CustomText.kText(
-                                            '5 BHK Duplex - 6100 Sq.Ft.',
-                                            size: 12,
-                                            lines: 1,
-                                            color: AppColors.subtitle,
-                                            align: TextAlign.right,
+                              ),
+                              Expanded(
+                                flex: 6,
+                                child: Container(
+                                  width: Get.width,
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: AppDimentions.screenPaddingXS,
+                                    horizontal: AppDimentions.screenPaddingS,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      CustomText.kText(
+                                        item.title,
+                                        size: 17,
+                                        lines: 1,
+                                        weight: FontWeight.w700,
+                                        family: CustomFonts.outfit,
+                                      ),
+                                      CustomText.kText(
+                                        item.location,
+                                        size: 12,
+                                        lines: 1,
+                                        color: AppColors.subtitle,
+                                      ),
+                                      heightSpace10,
+                                      Row(
+                                        spacing: 12,
+                                        children: [
+                                          _customPrope(
+                                            'Security',
+                                            Icons.shield_outlined,
                                           ),
-                                        ),
-                                      ],
-                                    ),
+                                          _customPrope(
+                                            'Parking',
+                                            Icons.local_parking_outlined,
+                                          ),
+                                          _customPrope(
+                                            'Gym',
+                                            Icons.sports_gymnastics,
+                                          ),
+                                        ],
+                                      ),
+                                      Spacer(),
+                                      Row(
+                                        children: [
+                                          CustomText.kText(
+                                            '₹${item.price}',
+                                            size: 18,
+                                            lines: 1,
+                                            weight: FontWeight.w800,
+                                            color: AppColors.primary,
+                                            family: CustomFonts.outfit,
+                                          ),
+                                          widthSpace6,
+                                          Expanded(
+                                            child: CustomText.kText(
+                                              item.size,
+                                              size: 12,
+                                              lines: 1,
+                                              color: AppColors.subtitle,
+                                              align: TextAlign.right,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
 
-                                    Spacer(),
-                                  ],
+                                      Spacer(),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
+                            ],
+                          ),
+                        );
+                      },
                       separatorBuilder: (context, index) => widthSpace15,
                     ),
                   ),
@@ -489,105 +508,108 @@ class _HomeScreenState extends State<HomeScreen> {
                   content: SizedBox(
                     height: 285,
                     child: ListView.separated(
-                      itemCount: 4,
+                      itemCount: insightItems.length,
                       scrollDirection: Axis.horizontal,
                       padding: EdgeInsets.symmetric(
                         horizontal: AppDimentions.defaultScreenPadding,
                         vertical: 2,
                       ),
-                      itemBuilder: (context, index) => AppContainer(
-                        width: 280,
-                        clip: Clip.hardEdge,
-                        padding: EdgeInsets.zero,
-                        child: Column(
-                          children: [
-                            Expanded(
-                              flex: 7,
-                              child: Image.asset(
-                                width: Get.width,
-                                Images.placeholder,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Expanded(
-                              flex: 6,
-                              child: Container(
-                                width: Get.width,
-                                padding: EdgeInsets.symmetric(
-                                  vertical: AppDimentions.screenPaddingXS,
-                                  horizontal: AppDimentions.screenPaddingS,
+                      itemBuilder: (context, index) {
+                        final item = insightItems[index];
+                        return AppContainer(
+                          width: 280,
+                          clip: Clip.hardEdge,
+                          padding: EdgeInsets.zero,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                flex: 7,
+                                child: AppNetworkImage(
+                                  imgUrl: item.img,
+                                  width: Get.width,
+                                  fit: BoxFit.cover,
                                 ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        CustomText.kText(
-                                          'Jan 12, 2025',
-                                          size: 12,
-                                          lines: 1,
-                                          weight: FontWeight.bold,
-                                          color: AppColors.subtitle,
-                                        ),
-                                        Spacer(),
-                                        CustomText.kText(
-                                          '5 min read',
-                                          size: 13,
-                                          lines: 1,
-                                          color: AppColors.subtitle,
-                                        ),
-                                      ],
-                                    ),
-                                    heightSpace4,
-                                    CustomText.kText(
-                                      'Godrej Properties',
-                                      size: 17,
-                                      weight: FontWeight.w700,
-                                      family: CustomFonts.outfit,
-                                    ),
-                                    CustomText.kText(
-                                      'Wadala, Mumbai',
-                                      size: 12,
-                                      lines: 1,
-                                      color: AppColors.subtitle,
-                                    ),
-                                    Spacer(),
-                                    Row(
-                                      children: [
-                                        CustomText.kText(
-                                          'Read More',
-                                          size: 14,
-                                          lines: 1,
-                                          weight: FontWeight.w700,
-                                          color: AppColors.primary,
-                                          family: CustomFonts.outfit,
-                                        ),
-                                        Icon(
-                                          Icons.keyboard_arrow_right,
-                                          size: 20,
-                                          color: AppColors.primary,
-                                        ),
-                                        widthSpace5,
-                                        Expanded(
-                                          child: CustomText.kText(
-                                            '2 & 3 BHK Apartments',
+                              ),
+                              Expanded(
+                                flex: 6,
+                                child: Container(
+                                  width: Get.width,
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: AppDimentions.screenPaddingXS,
+                                    horizontal: AppDimentions.screenPaddingS,
+                                  ),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          CustomText.kText(
+                                            'Jan 12, 2025',
                                             size: 12,
                                             lines: 1,
+                                            weight: FontWeight.bold,
                                             color: AppColors.subtitle,
-                                            align: TextAlign.right,
                                           ),
-                                        ),
-                                      ],
-                                    ),
-
-                                    Spacer(),
-                                  ],
+                                          Spacer(),
+                                          CustomText.kText(
+                                            item.owner,
+                                            size: 13,
+                                            lines: 1,
+                                            color: AppColors.subtitle,
+                                          ),
+                                        ],
+                                      ),
+                                      heightSpace4,
+                                      CustomText.kText(
+                                        item.title,
+                                        size: 17,
+                                        weight: FontWeight.w700,
+                                        family: CustomFonts.outfit,
+                                      ),
+                                      CustomText.kText(
+                                        item.location,
+                                        size: 12,
+                                        lines: 1,
+                                        color: AppColors.subtitle,
+                                      ),
+                                      Spacer(),
+                                      Row(
+                                        children: [
+                                          CustomText.kText(
+                                            'Read More',
+                                            size: 14,
+                                            lines: 1,
+                                            weight: FontWeight.w700,
+                                            color: AppColors.primary,
+                                            family: CustomFonts.outfit,
+                                          ),
+                                          Icon(
+                                            Icons.keyboard_arrow_right,
+                                            size: 20,
+                                            color: AppColors.primary,
+                                          ),
+                                          widthSpace5,
+                                          Expanded(
+                                            child: CustomText.kText(
+                                              item.size,
+                                              size: 12,
+                                              lines: 1,
+                                              color: AppColors.subtitle,
+                                              align: TextAlign.right,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Spacer(),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
+                            ],
+                          ),
+                        );
+                      },
                       separatorBuilder: (context, index) => widthSpace15,
                     ),
                   ),
