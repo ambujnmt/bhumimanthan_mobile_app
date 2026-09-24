@@ -2,7 +2,7 @@ import 'package:bhumi_manthan/views/screens/bottom_tab_screens/chat_screen/chat_
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/favorites_screen/favorites_screen.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/menu_screen/menu_screen.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/profile_screen/profile_screen.dart';
-import 'package:bhumi_manthan/views/screens/bottom_tab_screens/search_screen/search_screen.dart';
+import 'package:bhumi_manthan/views/screens/search_screen/search_screen.dart';
 
 import '../utils/app_imports.dart';
 import '../views/screens/bottom_tab_screens/home_screen/home_screen.dart';
@@ -72,6 +72,10 @@ class _MainScreenState extends State<MainScreen> {
                     onTap: () {
                       if (i == _tabs.length - 1) {
                         _openDrawer();
+                        return;
+                      }
+                      if (i == 1) {
+                        Get.toNamed(AppRoutes.searchScreen);
                         return;
                       }
                       _con.setCurrentIndex(i);

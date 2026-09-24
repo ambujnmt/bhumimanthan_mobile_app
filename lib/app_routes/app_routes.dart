@@ -5,4 +5,5 @@ abstract class AppRoutes {
   static const registerScreen = '/register';
   static const forgetPasswordScreen = '/forget-password';
   static const mainScreen = '/main-screen';
+  static const searchScreen = '/search';
 }

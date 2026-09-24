@@ -9,6 +9,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final sc = ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,11 +78,46 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
+
+          ListenableBuilder(
+            listenable: sc,
+            builder: (context, child) {
+              return Opacity(
+                opacity: scrollProgressOpacity(sc, maxOffset: 50),
+                child: Divider(color: grey[300], thickness: 1.5, height: 0),
+              );
+            },
+          ),
           Expanded(
             child: ListView(
+              controller: sc,
               padding: EdgeInsets.zero,
               children: [
-                Image.asset(Images.homeBanner),
+                heightSpace10,
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: AppDimentions.defaultScreenPadding,
+                  ),
+                  child: AppTextfield(
+                    readOnly: true,
+                    hintText: 'Search apartments, societies, builders...',
+                    prefixIcon: Image.asset(
+                      Images.searchIcon,
+                      height: 20,
+                      width: 20,
+                    ),
+                    onTap: () => Get.toNamed(AppRoutes.searchScreen),
+                    bottomPad: 20,
+                  ),
+                ),
+                AppContainer(
+                  clip: Clip.hardEdge,
+                  padding: EdgeInsets.zero,
+                  margin: EdgeInsets.symmetric(
+                    horizontal: AppDimentions.defaultScreenPadding,
+                  ),
+                  child: Image.asset(Images.homeBanner, fit: BoxFit.cover),
+                ),
                 heightSpace20,
                 SectionWidget(
                   title: 'Categories',

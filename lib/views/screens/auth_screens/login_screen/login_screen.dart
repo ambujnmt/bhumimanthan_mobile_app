@@ -18,7 +18,12 @@ class _LoginScreenState extends State<LoginScreen> {
         padding: EdgeInsets.all(AppDimentions.defaultScreenPadding),
         children: [
           SizedBox(height: Get.mediaQuery.padding.top + 80),
-          CustomText.kText('Welcome Back!', size: 30, weight: FontWeight.w800),
+          CustomText.kText(
+            'Welcome Back!',
+            size: 30,
+            weight: FontWeight.w800,
+            family: CustomFonts.outfit,
+          ),
           CustomText.kText(
             'Login to Continue',
             size: 16,
