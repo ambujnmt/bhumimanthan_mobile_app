@@ -122,6 +122,7 @@ class _AppTextfieldState extends State<AppTextfield> {
             style: widget.readOnly
                 ? CustomText.kTextStyle(color: grey)
                 : CustomText.kTextStyle(),
+            textAlignVertical: TextAlignVertical.center,
             decoration: InputDecoration(
               filled: true,
               fillColor: white,
@@ -148,10 +149,10 @@ class _AppTextfieldState extends State<AppTextfield> {
                     CustomText.kText(' *'),
                 ],
               ),
-              contentPadding: EdgeInsets.symmetric(
-                vertical: 15,
-                horizontal: 10,
-              ),
+              // contentPadding: EdgeInsets.symmetric(
+              //   vertical: 15,
+              //   horizontal: 10,
+              // ),
               suffixIcon: widget.actions != null || widget.useObscure
                   ? IntrinsicWidth(
                       child: Row(
@@ -182,15 +183,18 @@ class _AppTextfieldState extends State<AppTextfield> {
               ),
               prefixIcon: widget.prefixIcon == null
                   ? null
-                  : Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Expanded(child: widget.prefixIcon!)],
+                  : IntrinsicWidth(
+                      child: Center(
+                        child: Image.asset(
+                          Images.searchIcon,
+                          height: 20,
+                          width: 20,
+                        ),
+                      ),
                     ),
               prefixIconConstraints: const BoxConstraints(
                 minWidth: 45,
                 maxWidth: 45,
-                minHeight: 40,
-                maxHeight: 40,
               ),
             ),
           ),

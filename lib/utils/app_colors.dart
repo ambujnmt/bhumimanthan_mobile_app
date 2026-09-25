@@ -3,7 +3,7 @@ import 'app_imports.dart';
 class AppColors {
   static Color primary = fromHex('f5841f');
   static Color primarylight = fromHex('#07A5E2');
-  static Color secondary = fromHex('#1b2a4a');
+  static Color secondary = fromHex('223178');
   static const Color accentColor = Color(0xFFFFC107);
   static Color backgroundColor = fromHex('#f6f6f6');
   static Color hint = fromHex('e2ecef');
