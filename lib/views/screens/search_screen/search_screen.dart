@@ -236,5 +236,5 @@ final _suggestions = [
 ];
 
 final _inputBorder = UnderlineInputBorder(
-  borderSide: BorderSide(color: grey[300]!, width: 1.2),
+  borderSide: BorderSide(color: grey[200]!, width: 1.2),
 );
