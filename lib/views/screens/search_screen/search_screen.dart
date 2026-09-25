@@ -11,21 +11,42 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: AppDimentions.defaultScreenPadding,
-        ),
-        child: Column(
-          children: [
-            SizedBox(height: Get.mediaQuery.padding.top + 20),
-            AppTextfield(
-              hintText: 'Search locality, projects or builders',
-              prefixIcon: Image.asset(Images.searchIcon, height: 20, width: 20),
+      body: Column(
+        children: [
+          SizedBox(height: Get.mediaQuery.padding.top + 20),
+          Container(
+            color: white,
+            padding: EdgeInsets.all(AppDimentions.defaultScreenPadding),
+            child: Row(
+              children: _appbarItems
+                  .map(
+                    (j) => AppContainer(
+                      color: AppColors.primary,
+                      child: CustomText.kText('Buy'),
+                    ),
+                  )
+                  .toList(),
             ),
-            Expanded(child: ListView(children: [])),
-          ],
-        ),
+          ),
+          Expanded(
+            child: ListView(
+              padding: EdgeInsets.all(AppDimentions.defaultScreenPadding),
+              children: [
+                AppTextfield(
+                  hintText: 'Search locality, projects or builders',
+                  prefixIcon: Image.asset(
+                    Images.searchIcon,
+                    height: 20,
+                    width: 20,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
 }
+
+final _appbarItems = ['Buy', 'Rent', 'Commercial'];
