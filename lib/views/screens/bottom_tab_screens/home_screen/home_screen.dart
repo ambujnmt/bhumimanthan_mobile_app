@@ -347,7 +347,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: 'Popular Cities',
                   onViewAll: () {},
                   content: SizedBox(
-                    height: 85,
+                    height: 95,
                     width: Get.width,
                     child: ListView.separated(
                       itemCount: cityItems.length,
@@ -359,12 +359,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemBuilder: (context, index) {
                         final item = cityItems[index];
                         return SizedBox(
-                          width: 65,
+                          width: 75,
                           child: Column(
                             children: [
                               AppContainer(
-                                width: 56,
-                                height: 56,
+                                width: 65,
+                                height: 65,
                                 shape: BoxShape.circle,
                                 padding: EdgeInsets.zero,
                                 clip: Clip.hardEdge,
@@ -382,7 +382,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 weight: FontWeight.bold,
                                 color: AppColors.subtitle,
                               ),
-                              Spacer(flex: 2),
+                              Spacer(flex: 1),
                             ],
                           ),
                         );
