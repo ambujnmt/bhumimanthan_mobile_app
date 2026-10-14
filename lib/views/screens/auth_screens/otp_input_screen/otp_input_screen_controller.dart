@@ -52,7 +52,7 @@ class OtpInputArguments {
     this.value = '',
     this.onResend,
     this.onVerify,
-    this.waitDuration = const Duration(seconds: 45),
+    this.waitDuration = const Duration(seconds: 90),
     this.length = 6,
   });
 }

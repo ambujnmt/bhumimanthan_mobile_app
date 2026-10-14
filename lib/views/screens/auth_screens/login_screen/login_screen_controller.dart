@@ -1,4 +1,5 @@
 import 'package:bhumi_manthan/controllers/auth_controller.dart';
+import 'package:bhumi_manthan/shared_prefs/storage/auth_prefs.dart';
 import 'package:bhumi_manthan/utils/app_imports.dart';
 
 class LoginScreenController extends GetxController {
@@ -9,7 +10,8 @@ class LoginScreenController extends GetxController {
   final passError = ''.obs;
 
   Future<void> onSubmit() async {
-    Get.toNamed(AppRoutes.mainScreen);
+    // Get.toNamed(AppRoutes.mainScreen);
+    // return;
     if (!_validateForm()) return;
     closeKeyboard();
     AuthController.login(emailController.text, passController.text);
@@ -47,5 +49,11 @@ class LoginScreenController extends GetxController {
     if (!isValid) return false;
 
     return true;
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    AuthPrefs.markIntroAsDone();
   }
 }

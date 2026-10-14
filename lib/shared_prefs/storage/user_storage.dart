@@ -24,4 +24,9 @@ class UserStorage {
 
   static Future<void> clearUserData() => SharedPrefs.remove(_userDataKey);
   static Future<void> clearUserToken() => SharedPrefs.remove(_userTokenKey);
+
+  static Future<void> clearAll() async {
+    await clearUserToken();
+    await clearUserData();
+  }
 }

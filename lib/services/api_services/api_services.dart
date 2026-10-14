@@ -160,15 +160,7 @@ class ApiServices {
 
       debugPrint('queries: ${queries.toString()}');
 
-      final finalUri =
-          uri ??
-          setUri(
-            endPoint,
-            queries: {
-              // 'lang': lc.selectedLanguage.locale.languageCode,
-              ...?queries,
-            },
-          );
+      final finalUri = uri ?? setUri(endPoint, queries: queries);
       final res = await (client ?? _httpClient).get(
         finalUri,
         headers: customHeaders ?? ApiHeaders.authHeaders(),

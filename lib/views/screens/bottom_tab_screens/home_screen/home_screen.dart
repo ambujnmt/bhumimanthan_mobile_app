@@ -1,7 +1,6 @@
 import 'package:bhumi_manthan/utils/app_imports.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/home_data.dart';
 import 'package:bhumi_manthan/views/widgets/app_network_image.dart';
-import 'package:bhumi_manthan/views/widgets/section_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

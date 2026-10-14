@@ -1,3 +1,4 @@
+import 'package:bhumi_manthan/controllers/user_controller.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/chat_screen/chat_screen.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/favorites_screen/favorites_screen.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/menu_screen/menu_screen.dart';
@@ -33,7 +34,19 @@ class _MainScreenState extends State<MainScreen> {
           shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
           child: Column(
             children: [
-              Expanded(child: ListView(children: [])),
+              Expanded(
+                child: ListView(
+                  children: [
+                    ListTile(
+                      title: Text('Logout'),
+                      onTap: () {
+                        Get.back();
+                        UserController.logout();
+                      },
+                    ),
+                  ],
+                ),
+              ),
               Align(
                 alignment: Alignment.centerRight,
                 child: Padding(
