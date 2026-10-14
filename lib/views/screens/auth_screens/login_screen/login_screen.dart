@@ -31,10 +31,18 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           heightSpace40,
           AppTextfield(
-            hintText: 'Mobile Number',
-            inputType: TextInputType.phone,
+            hintText: 'Email address',
+            inputType: TextInputType.emailAddress,
+            controller: _con.emailController,
+            errorText: _con.emailError,
           ),
-          AppTextfield(useObscure: true, bottomPad: 0, hintText: 'Password'),
+          AppTextfield(
+            useObscure: true,
+            bottomPad: 0,
+            hintText: 'Password',
+            controller: _con.passController,
+            errorText: _con.passError,
+          ),
           Align(
             alignment: Alignment.centerRight,
             child: TextButton(
@@ -43,11 +51,19 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           heightSpace50,
-          CustomButton(
-            text: 'Login',
-            onTap: () => Get.toNamed(AppRoutes.mainScreen),
+          CustomButton(text: 'Login', onTap: () => _con.onSubmit()),
+          heightSpace30,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CustomText.kText('Don’t have an Account? '),
+              InkWell(
+                onTap: () => Get.toNamed(AppRoutes.registerScreen),
+                child: CustomText.kText('Sign up', color: AppColors.primary),
+              ),
+            ],
           ),
-          heightSpace25,
+          heightSpace40,
           Row(
             children: [
               Expanded(child: Divider(color: grey[400])),

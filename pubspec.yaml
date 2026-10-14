@@ -17,6 +17,7 @@ dependencies:
   path: ^1.9.1
   loading_animation_widget: ^1.3.0
   shared_preferences: ^2.5.5
+  pinput: ^6.0.2
 
 dev_dependencies:
   flutter_test:

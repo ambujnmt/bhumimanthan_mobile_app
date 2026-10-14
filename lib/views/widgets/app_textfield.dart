@@ -65,7 +65,7 @@ class _AppTextfieldState extends State<AppTextfield> {
   );
   late final _focusedBorder = OutlineInputBorder(
     borderRadius: _radius,
-    borderSide: BorderSide(color: AppColors.primary, width: 1.2),
+    borderSide: BorderSide(color: AppColors.secondary, width: 1.2),
   );
 
   @override
@@ -131,24 +131,20 @@ class _AppTextfieldState extends State<AppTextfield> {
               focusedBorder: widget.readOnly ? _border : _focusedBorder,
               disabledBorder: _border,
               errorBorder: _border.copyWith(borderSide: BorderSide(color: red)),
+              focusedErrorBorder: _border.copyWith(
+                borderSide: BorderSide(color: red, width: 1.2),
+              ),
               errorText: widget.errorText!.value.isEmpty
                   ? null
                   : widget.errorText!.value.tr,
               errorStyle: CustomText.kTextStyle(color: red, size: 14),
-              hint: Row(
-                children: [
-                  Expanded(
-                    child: CustomText.kText(
-                      widget.hintText ?? '',
-                      color: grey,
-                      weight: FontWeight.w400,
-                      lines: 1,
-                    ),
-                  ),
-                  if (widget.isRequired && widget.label == null)
-                    CustomText.kText(' *'),
-                ],
+              hint: CustomText.kText(
+                '${widget.hintText ?? ''} ${widget.isRequired && widget.label == null ? '*' : ''}',
+                color: grey,
+                weight: FontWeight.w400,
+                lines: 1,
               ),
+
               // contentPadding: EdgeInsets.symmetric(
               //   vertical: 15,
               //   horizontal: 10,

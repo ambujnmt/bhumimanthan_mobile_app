@@ -19,7 +19,7 @@ class ApiServices {
   final http.Client _httpClient = http.Client();
 
   final testDomain = 'site2demo.in';
-  final testSubDomain = '/DomisQuick/api/v1';
+  final testSubDomain = '/bhoomi-manthan-backend/api';
 
   //   final domain = 'greystaruniform.com';
   //   final subDomain = '/api';
