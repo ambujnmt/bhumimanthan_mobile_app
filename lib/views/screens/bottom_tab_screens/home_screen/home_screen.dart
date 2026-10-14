@@ -163,92 +163,98 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       itemBuilder: (context, index) {
                         final item = featuredItems[index];
-                        return AppContainer(
-                          width: 330,
-                          clip: Clip.hardEdge,
-                          padding: EdgeInsets.zero,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 4,
-                                child: AppNetworkImage(
-                                  imgUrl: item.img,
-                                  height: Get.height,
-                                  width: Get.width,
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Expanded(
-                                flex: 6,
-                                child: Container(
-                                  width: Get.width,
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: AppDimentions.screenPaddingXS,
-                                    horizontal: AppDimentions.screenPaddingS,
+                        return GestureDetector(
+                          onTap: () => Get.toNamed(
+                            AppRoutes.propertyDetailsScreen,
+                            arguments: {'data': item},
+                          ),
+                          child: AppContainer(
+                            width: 330,
+                            clip: Clip.hardEdge,
+                            padding: EdgeInsets.zero,
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 4,
+                                  child: AppNetworkImage(
+                                    imgUrl: item.img,
+                                    height: Get.height,
+                                    width: Get.width,
+                                    fit: BoxFit.cover,
                                   ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      CustomText.kText(
-                                        item.title,
-                                        size: 16,
-                                        weight: FontWeight.w600,
-                                        family: CustomFonts.outfit,
-                                      ),
-                                      heightSpace7,
-                                      Row(
-                                        children: [
-                                          Image.asset(
-                                            Images.mapPinIcon,
-                                            height: 15,
-                                            width: 15,
-                                          ),
-                                          widthSpace5,
-                                          Expanded(
-                                            child: CustomText.kText(
-                                              item.location,
+                                ),
+                                Expanded(
+                                  flex: 6,
+                                  child: Container(
+                                    width: Get.width,
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: AppDimentions.screenPaddingXS,
+                                      horizontal: AppDimentions.screenPaddingS,
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        CustomText.kText(
+                                          item.title,
+                                          size: 16,
+                                          weight: FontWeight.w600,
+                                          family: CustomFonts.outfit,
+                                        ),
+                                        heightSpace7,
+                                        Row(
+                                          children: [
+                                            Image.asset(
+                                              Images.mapPinIcon,
+                                              height: 15,
+                                              width: 15,
+                                            ),
+                                            widthSpace5,
+                                            Expanded(
+                                              child: CustomText.kText(
+                                                item.location,
+                                                size: 12,
+                                                lines: 1,
+                                                color: AppColors.subtitle,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Spacer(),
+                                        CustomText.kText(
+                                          '₹${item.price}',
+                                          size: 14,
+                                          lines: 1,
+                                          weight: FontWeight.w700,
+                                          color: AppColors.primary,
+                                          family: CustomFonts.outfit,
+                                        ),
+                                        CustomText.kText(
+                                          item.size,
+                                          size: 12,
+                                          lines: 1,
+                                          color: AppColors.subtitle,
+                                        ),
+                                        Spacer(),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            CustomText.kText(
+                                              'Ready to Move',
                                               size: 12,
                                               lines: 1,
-                                              color: AppColors.subtitle,
+                                              weight: FontWeight.w600,
+                                              family: CustomFonts.outfit,
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      Spacer(),
-                                      CustomText.kText(
-                                        '₹${item.price}',
-                                        size: 14,
-                                        lines: 1,
-                                        weight: FontWeight.w700,
-                                        color: AppColors.primary,
-                                        family: CustomFonts.outfit,
-                                      ),
-                                      CustomText.kText(
-                                        item.size,
-                                        size: 12,
-                                        lines: 1,
-                                        color: AppColors.subtitle,
-                                      ),
-                                      Spacer(),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          CustomText.kText(
-                                            'Ready to Move',
-                                            size: 12,
-                                            lines: 1,
-                                            weight: FontWeight.w600,
-                                            family: CustomFonts.outfit,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         );
                       },

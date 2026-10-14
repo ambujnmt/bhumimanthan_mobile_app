@@ -25,9 +25,10 @@ class CustomButton extends StatelessWidget {
 
   final Color? textColor;
   final Color? color;
+  final Color? rightIconColor;
   final double? textSize;
   final BoxBorder? border;
-  final double? radiusVal;
+  final double radiusVal;
   const CustomButton({
     super.key,
     this.text,
@@ -41,13 +42,14 @@ class CustomButton extends StatelessWidget {
     this.colors,
     this.color,
     this.textColor,
+    this.rightIconColor,
     this.textPadding,
     this.textAlignment = Alignment.center,
     this.textSize,
     this.width,
     this.border,
-    this.radiusVal,
-  });
+    double? radiusVal,
+  }) : radiusVal = radiusVal ?? AppDimentions.defaultBoxRadius;
 
   @override
   Widget build(BuildContext context) {
@@ -64,9 +66,7 @@ class CustomButton extends StatelessWidget {
         height: height,
         width: width,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-            radiusVal ?? AppDimentions.boxRadiusL,
-          ),
+          borderRadius: BorderRadius.circular(radiusVal),
           color: colors == null ? (color ?? AppColors.primary) : null,
           border: border,
           gradient: colors == null
@@ -79,9 +79,7 @@ class CustomButton extends StatelessWidget {
                 ),
         ),
         child: InkWell(
-          borderRadius: BorderRadius.circular(
-            radiusVal ?? AppDimentions.boxRadiusL,
-          ),
+          borderRadius: BorderRadius.circular(radiusVal),
           onTap: onTap,
           child: Stack(
             alignment: Alignment.center,

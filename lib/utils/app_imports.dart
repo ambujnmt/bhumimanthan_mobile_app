@@ -6,6 +6,7 @@ export 'package:cached_network_image/cached_network_image.dart';
 export 'package:get/get.dart';
 
 // App-wide custom imports
+export 'package:bhumi_manthan/views/widgets/section_widget.dart';
 export 'package:bhumi_manthan/services/api_services/api_services.dart';
 export 'package:bhumi_manthan/helpers/app_loader.dart';
 export 'package:bhumi_manthan/views/widgets/app_textfield.dart';

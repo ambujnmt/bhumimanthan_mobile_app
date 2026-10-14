@@ -7,6 +7,7 @@ import '../utils/app_imports.dart';
 import '../views/screens/auth_screens/otp_input_screen/otp_input_screen.dart';
 import '../views/screens/auth_screens/register_screen/register_screen.dart';
 import '../views/screens/auth_screens/splash_screen/splash_screen.dart';
+import '../views/screens/property_details_screen/property_details_screen.dart';
 
 class AppPages {
   static final pages = [
@@ -20,5 +21,9 @@ class AppPages {
     GetPage(name: AppRoutes.mainScreen, page: () => const MainScreen()),
     GetPage(name: AppRoutes.searchScreen, page: () => const SearchScreen()),
     GetPage(name: AppRoutes.otpInputScreen, page: () => OtpInputScreen()),
+    GetPage(
+      name: AppRoutes.propertyDetailsScreen,
+      page: () => PropertyDetailsScreen(),
+    ),
   ];
 }

@@ -7,4 +7,5 @@ abstract class AppRoutes {
   static const mainScreen = '/main-screen';
   static const searchScreen = '/search';
   static const otpInputScreen = '/otp-input';
+  static const propertyDetailsScreen = '/property-details';
 }
