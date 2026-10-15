@@ -7,26 +7,30 @@ class PdsPropertyDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return SectionWidget(
       title: 'Property Details',
-      padding: EdgeInsets.zero,
-      content: Column(
-        children: [
-          _customRow(title: 'Property Type', val: 'Apartment'),
-          Divider(color: AppColors.hint, height: 35),
-          _customRow(title: 'Floor', val: '18 of 39 floors'),
-          Divider(color: AppColors.hint, height: 35),
-          _customRow(title: 'Furnishing', val: 'Semi-Furnished'),
-          Divider(color: AppColors.hint, height: 35),
-          _customRow(title: 'Ownership', val: 'Freehold'),
-          Divider(color: AppColors.hint, height: 35),
-          _customRow(title: 'Project', val: 'DLF The Arbour'),
-          Divider(color: AppColors.hint, height: 35),
-          _customRow(title: 'Facing', val: 'North-East'),
-          Divider(color: AppColors.hint, height: 35),
-          _customRow(title: 'Age of Property', val: 'Less than 1 year'),
-          Divider(color: AppColors.hint, height: 35),
-          _customRow(title: 'Balconies', val: '3 spacious balconies'),
-          Divider(color: AppColors.hint, height: 35),
-        ],
+      content: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: AppDimentions.defaultScreenPadding,
+        ),
+        child: Column(
+          children: [
+            _customRow(title: 'Property Type', val: 'Apartment'),
+            Divider(color: AppColors.hint, height: 35),
+            _customRow(title: 'Floor', val: '18 of 39 floors'),
+            Divider(color: AppColors.hint, height: 35),
+            _customRow(title: 'Furnishing', val: 'Semi-Furnished'),
+            Divider(color: AppColors.hint, height: 35),
+            _customRow(title: 'Ownership', val: 'Freehold'),
+            Divider(color: AppColors.hint, height: 35),
+            _customRow(title: 'Project', val: 'DLF The Arbour'),
+            Divider(color: AppColors.hint, height: 35),
+            _customRow(title: 'Facing', val: 'North-East'),
+            Divider(color: AppColors.hint, height: 35),
+            _customRow(title: 'Age of Property', val: 'Less than 1 year'),
+            Divider(color: AppColors.hint, height: 35),
+            _customRow(title: 'Balconies', val: '3 spacious balconies'),
+            Divider(color: AppColors.hint, height: 35),
+          ],
+        ),
       ),
     );
   }

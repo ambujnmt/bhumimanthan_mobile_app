@@ -7,15 +7,19 @@ class PdsAboutWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SectionWidget(
       title: 'About Property',
-      padding: EdgeInsets.zero,
-      content: Column(
-        children: [
-          ExpandableText(
-            text:
-                'Experience elevated living at DLF The Arbour, a spacious four-bedroom residence designed around light, privacy and garden views. The apartment features expansive living spaces, floor-to-ceiling glazing, premium finishes and generous balconies. Located just off Golf Course Extension Road, it offers easy access to leading schools, hospitals, business districts and everyday conveniences.',
-            maxLines: 5,
-          ),
-        ],
+      content: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: AppDimentions.defaultScreenPadding,
+        ),
+        child: Column(
+          children: [
+            ExpandableText(
+              text:
+                  'Experience elevated living at DLF The Arbour, a spacious four-bedroom residence designed around light, privacy and garden views. The apartment features expansive living spaces, floor-to-ceiling glazing, premium finishes and generous balconies. Located just off Golf Course Extension Road, it offers easy access to leading schools, hospitals, business districts and everyday conveniences.',
+              maxLines: 5,
+            ),
+          ],
+        ),
       ),
     );
   }

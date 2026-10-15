@@ -7,9 +7,13 @@ class PdsAmenities extends StatelessWidget {
   Widget build(BuildContext context) {
     return SectionWidget(
       title: 'Amenities',
-      padding: EdgeInsets.zero,
       onViewAll: () => Get.to(() => AllAmennitiesScreen()),
-      content: amenitiesGrid(amenities, maxToShow: 4),
+      content: Padding(
+        padding: EdgeInsets.symmetric(
+          horizontal: AppDimentions.defaultScreenPadding,
+        ),
+        child: amenitiesGrid(amenities, maxToShow: 4),
+      ),
     );
   }
 }

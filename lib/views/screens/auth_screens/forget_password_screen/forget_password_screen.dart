@@ -24,7 +24,10 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     }
     closeKeyboard();
     isLoading(true);
-    final res = await _api.post('endPoint');
+    final res = await _api.post(
+      '/forgot-password',
+      payload: {"email": emailController.text},
+    );
     isLoading(false);
     if (!res.success) {
       apiError(getErrorMessageFromRes(res.data));
