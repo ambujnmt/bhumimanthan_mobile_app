@@ -194,7 +194,7 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                   PdsSellerWidget(),
                   heightSpace17,
                   PdsSimilarProperties(),
-                  heightSpace40,
+                  heightSpace100,
                 ],
               ),
             ),
