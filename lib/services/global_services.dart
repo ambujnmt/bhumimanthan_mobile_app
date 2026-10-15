@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:intl/intl.dart';
 
 import '../utils/app_imports.dart';
@@ -79,4 +81,27 @@ T? findController<T>() {
   }
   debugPrint('controller not registered.');
   return null;
+}
+
+String getErrorMessageFromRes(dynamic response) {
+  try {
+    if (response == null) {
+      return 'Something went wrong. Please try again.';
+    }
+
+    // Handle JSON string responses
+    final Map<String, dynamic> data = response is String
+        ? jsonDecode(response) as Map<String, dynamic>
+        : response as Map<String, dynamic>;
+
+    final message = data['message'];
+
+    if (message is String && message.trim().isNotEmpty) {
+      return message;
+    }
+
+    return 'Something went wrong. Please try again.';
+  } catch (e) {
+    return 'Something went wrong. Please try again.';
+  }
 }

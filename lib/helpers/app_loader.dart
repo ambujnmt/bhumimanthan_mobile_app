@@ -102,10 +102,10 @@ Widget _loaderAnimation({
   Color? color1,
   Color? color2,
 }) {
-  return LoadingAnimationWidget.discreteCircle(
+  return LoadingAnimationWidget.threeArchedCircle(
     size: size ?? 45,
-    color: color ?? AppColors.primary,
-    secondRingColor: color1 ?? AppColors.secondary,
-    thirdRingColor: color2 ?? AppColors.secondary.withValues(alpha: 0.5),
+    color: color ?? AppColors.secondary,
+    // secondRingColor: color1 ?? AppColors.secondary,
+    // thirdRingColor: color2 ?? AppColors.secondary.withValues(alpha: 0.5),
   );
 }

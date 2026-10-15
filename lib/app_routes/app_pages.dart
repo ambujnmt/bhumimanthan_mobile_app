@@ -27,5 +27,10 @@ class AppPages {
       name: AppRoutes.propertyDetailsScreen,
       page: () => PropertyDetailsScreen(),
     ),
+
+    GetPage(
+      name: AppRoutes.passwordResetSuccessScreen,
+      page: () => PasswordResetSuccessScreen(),
+    ),
   ];
 }

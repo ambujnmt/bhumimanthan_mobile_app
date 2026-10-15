@@ -8,4 +8,5 @@ abstract class AppRoutes {
   static const searchScreen = '/search';
   static const otpInputScreen = '/otp-input';
   static const propertyDetailsScreen = '/property-details';
+  static const passwordResetSuccessScreen = '/password-reset-success';
 }

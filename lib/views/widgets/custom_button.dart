@@ -29,7 +29,10 @@ class CustomButton extends StatelessWidget {
   final double? textSize;
   final BoxBorder? border;
   final double radiusVal;
-  const CustomButton({
+
+  final RxBool showLoader;
+
+  CustomButton({
     super.key,
     this.text,
     this.onTap,
@@ -48,8 +51,10 @@ class CustomButton extends StatelessWidget {
     this.textSize,
     this.width,
     this.border,
+    RxBool? showLoader,
     double? radiusVal,
-  }) : radiusVal = radiusVal ?? AppDimentions.defaultBoxRadius;
+  }) : radiusVal = radiusVal ?? AppDimentions.defaultBoxRadius,
+       showLoader = showLoader ?? false.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -78,52 +83,56 @@ class CustomButton extends StatelessWidget {
                       colors ?? [AppColors.primarylight, AppColors.secondary],
                 ),
         ),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(radiusVal),
-          onTap: onTap,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              /// Center Text
-              Padding(
-                padding:
-                    textPadding ??
-                    EdgeInsets.symmetric(
-                      horizontal: AppDimentions.screenPaddingS,
-                    ),
-                child: Align(
-                  alignment: textAlignment,
-                  child: CustomText.kText(
-                    text ?? 'custom button',
-                    weight: FontWeight.w700,
-                    color: textColor ?? Colors.white,
-                    size: textSize ?? 18,
-                    lines: 1,
+        child: Obx(
+          () => showLoader.value
+              ? AppLoader.widget(color: white, size: height * .65)
+              : InkWell(
+                  borderRadius: BorderRadius.circular(radiusVal),
+                  onTap: onTap,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      /// Center Text
+                      Padding(
+                        padding:
+                            textPadding ??
+                            EdgeInsets.symmetric(
+                              horizontal: AppDimentions.screenPaddingS,
+                            ),
+                        child: Align(
+                          alignment: textAlignment,
+                          child: CustomText.kText(
+                            text ?? 'custom button',
+                            weight: FontWeight.w700,
+                            color: textColor ?? Colors.white,
+                            size: textSize ?? 18,
+                            lines: 1,
+                          ),
+                        ),
+                      ),
+
+                      /// Left & Right Content
+                      Padding(
+                        padding: padding,
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: height - 10,
+                              height: height - 10,
+                              child: leftWidget ?? const SizedBox(),
+                            ),
+                            const Spacer(),
+                            SizedBox(
+                              width: 30,
+                              height: 30,
+                              child: rightWidget ?? const SizedBox(),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-
-              /// Left & Right Content
-              Padding(
-                padding: padding,
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: height - 10,
-                      height: height - 10,
-                      child: leftWidget ?? const SizedBox(),
-                    ),
-                    const Spacer(),
-                    SizedBox(
-                      width: 30,
-                      height: 30,
-                      child: rightWidget ?? const SizedBox(),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );
