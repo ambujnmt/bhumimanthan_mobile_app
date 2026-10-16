@@ -53,7 +53,7 @@ class CustomButton extends StatelessWidget {
     this.border,
     RxBool? showLoader,
     double? radiusVal,
-  }) : radiusVal = radiusVal ?? AppDimentions.defaultBoxRadius,
+  }) : radiusVal = radiusVal ?? AppDimentions.boxRadiusXS,
        showLoader = showLoader ?? false.obs;
 
   @override
