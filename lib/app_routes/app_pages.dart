@@ -9,6 +9,7 @@ import '../views/screens/auth_screens/otp_input_screen/otp_input_screen.dart';
 import '../views/screens/auth_screens/register_screen/register_screen.dart';
 import '../views/screens/auth_screens/splash_screen/splash_screen.dart';
 import '../views/screens/property_details_screen/property_details_screen.dart';
+import '../views/screens/search_results_screen/search_results_screen.dart';
 
 class AppPages {
   static final pages = [
@@ -31,6 +32,10 @@ class AppPages {
     GetPage(
       name: AppRoutes.passwordResetSuccessScreen,
       page: () => PasswordResetSuccessScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.searchResultsScreen,
+      page: () => SearchResultsScreen(),
     ),
   ];
 }

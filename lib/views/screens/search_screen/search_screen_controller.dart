@@ -4,4 +4,8 @@ class SearchScreenController extends GetxController {
   final selectedMainTag = 'Buy'.obs;
 
   final selectedTags = <String>[].obs;
+
+  final showFilters = false.obs;
+
+  // Filters
 }
