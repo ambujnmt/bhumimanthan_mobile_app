@@ -19,18 +19,22 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppbar(scrollController: sc, title: 'Search Results'),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              controller: sc,
-              padding: const EdgeInsets.all(16),
-              itemCount: cityItems.length,
-              itemBuilder: (context, index) =>
-                  SrsItemsWidget(item: cityItems[index]),
-            ),
-          ),
-        ],
+      body: Obx(
+        () => _con.isLoading.value
+            ? AppLoader.widget()
+            : Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      controller: sc,
+                      padding: const EdgeInsets.all(16),
+                      itemCount: cityItems.length,
+                      itemBuilder: (context, index) =>
+                          SrsItemsWidget(item: cityItems[index]),
+                    ),
+                  ),
+                ],
+              ),
       ),
     );
   }
