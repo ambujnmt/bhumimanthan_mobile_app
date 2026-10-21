@@ -1,4 +1,6 @@
 import 'package:bhumi_manthan/geo_location/location_controller.dart';
+import 'package:bhumi_manthan/models/blog_model.dart';
+import 'package:bhumi_manthan/models/city_model.dart';
 import 'package:bhumi_manthan/models/featured_property_model.dart';
 import 'package:bhumi_manthan/models/home_banner.dart';
 import 'package:bhumi_manthan/models/project_model.dart';
@@ -13,8 +15,10 @@ class HomeScreenController extends GetxController {
 
   final featuredItems = <FeaturedProperty>[].obs;
   final projects = <ProjectsModel>[].obs;
+  final cities = <CityModel>[].obs;
   final luxuryItems = <FeaturedProperty>[].obs;
   final banners = <HomeBanner>[].obs;
+  final blogs = <BlogModel>[].obs;
 
   Future<void> _getBanners() async {
     final res = await _api.get('/banners');
@@ -56,6 +60,22 @@ class HomeScreenController extends GetxController {
         .toList();
   }
 
+  Future<void> _getCities() async {
+    final res = await _api.get(
+      '/cities',
+      queries: {
+        'popular': '1',
+        'latitude': position!.latitude.toString(),
+        'longitude': position!.longitude.toString(),
+        'limit': '100',
+      },
+    );
+    if (!res.success) return;
+    cities.value = (res.data['data']['cities'] as List)
+        .map((json) => CityModel.fromJson(json))
+        .toList();
+  }
+
   Future<void> _getLuxury() async {
     final res = await _api.get(
       '/properties/luxury',
@@ -72,6 +92,21 @@ class HomeScreenController extends GetxController {
         .toList();
   }
 
+  Future<void> _getBlogs() async {
+    final res = await _api.get(
+      '/blogs',
+      queries: {
+        'limit': '5',
+        'latitude': position!.latitude.toString(),
+        'longitude': position!.longitude.toString(),
+      },
+    );
+    if (!res.success) return;
+    blogs.value = (res.data['data']['blogs'] as List)
+        .map((json) => BlogModel.fromJson(json))
+        .toList();
+  }
+
   Future<void> refreshData() async {
     isLoading(true);
     if (position == null) {
@@ -85,7 +120,9 @@ class HomeScreenController extends GetxController {
       _getBanners(),
       _getFeatured(),
       _getProjects(),
+      _getCities(),
       _getLuxury(),
+      _getBlogs(),
     ]);
     isLoading(false);
   }

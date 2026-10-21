@@ -24,69 +24,75 @@ class PremiumProjects extends StatelessWidget {
                   ),
                   itemBuilder: (context, index) {
                     final item = _con.projects[index];
-                    return AppContainer(
-                      width: 250,
-                      clip: Clip.hardEdge,
-                      padding: EdgeInsets.zero,
-                      child: Column(
-                        children: [
-                          Expanded(
-                            flex: 7,
-                            child: AppNetworkImage(
-                              imgUrl: item.image,
-                              width: Get.width,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          Expanded(
-                            flex: 6,
-                            child: Container(
-                              width: Get.width,
-                              padding: EdgeInsets.symmetric(
-                                vertical: AppDimentions.screenPaddingXS,
-                                horizontal: AppDimentions.screenPaddingS,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  CustomText.kText(
-                                    item.builderName,
-                                    size: 12,
-                                    weight: FontWeight.bold,
-                                    color: AppColors.subtitle,
-                                  ),
-                                  CustomText.kText(
-                                    item.name,
-                                    size: 17,
-                                    weight: FontWeight.w700,
-                                    family: CustomFonts.outfit,
-                                  ),
-                                  CustomText.kText(
-                                    item.location,
-                                    size: 12,
-                                    color: AppColors.subtitle,
-                                  ),
-                                  Spacer(),
-                                  CustomText.kText(
-                                    formatPrice(item.startingPrice),
-                                    size: 14,
-                                    lines: 1,
-                                    weight: FontWeight.w700,
-                                    color: AppColors.primary,
-                                    family: CustomFonts.outfit,
-                                  ),
-                                  CustomText.kText(
-                                    item.configuration,
-                                    size: 12,
-                                    lines: 1,
-                                    color: AppColors.subtitle,
-                                  ),
-                                  Spacer(),
-                                ],
+                    return GestureDetector(
+                      onTap: () => Get.toNamed(
+                        AppRoutes.projectDetailsScreen,
+                        arguments: {'id': item.id},
+                      ),
+                      child: AppContainer(
+                        width: 250,
+                        clip: Clip.hardEdge,
+                        padding: EdgeInsets.zero,
+                        child: Column(
+                          children: [
+                            Expanded(
+                              flex: 7,
+                              child: AppNetworkImage(
+                                imgUrl: item.image,
+                                width: Get.width,
+                                fit: BoxFit.cover,
                               ),
                             ),
-                          ),
-                        ],
+                            Expanded(
+                              flex: 6,
+                              child: Container(
+                                width: Get.width,
+                                padding: EdgeInsets.symmetric(
+                                  vertical: AppDimentions.screenPaddingXS,
+                                  horizontal: AppDimentions.screenPaddingS,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CustomText.kText(
+                                      item.builderName,
+                                      size: 12,
+                                      weight: FontWeight.bold,
+                                      color: AppColors.subtitle,
+                                    ),
+                                    CustomText.kText(
+                                      item.name,
+                                      size: 17,
+                                      weight: FontWeight.w700,
+                                      family: CustomFonts.outfit,
+                                    ),
+                                    CustomText.kText(
+                                      item.location,
+                                      size: 12,
+                                      color: AppColors.subtitle,
+                                    ),
+                                    Spacer(),
+                                    CustomText.kText(
+                                      formatPrice(item.startingPrice),
+                                      size: 14,
+                                      lines: 1,
+                                      weight: FontWeight.w700,
+                                      color: AppColors.primary,
+                                      family: CustomFonts.outfit,
+                                    ),
+                                    CustomText.kText(
+                                      item.configuration,
+                                      size: 12,
+                                      lines: 1,
+                                      color: AppColors.subtitle,
+                                    ),
+                                    Spacer(),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },

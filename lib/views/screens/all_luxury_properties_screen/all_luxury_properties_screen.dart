@@ -18,7 +18,7 @@ class _AllLuxuryPropertiesScreenState extends State<AllLuxuryPropertiesScreen> {
   final sc = ScrollController();
 
   final isLoading = true.obs;
-  final featuredItems = <FeaturedProperty>[].obs;
+  final items = <FeaturedProperty>[].obs;
 
   Future<void> _getData() async {
     final res = await _api.get(
@@ -31,7 +31,7 @@ class _AllLuxuryPropertiesScreenState extends State<AllLuxuryPropertiesScreen> {
       },
     );
     if (!res.success) return;
-    featuredItems.value = (res.data['data']['properties'] as List)
+    items.value = (res.data['data']['properties'] as List)
         .map((json) => FeaturedProperty.fromJson(json))
         .toList();
   }
@@ -53,23 +53,26 @@ class _AllLuxuryPropertiesScreenState extends State<AllLuxuryPropertiesScreen> {
     return Scaffold(
       appBar: CustomAppbar(scrollController: sc, title: 'Luxury Properties'),
       body: Obx(
-        () => isLoading.value
-            ? AppLoader.widget()
-            : ListView.separated(
-                controller: sc,
-                padding: EdgeInsets.fromLTRB(
-                  AppDimentions.defaultScreenPadding,
-                  AppDimentions.defaultScreenPadding,
-                  AppDimentions.defaultScreenPadding,
-                  100,
+        () => AppRefreshIndicator(
+          onRefresh: refreshData,
+          child: isLoading.value
+              ? AppLoader.widget()
+              : ListView.separated(
+                  controller: sc,
+                  padding: EdgeInsets.fromLTRB(
+                    AppDimentions.defaultScreenPadding,
+                    AppDimentions.defaultScreenPadding,
+                    AppDimentions.defaultScreenPadding,
+                    100,
+                  ),
+                  itemCount: items.length,
+                  itemBuilder: (context, index) => FeaturedPropertyCard(
+                    label: 'LUXURY',
+                    property: items[index],
+                  ),
+                  separatorBuilder: (context, index) => heightSpace10,
                 ),
-                itemCount: featuredItems.length,
-                itemBuilder: (context, index) => FeaturedPropertyCard(
-                  label: 'LUXURY',
-                  property: featuredItems[index],
-                ),
-                separatorBuilder: (context, index) => heightSpace10,
-              ),
+        ),
       ),
     );
   }

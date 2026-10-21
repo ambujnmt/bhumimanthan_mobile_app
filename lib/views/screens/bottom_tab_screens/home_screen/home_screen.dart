@@ -1,9 +1,11 @@
 import 'package:bhumi_manthan/utils/app_imports.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/home_screen_controller.dart';
+import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/blogs_widget.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/featured_properties.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/home_banner_widget.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/home_data.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/luxury_perperties.dart';
+import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/popular_cities_widget.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/premium_projects.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -162,178 +164,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           heightSpace20,
                           PremiumProjects(),
                           heightSpace20,
-                          SectionWidget(
-                            title: 'Popular Cities',
-                            onViewAll: () {},
-                            content: SizedBox(
-                              height: 95,
-                              width: Get.width,
-                              child: ListView.separated(
-                                itemCount: cityItems.length,
-                                scrollDirection: Axis.horizontal,
-                                padding: EdgeInsets.symmetric(
-                                  horizontal:
-                                      AppDimentions.defaultScreenPadding,
-                                  vertical: 2,
-                                ),
-                                itemBuilder: (context, index) {
-                                  final item = cityItems[index];
-                                  return SizedBox(
-                                    width: 75,
-                                    child: Column(
-                                      children: [
-                                        AppContainer(
-                                          width: 65,
-                                          height: 65,
-                                          shape: BoxShape.circle,
-                                          padding: EdgeInsets.zero,
-                                          clip: Clip.hardEdge,
-                                          borderColor: AppColors.hint1,
-                                          child: AppNetworkImage(
-                                            imgUrl: item.img,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                        Spacer(flex: 10),
-                                        CustomText.kText(
-                                          item.location,
-                                          size: 13,
-                                          lines: 1,
-                                          weight: FontWeight.bold,
-                                          color: AppColors.subtitle,
-                                        ),
-                                        Spacer(flex: 1),
-                                      ],
-                                    ),
-                                  );
-                                },
-                                separatorBuilder: (context, index) =>
-                                    widthSpace15,
-                              ),
-                            ),
-                          ),
+                          PopularCitiesWidget(),
                           heightSpace20,
                           LuxuryPerperties(),
                           heightSpace20,
-                          SectionWidget(
-                            title: 'Real Estate News & Insights',
-                            onViewAll: () {},
-                            content: SizedBox(
-                              height: 285,
-                              child: ListView.separated(
-                                itemCount: insightItems.length,
-                                scrollDirection: Axis.horizontal,
-                                padding: EdgeInsets.symmetric(
-                                  horizontal:
-                                      AppDimentions.defaultScreenPadding,
-                                  vertical: 2,
-                                ),
-                                itemBuilder: (context, index) {
-                                  final item = insightItems[index];
-                                  return AppContainer(
-                                    width: 280,
-                                    clip: Clip.hardEdge,
-                                    padding: EdgeInsets.zero,
-                                    child: Column(
-                                      children: [
-                                        Expanded(
-                                          flex: 7,
-                                          child: AppNetworkImage(
-                                            imgUrl: item.img,
-                                            width: Get.width,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 6,
-                                          child: Container(
-                                            width: Get.width,
-                                            padding: EdgeInsets.symmetric(
-                                              vertical:
-                                                  AppDimentions.screenPaddingXS,
-                                              horizontal:
-                                                  AppDimentions.screenPaddingS,
-                                            ),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    CustomText.kText(
-                                                      'Jan 12, 2025',
-                                                      size: 12,
-                                                      lines: 1,
-                                                      weight: FontWeight.bold,
-                                                      color: AppColors.subtitle,
-                                                    ),
-                                                    Spacer(),
-                                                    CustomText.kText(
-                                                      item.owner,
-                                                      size: 13,
-                                                      lines: 1,
-                                                      color: AppColors.subtitle,
-                                                    ),
-                                                  ],
-                                                ),
-                                                heightSpace4,
-                                                CustomText.kText(
-                                                  item.title,
-                                                  size: 17,
-                                                  weight: FontWeight.w700,
-                                                  family: CustomFonts.outfit,
-                                                ),
-                                                CustomText.kText(
-                                                  item.location,
-                                                  size: 12,
-                                                  lines: 1,
-                                                  color: AppColors.subtitle,
-                                                ),
-                                                Spacer(),
-                                                Row(
-                                                  children: [
-                                                    CustomText.kText(
-                                                      'Read More',
-                                                      size: 14,
-                                                      lines: 1,
-                                                      weight: FontWeight.w700,
-                                                      color: AppColors.primary,
-                                                      family:
-                                                          CustomFonts.outfit,
-                                                    ),
-                                                    Icon(
-                                                      Icons
-                                                          .keyboard_arrow_right,
-                                                      size: 20,
-                                                      color: AppColors.primary,
-                                                    ),
-                                                    widthSpace5,
-                                                    Expanded(
-                                                      child: CustomText.kText(
-                                                        item.size,
-                                                        size: 12,
-                                                        lines: 1,
-                                                        color:
-                                                            AppColors.subtitle,
-                                                        align: TextAlign.right,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                Spacer(),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                                separatorBuilder: (context, index) =>
-                                    widthSpace15,
-                              ),
-                            ),
-                          ),
+                          BlogsWidget(),
                           heightSpace100,
                         ],
                       ),

@@ -1,7 +1,10 @@
+import 'package:bhumi_manthan/views/screens/all_blogs_screen/all_blogs_screen.dart';
 import 'package:bhumi_manthan/views/screens/all_luxury_properties_screen/all_luxury_properties_screen.dart';
 import 'package:bhumi_manthan/views/screens/auth_screens/forget_password_screen/forget_password_screen.dart';
 import 'package:bhumi_manthan/views/screens/auth_screens/login_screen/login_screen.dart';
 import 'package:bhumi_manthan/views/screens/auth_screens/welcome_screen/welcome_screen.dart';
+import 'package:bhumi_manthan/views/screens/blog_details_screen/blog_details_screen.dart';
+import 'package:bhumi_manthan/views/screens/project_details_screen/project_details_screen.dart';
 import 'package:bhumi_manthan/views/screens/search_screen/search_screen.dart';
 import 'package:bhumi_manthan/zz_main_screen/main_screen.dart';
 
@@ -48,6 +51,12 @@ class AppPages {
     GetPage(
       name: AppRoutes.allLuxuryPropertiesScreen,
       page: () => AllLuxuryPropertiesScreen(),
+    ),
+    GetPage(name: AppRoutes.allBlogsScreen, page: () => AllBlogsScreen()),
+    GetPage(name: AppRoutes.blogDetailsScreen, page: () => BlogDetailsScreen()),
+    GetPage(
+      name: AppRoutes.projectDetailsScreen,
+      page: () => ProjectDetailsScreen(),
     ),
   ];
 }

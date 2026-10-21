@@ -12,4 +12,7 @@ abstract class AppRoutes {
   static const searchResultsScreen = '/search-results';
   static final allFeaturedPropertiesScreen = '/all-featured-properties';
   static final allLuxuryPropertiesScreen = '/all-luxury-properties';
+  static final allBlogsScreen = '/all-blogs';
+  static final blogDetailsScreen = '/blog-details';
+  static final projectDetailsScreen = '/project-details';
 }

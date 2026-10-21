@@ -55,23 +55,26 @@ class _AllFeaturedPropertiesScreenState
     return Scaffold(
       appBar: CustomAppbar(scrollController: sc, title: 'Featured Properties'),
       body: Obx(
-        () => isLoading.value
-            ? AppLoader.widget()
-            : ListView.separated(
-                controller: sc,
-                padding: EdgeInsets.fromLTRB(
-                  AppDimentions.defaultScreenPadding,
-                  AppDimentions.defaultScreenPadding,
-                  AppDimentions.defaultScreenPadding,
-                  100,
+        () => AppRefreshIndicator(
+          onRefresh: refreshData,
+          child: isLoading.value
+              ? AppLoader.widget()
+              : ListView.separated(
+                  controller: sc,
+                  padding: EdgeInsets.fromLTRB(
+                    AppDimentions.defaultScreenPadding,
+                    AppDimentions.defaultScreenPadding,
+                    AppDimentions.defaultScreenPadding,
+                    100,
+                  ),
+                  itemCount: featuredItems.length,
+                  itemBuilder: (context, index) => FeaturedPropertyCard(
+                    label: 'FEATURED',
+                    property: featuredItems[index],
+                  ),
+                  separatorBuilder: (context, index) => heightSpace10,
                 ),
-                itemCount: featuredItems.length,
-                itemBuilder: (context, index) => FeaturedPropertyCard(
-                  label: 'FEATURED',
-                  property: featuredItems[index],
-                ),
-                separatorBuilder: (context, index) => heightSpace10,
-              ),
+        ),
       ),
     );
   }
