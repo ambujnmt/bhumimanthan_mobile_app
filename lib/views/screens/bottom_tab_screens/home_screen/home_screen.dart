@@ -1,6 +1,7 @@
 import 'package:bhumi_manthan/utils/app_imports.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/home_screen_controller.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/featured_properties.dart';
+import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/home_banner_widget.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/home_data.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/luxury_perperties.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/premium_projects.dart';
@@ -120,18 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               bottomPad: 20,
                             ),
                           ),
-                          AppContainer(
-                            clip: Clip.hardEdge,
-                            padding: EdgeInsets.zero,
-                            margin: EdgeInsets.symmetric(
-                              horizontal: AppDimentions.defaultScreenPadding,
-                            ),
-                            child: Image.asset(
-                              Images.homeBanner,
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          heightSpace20,
+                          HomeBannerSlider(),
                           SectionWidget(
                             title: 'Categories',
                             content: Padding(

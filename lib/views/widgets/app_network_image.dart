@@ -35,4 +35,15 @@ class AppNetworkImage extends StatelessWidget {
       ),
     );
   }
+
+  /// Preload the image into Flutter's image cache.
+  static Future<void> preload(String? url) async {
+    if (url == null || url.isEmpty) return;
+
+    try {
+      await precacheImage(CachedNetworkImageProvider(url), Get.context!);
+    } catch (e) {
+      debugPrint('Image preload failed: $url, error: $e');
+    }
+  }
 }
