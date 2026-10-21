@@ -54,7 +54,7 @@ class AppContainer extends StatelessWidget {
             Border.all(
               color: borderColor,
               width: borderWidth,
-              // strokeAlign: BorderSide.strokeAlignCenter,
+              strokeAlign: BorderSide.strokeAlignOutside,
             ),
         boxShadow: hideShadow
             ? null
