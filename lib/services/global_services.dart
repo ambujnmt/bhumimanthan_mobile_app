@@ -40,6 +40,20 @@ String formatPrice(dynamic value, {int decimalDigits = 2}) {
   return '₹${formatter.format(number).trim()}';
 }
 
+String formatNumber(dynamic value, {int decimalDigits = 2}) {
+  if (value == null) return '0';
+
+  final number = num.tryParse(value.toString()) ?? 0;
+
+  final formatter = NumberFormat.currency(
+    locale: 'en_US',
+    symbol: '',
+    decimalDigits: decimalDigits,
+  );
+
+  return formatter.format(number).trim();
+}
+
 String firstCap(String text) {
   if (text.isEmpty) return text;
   return text[0].toUpperCase() + text.substring(1);

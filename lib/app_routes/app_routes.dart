@@ -10,4 +10,6 @@ abstract class AppRoutes {
   static const propertyDetailsScreen = '/property-details';
   static const passwordResetSuccessScreen = '/password-reset-success';
   static const searchResultsScreen = '/search-results';
+  static final allFeaturedPropertiesScreen = '/all-featured-properties';
+  static final allLuxuryPropertiesScreen = '/all-luxury-properties';
 }

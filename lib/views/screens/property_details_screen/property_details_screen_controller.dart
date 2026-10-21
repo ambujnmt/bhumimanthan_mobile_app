@@ -1,13 +1,18 @@
+import 'package:bhumi_manthan/models/propertiy_details_model.dart';
 import 'package:bhumi_manthan/utils/app_imports.dart';
 
-import '../bottom_tab_screens/home_screen/widgets/home_data.dart';
-
 class PropertyDetailsScreenController extends GetxController {
-  final data = Get.arguments['data'] as HomeItems;
+  final idOrSlug = (Get.arguments['id']).toString();
   final isLoading = true.obs;
 
+  final _api = ApiServices();
+
+  final data = Rxn<PropertyDetailsModel>();
+
   Future<void> _getData() async {
-    await waitForSec(1);
+    final res = await _api.get('/properties/detail/$idOrSlug');
+    if (!res.success) return;
+    data.value = PropertyDetailsModel.fromJson(res.data['data']['property']);
   }
 
   Future<void> refreshData() async {

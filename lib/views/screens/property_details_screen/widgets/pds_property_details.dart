@@ -1,7 +1,9 @@
 import '../../../../utils/app_imports.dart';
+import '../property_details_screen_controller.dart';
 
 class PdsPropertyDetails extends StatelessWidget {
-  const PdsPropertyDetails({super.key});
+  PdsPropertyDetails({super.key});
+  final _con = Get.find<PropertyDetailsScreenController>();
 
   @override
   Widget build(BuildContext context) {
@@ -13,21 +15,35 @@ class PdsPropertyDetails extends StatelessWidget {
         ),
         child: Column(
           children: [
-            _customRow(title: 'Property Type', val: 'Apartment'),
+            _customRow(
+              title: 'Property Type',
+              val: _con.data.value!.propertyType,
+            ),
             Divider(color: AppColors.hint, height: 35),
-            _customRow(title: 'Floor', val: '18 of 39 floors'),
+            _customRow(
+              title: 'Floor',
+              val:
+                  int.tryParse(_con.data.value!.floor)?.ordinal ??
+                  _con.data.value!.floor,
+            ),
             Divider(color: AppColors.hint, height: 35),
-            _customRow(title: 'Furnishing', val: 'Semi-Furnished'),
+            _customRow(title: 'Furnishing', val: _con.data.value!.furnishing),
             Divider(color: AppColors.hint, height: 35),
-            _customRow(title: 'Ownership', val: 'Freehold'),
+            _customRow(
+              title: 'Ownership',
+              val: _con.data.value?.ownership ?? 'N/A',
+            ),
             Divider(color: AppColors.hint, height: 35),
-            _customRow(title: 'Project', val: 'DLF The Arbour'),
+            _customRow(title: 'Project', val: _con.data.value!.project),
             Divider(color: AppColors.hint, height: 35),
-            _customRow(title: 'Facing', val: 'North-East'),
+            _customRow(title: 'Facing', val: _con.data.value!.facing),
             Divider(color: AppColors.hint, height: 35),
-            _customRow(title: 'Age of Property', val: 'Less than 1 year'),
+            _customRow(
+              title: 'Age of Property',
+              val: _con.data.value!.ageOfProperty ?? 'N/A',
+            ),
             Divider(color: AppColors.hint, height: 35),
-            _customRow(title: 'Balconies', val: '3 spacious balconies'),
+            _customRow(title: 'Balconies', val: _con.data.value!.balconies),
             Divider(color: AppColors.hint, height: 35),
           ],
         ),
@@ -51,4 +67,23 @@ Row _customRow({required String title, required String val}) {
       ),
     ],
   );
+}
+
+extension Ordinal on int {
+  String get ordinal {
+    if (this % 100 >= 11 && this % 100 <= 13) {
+      return '${this}th';
+    }
+
+    switch (this % 10) {
+      case 1:
+        return '${this}st';
+      case 2:
+        return '${this}nd';
+      case 3:
+        return '${this}rd';
+      default:
+        return '${this}th';
+    }
+  }
 }

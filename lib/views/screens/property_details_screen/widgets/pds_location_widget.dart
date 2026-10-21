@@ -1,7 +1,20 @@
-import '../../../../utils/app_imports.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class PdsLocationWidget extends StatelessWidget {
+import '../../../../utils/app_imports.dart';
+import '../../../widgets/app_fade_animated_switcher.dart';
+import '../property_details_screen_controller.dart';
+
+class PdsLocationWidget extends StatefulWidget {
   const PdsLocationWidget({super.key});
+
+  @override
+  State<PdsLocationWidget> createState() => _PdsLocationWidgetState();
+}
+
+class _PdsLocationWidgetState extends State<PdsLocationWidget> {
+  final _con = Get.find<PropertyDetailsScreenController>();
+
+  final isMapTileLoaded = false.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -13,11 +26,53 @@ class PdsLocationWidget extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Image.asset(
-              'assets/images/map.png',
-              height: 200,
-              width: Get.width,
-              fit: BoxFit.cover,
+            AppContainer(
+              height: 190,
+              clip: Clip.hardEdge,
+              padding: EdgeInsets.zero,
+              borderColor: grey[300]!,
+              child: IgnorePointer(
+                ignoring: true,
+                child: Obx(
+                  () => Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      GoogleMap(
+                        initialCameraPosition: CameraPosition(
+                          target: LatLng(
+                            double.parse(_con.data.value!.latitude),
+                            double.parse(_con.data.value!.longitude),
+                          ),
+                          zoom: 14,
+                        ),
+                        onCameraIdle: () => isMapTileLoaded(true),
+                        compassEnabled: false,
+                        rotateGesturesEnabled: false,
+                        zoomControlsEnabled: false,
+                        zoomGesturesEnabled: false,
+                        myLocationButtonEnabled: false,
+                      ),
+                      AppFadeAnimatedSwitcher(
+                        child: isMapTileLoaded.value
+                            ? SizedBox.shrink()
+                            : Container(
+                                height: Get.height,
+                                width: Get.width,
+                                color: white,
+                              ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 35.0),
+                        child: Icon(
+                          Icons.location_pin,
+                          size: 42,
+                          color: Colors.red,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
             heightSpace15,
             Row(

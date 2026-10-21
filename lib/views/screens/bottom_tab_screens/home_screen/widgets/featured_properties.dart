@@ -9,7 +9,7 @@ class FeaturedProperties extends StatelessWidget {
   Widget build(BuildContext context) {
     return SectionWidget(
       title: 'Featured Properties',
-      onViewAll: () {},
+      onViewAll: () => Get.toNamed(AppRoutes.allFeaturedPropertiesScreen),
       content: Obx(
         () => _con.featuredItems.isEmpty
             ? noDataAvailable(isScrollable: false, height: 80)
@@ -27,7 +27,7 @@ class FeaturedProperties extends StatelessWidget {
                     return GestureDetector(
                       onTap: () => Get.toNamed(
                         AppRoutes.propertyDetailsScreen,
-                        arguments: {'data': item},
+                        arguments: {'id': item.id},
                       ),
                       child: AppContainer(
                         width: 330,

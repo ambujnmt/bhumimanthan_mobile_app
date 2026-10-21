@@ -1,9 +1,9 @@
-import 'package:bhumi_manthan/views/widgets/app_network_image.dart';
-
 import '../../../../utils/app_imports.dart';
+import '../property_details_screen_controller.dart';
 
 class PdsSellerWidget extends StatelessWidget {
-  const PdsSellerWidget({super.key});
+  PdsSellerWidget({super.key});
+  final _con = Get.find<PropertyDetailsScreenController>();
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +20,21 @@ class PdsSellerWidget extends StatelessWidget {
               child: Row(
                 children: [
                   AppContainer(
+                    height: 64,
+                    width: 64,
                     clip: Clip.hardEdge,
                     padding: EdgeInsets.zero,
                     shape: BoxShape.circle,
-                    child: AppNetworkImage(
-                      height: 64,
-                      width: 64,
-                      fit: BoxFit.cover,
-                    ),
+                    child: _con.data.value!.agentImage == null
+                        ? Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Image.asset(Images.userIcon),
+                          )
+                        : AppNetworkImage(
+                            imgUrl: _con.data.value!.agentImage,
+
+                            fit: BoxFit.cover,
+                          ),
                   ),
                   widthSpace10,
                   Expanded(
@@ -35,12 +42,12 @@ class PdsSellerWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomText.kText(
-                          'Aarav Gupta',
+                          _con.data.value!.agentName,
                           size: 18,
                           weight: FontWeight.bold,
                         ),
                         CustomText.kText(
-                          'Certified Property Consultant · 8 years experience',
+                          '${_con.data.value!.agentVerified ? ' Certified Property Consultant' : 'Not verified'} · ${_con.data.value!.agentExperience} of experience',
                           size: 14,
                           color: AppColors.subtitle,
                         ),

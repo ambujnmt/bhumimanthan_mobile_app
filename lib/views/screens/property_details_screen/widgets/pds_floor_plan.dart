@@ -1,7 +1,9 @@
 import '../../../../utils/app_imports.dart';
+import '../property_details_screen_controller.dart';
 
 class PdsFloorPlan extends StatelessWidget {
-  const PdsFloorPlan({super.key});
+  PdsFloorPlan({super.key});
+  final _con = Get.find<PropertyDetailsScreenController>();
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +13,7 @@ class PdsFloorPlan extends StatelessWidget {
         padding: EdgeInsets.symmetric(
           horizontal: AppDimentions.defaultScreenPadding,
         ),
-        child: Column(children: []),
+        child: AppNetworkImage(imgUrl: _con.data.value!.floorPlanImage),
       ),
     );
   }

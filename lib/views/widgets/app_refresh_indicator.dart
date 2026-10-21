@@ -50,8 +50,10 @@ Widget errorLoadingData({
   String? message,
   double? height,
   bool isScrollable = true,
+  ScrollController? sc,
 }) {
   return ListView(
+    controller: sc,
     shrinkWrap: !isScrollable,
     physics: !isScrollable ? const NeverScrollableScrollPhysics() : null,
     children: [

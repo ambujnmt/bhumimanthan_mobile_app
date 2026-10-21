@@ -1,8 +1,10 @@
+import 'package:bhumi_manthan/views/screens/property_details_screen/property_details_screen_controller.dart';
+
 import '../../../../utils/app_imports.dart';
 
 class PdsAboutWidget extends StatelessWidget {
-  const PdsAboutWidget({super.key});
-
+  PdsAboutWidget({super.key});
+  final _con = Get.find<PropertyDetailsScreenController>();
   @override
   Widget build(BuildContext context) {
     return SectionWidget(
@@ -14,8 +16,8 @@ class PdsAboutWidget extends StatelessWidget {
         child: Column(
           children: [
             ExpandableText(
-              text:
-                  'Experience elevated living at DLF The Arbour, a spacious four-bedroom residence designed around light, privacy and garden views. The apartment features expansive living spaces, floor-to-ceiling glazing, premium finishes and generous balconies. Located just off Golf Course Extension Road, it offers easy access to leading schools, hospitals, business districts and everyday conveniences.',
+              text: _con.data.value!.description,
+              // 'Experience elevated living at DLF The Arbour, a spacious four-bedroom residence designed around light, privacy and garden views. The apartment features expansive living spaces, floor-to-ceiling glazing, premium finishes and generous balconies. Located just off Golf Course Extension Road, it offers easy access to leading schools, hospitals, business districts and everyday conveniences.',
               maxLines: 5,
             ),
           ],
