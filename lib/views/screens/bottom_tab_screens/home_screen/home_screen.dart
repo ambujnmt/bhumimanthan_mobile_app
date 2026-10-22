@@ -39,34 +39,39 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        AppContainer(
-                          width: 90,
-                          height: 35,
-                          borderRadius: AppDimentions.boxRadiusS,
-                          color: fromHex('fef5ed'),
-                          padding: EdgeInsets.all(
-                            AppDimentions.screenPaddingXS,
-                          ),
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                Images.mapPinIcon,
-                                height: 14,
-                                width: 14,
-                                color: AppColors.primary,
-                              ),
-                              widthSpace5,
-                              Expanded(
-                                child: CustomText.kText(
-                                  'Mumbai',
-                                  size: 12,
-                                  lines: 1,
-                                  weight: FontWeight.w700,
-                                  align: TextAlign.center,
+                        Obx(
+                          () => _con.location.value == null
+                              ? SizedBox.shrink()
+                              : AppContainer(
+                                  height: 35,
+                                  borderRadius: AppDimentions.boxRadiusS,
+                                  color: fromHex('fef5ed'),
+                                  padding: EdgeInsets.all(
+                                    AppDimentions.screenPaddingXS,
+                                  ),
+                                  child: IntrinsicWidth(
+                                    child: Row(
+                                      children: [
+                                        Image.asset(
+                                          Images.mapPinIcon,
+                                          height: 14,
+                                          width: 14,
+                                          color: AppColors.primary,
+                                        ),
+                                        widthSpace5,
+                                        Expanded(
+                                          child: CustomText.kText(
+                                            _con.location.value!.city,
+                                            size: 12,
+                                            lines: 1,
+                                            weight: FontWeight.w700,
+                                            align: TextAlign.center,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
                         ),
                         widthSpace10,
                         AppContainer(

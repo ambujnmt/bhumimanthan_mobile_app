@@ -25,6 +25,7 @@ dependencies:
   timeago: ^3.7.1
   google_maps_flutter: ^2.18.1
   sliding_up_panel2: ^3.3.0+1
+  geocoding: ^5.0.0
 
 dev_dependencies:
   flutter_test:

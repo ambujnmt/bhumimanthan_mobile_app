@@ -7,12 +7,9 @@ import 'package:bhumi_manthan/views/screens/property_details_screen/widgets/pds_
 import 'package:bhumi_manthan/views/screens/property_details_screen/widgets/pds_seller_widget.dart';
 import 'package:bhumi_manthan/views/screens/property_details_screen/widgets/pds_similar_properties.dart';
 import 'package:bhumi_manthan/views/widgets/app_fade_animated_switcher.dart';
-import 'package:skeletonizer/skeletonizer.dart';
-import 'package:sliding_up_panel2/sliding_up_panel2.dart';
 
 import '../../../utils/app_imports.dart';
 import 'property_details_screen_controller.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class PropertyDetailsScreen extends StatefulWidget {
   const PropertyDetailsScreen({super.key});
@@ -119,7 +116,7 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                                   family: CustomFonts.outfit,
                                 ),
                                 CustomText.kText(
-                                  'Posted ${timeago.format(DateTime.parse(_con.data.value!.createdAt).toLocal())}',
+                                  'Posted ${timeAgo(_con.data.value!.createdAt)}',
                                   size: 12,
                                   color: AppColors.subtitle,
                                 ),

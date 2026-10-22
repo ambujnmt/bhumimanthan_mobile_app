@@ -1,7 +1,6 @@
 import 'package:bhumi_manthan/models/blog_model.dart';
 
 import '../../../utils/app_imports.dart';
-import '../bottom_tab_screens/home_screen/home_screen_controller.dart';
 
 class AllBlogsScreen extends StatefulWidget {
   const AllBlogsScreen({super.key});
@@ -11,8 +10,8 @@ class AllBlogsScreen extends StatefulWidget {
 }
 
 class _AllBlogsScreenState extends State<AllBlogsScreen> {
-  final homeCon = Get.find<HomeScreenController>();
   final _api = ApiServices();
+  final location = LocationController.currentLocation;
 
   final sc = ScrollController();
 
@@ -25,9 +24,11 @@ class _AllBlogsScreenState extends State<AllBlogsScreen> {
       '/properties/luxury',
       queries: {
         'luxury': '1',
-        'latitude': homeCon.position!.latitude.toString(),
-        'longitude': homeCon.position!.longitude.toString(),
         'radius': '100',
+        if (location.value != null) ...{
+          'latitude': location.value!.lat.toString(),
+          'longitude': location.value!.lng.toString(),
+        },
       },
     );
     if (!res.success) return;

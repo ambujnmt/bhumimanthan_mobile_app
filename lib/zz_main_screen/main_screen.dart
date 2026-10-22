@@ -4,7 +4,6 @@ import 'package:bhumi_manthan/views/screens/bottom_tab_screens/favorites_screen/
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/menu_screen/menu_screen.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/profile_screen/profile_screen.dart';
 import 'package:bhumi_manthan/views/screens/search_screen/search_screen.dart';
-import 'package:bhumi_manthan/zz_main_screen/widgets/location_permission_screen.dart';
 
 import '../utils/app_imports.dart';
 import '../views/screens/bottom_tab_screens/home_screen/home_screen.dart';
@@ -58,21 +57,17 @@ class _MainScreenState extends State<MainScreen> {
             ],
           ),
         ),
-        body: Obx(
-          () => !_con.isLocationGranted.value
-              ? LocationPermissionScreen()
-              : PageView(
-                  controller: _con.pageController,
-                  physics: NeverScrollableScrollPhysics(),
-                  children: [
-                    HomeScreen(),
-                    SearchScreen(),
-                    FavoritesScreen(),
-                    ChatScreen(),
-                    ProfileScreen(),
-                    MenuScreen(),
-                  ],
-                ),
+        body: PageView(
+          controller: _con.pageController,
+          physics: NeverScrollableScrollPhysics(),
+          children: [
+            HomeScreen(),
+            SearchScreen(),
+            FavoritesScreen(),
+            ChatScreen(),
+            ProfileScreen(),
+            MenuScreen(),
+          ],
         ),
         bottomNavigationBar: IntrinsicHeight(
           child: Container(

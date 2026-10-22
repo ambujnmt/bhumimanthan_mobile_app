@@ -54,6 +54,7 @@ class LoginScreenController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    // LocationController().getCityFromIp();
     AuthPrefs.markIntroAsDone();
   }
 }

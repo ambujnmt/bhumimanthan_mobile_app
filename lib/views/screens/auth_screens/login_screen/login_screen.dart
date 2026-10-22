@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bhumi_manthan/utils/app_imports.dart';
 
 import 'login_screen_controller.dart';
@@ -79,11 +81,11 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(height: 70, width: 70, Images.googleIcon),
+                if (Platform.isAndroid)
+                  Image.asset(height: 70, width: 70, Images.googleIcon),
                 widthSpace10,
-                Image.asset(height: 70, width: 70, Images.facebookIcon),
-                widthSpace10,
-                Image.asset(height: 70, width: 70, Images.appleIcon),
+                if (Platform.isIOS)
+                  Image.asset(height: 70, width: 70, Images.appleIcon),
               ],
             ),
           ),

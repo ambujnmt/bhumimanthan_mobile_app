@@ -8,6 +8,7 @@ export 'package:skeletonizer/skeletonizer.dart';
 export 'package:sliding_up_panel2/sliding_up_panel2.dart';
 
 // App-wide custom imports
+export 'package:bhumi_manthan/geo_location/location_controller.dart';
 export 'package:bhumi_manthan/views/widgets/app_network_image.dart';
 export 'package:bhumi_manthan/views/widgets/app_refresh_indicator.dart';
 export 'package:bhumi_manthan/views/widgets/custom_appbar.dart';

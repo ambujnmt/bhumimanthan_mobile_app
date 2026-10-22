@@ -1,17 +1,15 @@
-import 'package:bhumi_manthan/geo_location/location_controller.dart';
 import 'package:bhumi_manthan/models/blog_model.dart';
 import 'package:bhumi_manthan/models/city_model.dart';
 import 'package:bhumi_manthan/models/featured_property_model.dart';
 import 'package:bhumi_manthan/models/home_banner.dart';
 import 'package:bhumi_manthan/models/project_model.dart';
 import 'package:bhumi_manthan/utils/app_imports.dart';
-import 'package:geolocator/geolocator.dart';
 
 class HomeScreenController extends GetxController {
   final _api = ApiServices();
   final isLoading = true.obs;
 
-  Position? position;
+  final location = LocationController.currentLocation;
 
   final featuredItems = <FeaturedProperty>[].obs;
   final projects = <ProjectsModel>[].obs;
@@ -33,9 +31,11 @@ class HomeScreenController extends GetxController {
       '/properties/featured',
       queries: {
         'limit': '5',
-        'latitude': position!.latitude.toString(),
-        'longitude': position!.longitude.toString(),
         'radius': '100',
+        if (location.value != null) ...{
+          'latitude': location.value!.lat,
+          'longitude': location.value!.lng,
+        },
       },
     );
     if (!res.success) return;
@@ -49,9 +49,11 @@ class HomeScreenController extends GetxController {
       '/projects',
       queries: {
         'limit': '5',
-        'latitude': position!.latitude.toString(),
-        'longitude': position!.longitude.toString(),
         'radius': '100',
+        if (location.value != null) ...{
+          'latitude': location.value!.lat,
+          'longitude': location.value!.lng,
+        },
       },
     );
     if (!res.success) return;
@@ -65,9 +67,11 @@ class HomeScreenController extends GetxController {
       '/cities',
       queries: {
         'popular': '1',
-        'latitude': position!.latitude.toString(),
-        'longitude': position!.longitude.toString(),
         'limit': '100',
+        if (location.value != null) ...{
+          'latitude': location.value!.lat,
+          'longitude': location.value!.lng,
+        },
       },
     );
     if (!res.success) return;
@@ -81,9 +85,11 @@ class HomeScreenController extends GetxController {
       '/properties/luxury',
       queries: {
         'limit': '5',
-        'latitude': position!.latitude.toString(),
-        'longitude': position!.longitude.toString(),
         'radius': '100',
+        if (location.value != null) ...{
+          'latitude': location.value!.lat,
+          'longitude': location.value!.lng,
+        },
       },
     );
     if (!res.success) return;
@@ -97,8 +103,10 @@ class HomeScreenController extends GetxController {
       '/blogs',
       queries: {
         'limit': '5',
-        'latitude': position!.latitude.toString(),
-        'longitude': position!.longitude.toString(),
+        if (location.value != null) ...{
+          'latitude': location.value!.lat,
+          'longitude': location.value!.lng,
+        },
       },
     );
     if (!res.success) return;
@@ -108,14 +116,8 @@ class HomeScreenController extends GetxController {
   }
 
   Future<void> refreshData() async {
+    location.value = LocationController.currentLocation.value;
     isLoading(true);
-    if (position == null) {
-      position = await LocationHelper.getCurrentLocation();
-      if (position == null) {
-        isLoading(false);
-        return;
-      }
-    }
     await Future.wait([
       _getBanners(),
       _getFeatured(),
@@ -127,9 +129,19 @@ class HomeScreenController extends GetxController {
     isLoading(false);
   }
 
+  Future<void> _ckeckLocation() async {
+    final tc = location.value?.city;
+    final success = await LocationController.getCityFromIp();
+
+    if (success & (location.value == null || location.value?.city != tc)) {
+      refreshData();
+    }
+  }
+
   @override
   void onInit() {
     super.onInit();
+    _ckeckLocation();
     refreshData();
   }
 }

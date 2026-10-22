@@ -1,5 +1,3 @@
-import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/home_screen_controller.dart';
-
 import '../../../models/featured_property_model.dart';
 import '../../../utils/app_imports.dart';
 import 'widgets/afs_card_widget.dart';
@@ -14,8 +12,8 @@ class AllFeaturedPropertiesScreen extends StatefulWidget {
 
 class _AllFeaturedPropertiesScreenState
     extends State<AllFeaturedPropertiesScreen> {
-  final homeCon = Get.find<HomeScreenController>();
   final _api = ApiServices();
+  final location = LocationController.currentLocation;
 
   final sc = ScrollController();
 
@@ -27,9 +25,11 @@ class _AllFeaturedPropertiesScreenState
       '/properties/featured',
       queries: {
         'featured': '1',
-        'latitude': homeCon.position!.latitude.toString(),
-        'longitude': homeCon.position!.longitude.toString(),
         'radius': '100',
+        if (location.value != null) ...{
+          'latitude': location.value!.lat.toString(),
+          'longitude': location.value!.lng.toString(),
+        },
       },
     );
     if (!res.success) return;

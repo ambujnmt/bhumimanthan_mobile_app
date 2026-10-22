@@ -1,6 +1,4 @@
 import 'package:bhumi_manthan/utils/app_imports.dart';
-import 'package:skeletonizer/skeletonizer.dart';
-import 'package:sliding_up_panel2/sliding_up_panel2.dart';
 
 import 'project_details_screen_controller.dart';
 import 'widgets/prjctds_panel_widget.dart';

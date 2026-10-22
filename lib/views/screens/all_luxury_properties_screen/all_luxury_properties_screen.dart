@@ -1,7 +1,6 @@
 import '../../../models/featured_property_model.dart';
 import '../../../utils/app_imports.dart';
 import '../all_featured_properties_screen/widgets/afs_card_widget.dart';
-import '../bottom_tab_screens/home_screen/home_screen_controller.dart';
 
 class AllLuxuryPropertiesScreen extends StatefulWidget {
   const AllLuxuryPropertiesScreen({super.key});
@@ -12,8 +11,9 @@ class AllLuxuryPropertiesScreen extends StatefulWidget {
 }
 
 class _AllLuxuryPropertiesScreenState extends State<AllLuxuryPropertiesScreen> {
-  final homeCon = Get.find<HomeScreenController>();
   final _api = ApiServices();
+
+  final location = LocationController.currentLocation;
 
   final sc = ScrollController();
 
@@ -25,9 +25,11 @@ class _AllLuxuryPropertiesScreenState extends State<AllLuxuryPropertiesScreen> {
       '/properties/luxury',
       queries: {
         'luxury': '1',
-        'latitude': homeCon.position!.latitude.toString(),
-        'longitude': homeCon.position!.longitude.toString(),
         'radius': '100',
+        if (location.value != null) ...{
+          'latitude': location.value!.lat.toString(),
+          'longitude': location.value!.lng.toString(),
+        },
       },
     );
     if (!res.success) return;
