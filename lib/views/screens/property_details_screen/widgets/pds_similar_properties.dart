@@ -1,5 +1,3 @@
-import 'package:bhumi_manthan/views/widgets/app_network_image.dart';
-
 import '../../../../utils/app_imports.dart';
 import '../../bottom_tab_screens/home_screen/widgets/home_data.dart';
 

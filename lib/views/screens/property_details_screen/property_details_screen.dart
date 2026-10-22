@@ -8,6 +8,7 @@ import 'package:bhumi_manthan/views/screens/property_details_screen/widgets/pds_
 import 'package:bhumi_manthan/views/screens/property_details_screen/widgets/pds_similar_properties.dart';
 import 'package:bhumi_manthan/views/widgets/app_fade_animated_switcher.dart';
 import 'package:skeletonizer/skeletonizer.dart';
+import 'package:sliding_up_panel2/sliding_up_panel2.dart';
 
 import '../../../utils/app_imports.dart';
 import 'property_details_screen_controller.dart';
@@ -21,213 +22,209 @@ class PropertyDetailsScreen extends StatefulWidget {
 }
 
 class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
+  final sc = ScrollController();
   final _con = Get.put(PropertyDetailsScreenController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Obx(
+      body: SlidingUpPanel(
+        minHeight: Get.height * .6 + AppDimentions.boxRadiusXL,
+        maxHeight: Get.height * .95,
+        parallaxEnabled: true,
+        scrollController: sc,
+        body: Align(
+          alignment: Alignment.topCenter,
+          child: Obx(
+            () => Skeletonizer(
+              enabled: _con.isLoading.value,
+              child: AppNetworkImage(
+                imgUrl: _con.data.value?.mainImage ?? '',
+                height: Get.height * .5,
+                width: Get.width,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
+        color: transparent,
+        panelBuilder: () => Container(
+          decoration: BoxDecoration(
+            color: AppColors.backgroundColor,
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(AppDimentions.boxRadiusXL),
+            ),
+          ),
+          child: Obx(
             () => AppFadeAnimatedSwitcher(
               child: _con.isLoading.value
-                  ? Skeletonizer(
-                      enabled: _con.isLoading.value,
-                      child: AppNetworkImage(
-                        height: Get.height * .5,
-                        width: Get.width,
-                        fit: BoxFit.cover,
-                      ),
+                  ? Column(
+                      children: [
+                        SizedBox(height: 400, child: AppLoader.widget()),
+                      ],
                     )
-                  : AppNetworkImage(
-                      imgUrl: _con.data.value?.mainImage ?? '',
-                      height: Get.height * .5,
-                      width: Get.width,
-                      fit: BoxFit.cover,
+                  : _con.data.value == null
+                  ? AppRefreshIndicator(
+                      onRefresh: _con.refreshData,
+                      child: errorLoadingData(),
+                    )
+                  : SingleChildScrollView(
+                      controller: sc,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: AppDimentions.defaultScreenPadding,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                heightSpace17,
+                                CustomText.kText(
+                                  _con.data.value!.configuration,
+                                  size: 12,
+                                  weight: FontWeight.bold,
+                                  color: AppColors.primary,
+                                ),
+                                heightSpace5,
+                                CustomText.kText(
+                                  _con.data.value!.title,
+                                  size: 25,
+                                  family: CustomFonts.outfit,
+                                ),
+                                heightSpace10,
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      Images.mapPinIcon,
+                                      height: 15,
+                                      width: 15,
+                                      color: AppColors.subtitle,
+                                    ),
+                                    widthSpace2,
+                                    Expanded(
+                                      child: CustomText.kText(
+                                        _con.data.value!.location,
+                                        size: 14,
+                                        color: AppColors.subtitle,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                heightSpace10,
+                                CustomText.kText(
+                                  formatPrice(_con.data.value!.price),
+                                  size: 25,
+                                  color: AppColors.primary,
+                                  weight: FontWeight.w800,
+                                  family: CustomFonts.outfit,
+                                ),
+                                CustomText.kText(
+                                  'Posted ${timeago.format(DateTime.parse(_con.data.value!.createdAt).toLocal())}',
+                                  size: 12,
+                                  color: AppColors.subtitle,
+                                ),
+                                heightSpace15,
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: CustomText.kText(
+                                        _con.data.value!.status,
+                                        size: 16,
+                                        weight: FontWeight.w600,
+                                        color: AppColors.subtitle,
+                                        align: TextAlign.center,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 40,
+                                      child: VerticalDivider(
+                                        color: AppColors.hint,
+                                        thickness: 1.5,
+                                        width: 15,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: CustomText.kText(
+                                        _con.data.value!.furnishing,
+                                        size: 16,
+                                        weight: FontWeight.w600,
+                                        color: AppColors.subtitle,
+                                        align: TextAlign.center,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 40,
+                                      child: VerticalDivider(
+                                        color: AppColors.hint,
+                                        thickness: 1.5,
+                                        width: 15,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: CustomText.kText(
+                                        _con.data.value!.ownership ?? 'N/A',
+                                        size: 16,
+                                        weight: FontWeight.w600,
+                                        color: AppColors.subtitle,
+                                        align: TextAlign.center,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                heightSpace20,
+                                CustomButton(text: 'Contact Agent'),
+                                heightSpace15,
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: CustomButton(
+                                        text: 'View',
+                                        textColor: AppColors.primary,
+                                        color: transparent,
+                                        border: Border.all(
+                                          color: AppColors.primary,
+                                        ),
+                                      ),
+                                    ),
+                                    widthSpace10,
+                                    Expanded(
+                                      child: CustomButton(
+                                        text: 'Compare',
+                                        textColor: AppColors.secondary,
+                                        color: transparent,
+                                        border: Border.all(
+                                          color: AppColors.secondary,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                          heightSpace20,
+                          PdsAboutWidget(),
+                          heightSpace14,
+                          PdsPropertyDetails(),
+                          heightSpace10,
+                          PdsAmenities(),
+                          heightSpace10,
+                          PdsFloorPlan(),
+                          heightSpace10,
+                          PdsBhkAndType(),
+                          heightSpace10,
+                          PdsLocationWidget(),
+                          heightSpace17,
+                          PdsSellerWidget(),
+                          heightSpace17,
+                          PdsSimilarProperties(),
+                          heightSpace100,
+                        ],
+                      ),
                     ),
             ),
           ),
-        ],
-      ),
-      bottomSheet: DraggableScrollableSheet(
-        initialChildSize: 0.6,
-        minChildSize: 0.6,
-        maxChildSize: 0.95,
-        expand: false,
-        snap: true,
-        builder: (context, scrollController) {
-          return Container(
-            decoration: BoxDecoration(
-              color: white,
-              border: Border(top: BorderSide(color: grey.shade300, width: 1.3)),
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(20),
-              ),
-            ),
-            child: Obx(
-              () => AppFadeAnimatedSwitcher(
-                child: _con.isLoading.value
-                    ? AppLoader.widget()
-                    : _con.data.value == null
-                    ? errorLoadingData(sc: scrollController)
-                    : SingleChildScrollView(
-                        controller: scrollController,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: AppDimentions.defaultScreenPadding,
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  heightSpace17,
-                                  CustomText.kText(
-                                    _con.data.value!.configuration,
-                                    size: 12,
-                                    weight: FontWeight.bold,
-                                    color: AppColors.primary,
-                                  ),
-                                  heightSpace5,
-                                  CustomText.kText(
-                                    _con.data.value!.title,
-                                    size: 25,
-                                    family: CustomFonts.outfit,
-                                  ),
-                                  heightSpace10,
-                                  Row(
-                                    children: [
-                                      Image.asset(
-                                        Images.mapPinIcon,
-                                        height: 15,
-                                        width: 15,
-                                        color: AppColors.subtitle,
-                                      ),
-                                      widthSpace2,
-                                      Expanded(
-                                        child: CustomText.kText(
-                                          _con.data.value!.location,
-                                          size: 14,
-                                          color: AppColors.subtitle,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  heightSpace10,
-                                  CustomText.kText(
-                                    formatPrice(_con.data.value!.price),
-                                    size: 25,
-                                    color: AppColors.primary,
-                                    weight: FontWeight.w800,
-                                    family: CustomFonts.outfit,
-                                  ),
-                                  CustomText.kText(
-                                    'Posted ${timeago.format(DateTime.parse(_con.data.value!.createdAt).toLocal())}',
-                                    size: 12,
-                                    color: AppColors.subtitle,
-                                  ),
-                                  heightSpace15,
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: CustomText.kText(
-                                          _con.data.value!.status,
-                                          size: 16,
-                                          weight: FontWeight.w600,
-                                          color: AppColors.subtitle,
-                                          align: TextAlign.center,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 40,
-                                        child: VerticalDivider(
-                                          color: AppColors.hint,
-                                          thickness: 1.5,
-                                          width: 15,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: CustomText.kText(
-                                          _con.data.value!.furnishing,
-                                          size: 16,
-                                          weight: FontWeight.w600,
-                                          color: AppColors.subtitle,
-                                          align: TextAlign.center,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 40,
-                                        child: VerticalDivider(
-                                          color: AppColors.hint,
-                                          thickness: 1.5,
-                                          width: 15,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: CustomText.kText(
-                                          _con.data.value!.ownership ?? 'N/A',
-                                          size: 16,
-                                          weight: FontWeight.w600,
-                                          color: AppColors.subtitle,
-                                          align: TextAlign.center,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  heightSpace20,
-                                  CustomButton(text: 'Contact Agent'),
-                                  heightSpace15,
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: CustomButton(
-                                          text: 'View',
-                                          textColor: AppColors.primary,
-                                          color: transparent,
-                                          border: Border.all(
-                                            color: AppColors.primary,
-                                          ),
-                                        ),
-                                      ),
-                                      widthSpace10,
-                                      Expanded(
-                                        child: CustomButton(
-                                          text: 'Compare',
-                                          textColor: AppColors.secondary,
-                                          color: transparent,
-                                          border: Border.all(
-                                            color: AppColors.secondary,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            heightSpace20,
-                            PdsAboutWidget(),
-                            heightSpace14,
-                            PdsPropertyDetails(),
-                            heightSpace10,
-                            PdsAmenities(),
-                            heightSpace10,
-                            PdsFloorPlan(),
-                            heightSpace10,
-                            PdsBhkAndType(),
-                            heightSpace10,
-                            PdsLocationWidget(),
-                            heightSpace17,
-                            PdsSellerWidget(),
-                            heightSpace17,
-                            PdsSimilarProperties(),
-                            heightSpace100,
-                          ],
-                        ),
-                      ),
-              ),
-            ),
-          );
-        },
+        ),
       ),
     );
   }

@@ -1,7 +1,9 @@
 import 'package:bhumi_manthan/utils/app_imports.dart';
-import 'package:bhumi_manthan/views/screens/project_details_screen/widgets/pds_detail.dart';
+import 'package:skeletonizer/skeletonizer.dart';
+import 'package:sliding_up_panel2/sliding_up_panel2.dart';
 
 import 'project_details_screen_controller.dart';
+import 'widgets/prjctds_panel_widget.dart';
 
 class ProjectDetailsScreen extends StatefulWidget {
   const ProjectDetailsScreen({super.key});
@@ -11,21 +13,34 @@ class ProjectDetailsScreen extends StatefulWidget {
 }
 
 class _ProjectDetailsScreenState extends State<ProjectDetailsScreen> {
+  final sc = ScrollController();
   final _con = Get.put(ProjectDetailsScreenController());
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => _con.isLoading.value
-          ? Scaffold(
-              appBar: CustomAppbar(title: 'Project Details'),
-              body: AppLoader.widget(),
-            )
-          : _con.data.value == null
-          ? Scaffold(
-              appBar: CustomAppbar(title: 'Project Details'),
-              body: errorLoadingData(),
-            )
-          : PdsDetail(project: _con.data.value!),
+    return Scaffold(
+      backgroundColor: black,
+      body: SlidingUpPanel(
+        minHeight: Get.height * .6 + AppDimentions.boxRadiusXL,
+        maxHeight: Get.height * .95,
+        parallaxEnabled: true,
+        scrollController: sc,
+        body: Align(
+          alignment: Alignment.topCenter,
+          child: Obx(
+            () => Skeletonizer(
+              enabled: _con.isLoading.value,
+              child: AppNetworkImage(
+                height: Get.height * .4,
+                width: Get.width,
+                imgUrl: _con.data.value?.image ?? '',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ),
+        color: transparent,
+        panelBuilder: () => PrjctdsPanelWidget(sc: sc),
+      ),
     );
   }
 }

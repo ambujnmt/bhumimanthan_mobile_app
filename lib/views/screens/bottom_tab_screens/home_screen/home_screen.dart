@@ -3,7 +3,6 @@ import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/home_
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/blogs_widget.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/featured_properties.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/home_banner_widget.dart';
-import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/home_data.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/luxury_perperties.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/popular_cities_widget.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/premium_projects.dart';

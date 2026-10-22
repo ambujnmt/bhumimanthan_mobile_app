@@ -235,7 +235,7 @@ class PdsDetail extends StatelessWidget {
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       itemCount: project.galleryImages.length,
-                      separatorBuilder: (_, __) => const SizedBox(width: 12),
+                      separatorBuilder: (_, _) => const SizedBox(width: 12),
                       itemBuilder: (context, index) {
                         return ClipRRect(
                           borderRadius: BorderRadius.circular(12),
@@ -244,7 +244,7 @@ class PdsDetail extends StatelessWidget {
                             width: 210,
                             height: 150,
                             fit: BoxFit.cover,
-                            errorBuilder: (_, __, ___) => Container(
+                            errorBuilder: (_, _, _) => Container(
                               width: 210,
                               color: colors.surfaceContainerHighest,
                               child: const Icon(Icons.broken_image_outlined),
