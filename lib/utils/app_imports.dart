@@ -4,6 +4,8 @@ export 'package:flutter/material.dart';
 // Third-party packages
 export 'package:cached_network_image/cached_network_image.dart';
 export 'package:get/get.dart';
+export 'package:skeletonizer/skeletonizer.dart';
+export 'package:sliding_up_panel2/sliding_up_panel2.dart';
 
 // App-wide custom imports
 export 'package:bhumi_manthan/views/widgets/app_network_image.dart';

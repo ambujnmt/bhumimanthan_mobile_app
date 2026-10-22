@@ -34,15 +34,15 @@ class _PrjctdsPanelWidgetState extends State<PrjctdsPanelWidget> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
-    return Obx(
-      () => Container(
-        decoration: BoxDecoration(
-          color: AppColors.backgroundColor,
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(AppDimentions.boxRadiusXL),
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.backgroundColor,
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(AppDimentions.boxRadiusXL),
         ),
-        child: AppFadeAnimatedSwitcher(
+      ),
+      child: Obx(
+        () => AppFadeAnimatedSwitcher(
           child: _con.isLoading.value
               ? Column(
                   children: [SizedBox(height: 400, child: AppLoader.widget())],

@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 
 import '../utils/app_imports.dart';
 
+import 'package:timeago/timeago.dart' as timeago;
+
 void closeKeyboard() {
   FocusManager.instance.primaryFocus?.unfocus();
 }
@@ -117,5 +119,18 @@ String getErrorMessageFromRes(dynamic response) {
     return 'Something went wrong. Please try again.';
   } catch (e) {
     return 'Something went wrong. Please try again.';
+  }
+}
+
+String timeAgo(String? date) {
+  if (date == null || date.isEmpty) {
+    return 'Publication date unavailable';
+  }
+
+  try {
+    final publishedDate = DateTime.parse(date).toLocal();
+    return timeago.format(publishedDate);
+  } catch (_) {
+    return 'Publication date unavailable';
   }
 }

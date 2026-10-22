@@ -1,3 +1,4 @@
+import 'package:bhumi_manthan/models/blog_model.dart';
 import 'package:bhumi_manthan/utils/app_imports.dart';
 
 class BlogDetailsScreenController extends GetxController {
@@ -7,9 +8,12 @@ class BlogDetailsScreenController extends GetxController {
 
   final isLoading = true.obs;
 
+  final data = Rxn<BlogModel>();
+
   Future<void> _getData() async {
     final res = await _api.get('/blogs/detail/$idOrSlug');
     if (!res.success) return;
+    data.value = BlogModel.fromJson(res.data['data']['blog']);
   }
 
   Future<void> refreshData() async {

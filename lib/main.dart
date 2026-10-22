@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: CustomFonts.manrope,
+        primaryColor: AppColors.primary,
         colorScheme: .fromSeed(seedColor: AppColors.primary),
         scaffoldBackgroundColor: AppColors.backgroundColor,
         textSelectionTheme: TextSelectionThemeData(
