@@ -1,8 +1,6 @@
 import 'package:bhumi_manthan/models/propertiy_details_model.dart';
-import 'package:flutter/material.dart';
 
 import '../../../../utils/app_imports.dart';
-import '../../property_details_screen/property_details_screen.dart';
 
 class FavoritesScreen extends StatefulWidget {
   const FavoritesScreen({super.key});
@@ -91,7 +89,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: CustomText.kText(
-                      property.listingType ?? 'Property',
+                      property.listingType,
                       size: 11,
                       weight: FontWeight.w700,
                     ),
@@ -122,7 +120,7 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomText.kText(
-                    property.title ?? 'Untitled Property',
+                    property.title,
                     size: 16,
                     weight: FontWeight.w700,
                     lines: 2,
@@ -163,21 +161,18 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                     spacing: 16,
                     runSpacing: 8,
                     children: [
-                      if (property.configuration != null)
-                        _propertyFeature(
-                          Icons.bed_outlined,
-                          property.configuration!,
-                        ),
-                      if (property.superArea != null)
-                        _propertyFeature(
-                          Icons.square_foot,
-                          '${property.superArea} sq.ft.',
-                        ),
-                      if (property.status != null)
-                        _propertyFeature(
-                          Icons.verified_outlined,
-                          property.status!,
-                        ),
+                      _propertyFeature(
+                        Icons.bed_outlined,
+                        property.configuration,
+                      ),
+                      _propertyFeature(
+                        Icons.square_foot,
+                        '${property.superArea} sq.ft.',
+                      ),
+                      _propertyFeature(
+                        Icons.verified_outlined,
+                        property.status,
+                      ),
                     ],
                   ),
                 ],

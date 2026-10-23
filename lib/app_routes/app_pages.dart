@@ -5,6 +5,7 @@ import 'package:bhumi_manthan/views/screens/auth_screens/login_screen/login_scre
 import 'package:bhumi_manthan/views/screens/auth_screens/welcome_screen/welcome_screen.dart';
 import 'package:bhumi_manthan/views/screens/blog_details_screen/blog_details_screen.dart';
 import 'package:bhumi_manthan/views/screens/project_details_screen/project_details_screen.dart';
+import 'package:bhumi_manthan/views/screens/property_compare_screen/properties_compare_screen.dart';
 import 'package:bhumi_manthan/views/screens/search_screen/search_screen.dart';
 import 'package:bhumi_manthan/zz_main_screen/main_screen.dart';
 
@@ -62,6 +63,11 @@ class AppPages {
     GetPage(
       name: AppRoutes.projectDetailsScreen,
       page: () => ProjectDetailsScreen(),
+    ),
+
+    GetPage(
+      name: AppRoutes.propertiesCompareScreen,
+      page: () => PropertiesCompareScreen(),
     ),
   ];
 }

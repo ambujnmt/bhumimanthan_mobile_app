@@ -71,7 +71,10 @@ class _CompareScreenState extends State<CompareScreen> {
                   itemCount: _con.tabs.length,
                   itemBuilder: (context, index) => ComparedTabCard(
                     comparedTab: _con.tabs[index],
-                    onCompare: () {},
+                    onCompare: () => Get.toNamed(
+                      AppRoutes.propertiesCompareScreen,
+                      arguments: _con.tabs[index],
+                    ),
                   ),
                   separatorBuilder: (context, index) => heightSpace10,
                 ),
@@ -171,12 +174,16 @@ class _ComparedTabCardState extends State<ComparedTabCard> {
 
                 // Compare button
                 canCompare
-                    ? CustomButton(height: 40, text: 'View Compare')
+                    ? CustomButton(
+                        height: 40,
+                        text: 'View Compare',
+                        onTap: widget.onCompare,
+                      )
                     : CustomButton(
                         height: 40,
                         text: 'View Compare',
-                        color: grey.shade400,
-                        textColor: AppColors.hint,
+                        color: grey.shade300,
+                        textColor: grey,
                       ),
               ],
             ),
@@ -212,13 +219,14 @@ class _ComparedTabCardState extends State<ComparedTabCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
                       child: CustomText.kText(
                         property.title,
                         lines: 1,
-                        size: 14,
-                        weight: FontWeight.w600,
+                        size: 13,
+                        weight: FontWeight.w700,
                       ),
                     ),
                     InkWell(
@@ -227,19 +235,20 @@ class _ComparedTabCardState extends State<ComparedTabCard> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 5),
-                Text(
+                heightSpace3,
+                CustomText.kText(
                   '${property.location}, ${property.city}',
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                  lines: 1,
+                  size: 12,
+                  color: Colors.grey.shade600,
                 ),
-                const SizedBox(height: 5),
+                heightSpace3,
                 Text(
                   formatPrice(property.price),
-                  style: const TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.primary,
                   ),
                 ),
                 Text(

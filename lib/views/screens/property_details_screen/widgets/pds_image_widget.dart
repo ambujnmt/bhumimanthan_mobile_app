@@ -88,8 +88,6 @@ class _PdsImageWidgetState extends State<PdsImageWidget> {
               decorator: DotsDecorator(
                 color: AppColors.secondary,
                 activeColor: AppColors.primary,
-                activeSize: Size(12, 12),
-                size: Size(12, 12),
               ),
             ),
           ),

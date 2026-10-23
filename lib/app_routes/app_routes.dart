@@ -16,4 +16,5 @@ abstract class AppRoutes {
   static final blogDetailsScreen = '/blog-details';
   static final projectDetailsScreen = '/project-details';
   static final imageViewScreen = '/image-view';
+  static final propertiesCompareScreen = '/properties-compare';
 }

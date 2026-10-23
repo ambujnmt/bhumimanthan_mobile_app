@@ -45,6 +45,7 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
               child: _con.isLoading.value || _con.data.value == null
                   ? Skeletonizer(
                       enabled: _con.isLoading.value,
+                      enableSwitchAnimation: true,
                       child: AppNetworkImage(
                         imgUrl: _con.data.value?.mainImage ?? '',
                         height: Get.height * .4,

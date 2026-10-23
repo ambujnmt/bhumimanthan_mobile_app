@@ -149,7 +149,7 @@ class LocationHelper {
       final city = place.locality?.trim();
 
       if (city != null && city.isNotEmpty) {
-        print('City: $city');
+        debugPrint('City: $city');
         return city;
       }
 
@@ -157,13 +157,13 @@ class LocationHelper {
       final subLocality = place.subAdministrativeArea?.trim();
 
       if (subLocality != null && subLocality.isNotEmpty) {
-        print('City fallback: $subLocality');
+        debugPrint('City fallback: $subLocality');
         return subLocality;
       }
 
       return place.administrativeArea ?? 'Unknown';
     } catch (e) {
-      print('Error getting city from coordinates: $e');
+      debugPrint('Error getting city from coordinates: $e');
       return 'Unknown';
     }
   }

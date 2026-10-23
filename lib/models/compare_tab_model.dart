@@ -4,7 +4,6 @@ class ComparedTab {
   final int max;
   final bool canAdd;
   final bool canCompare;
-  final List<int> propertyIds;
   final List<ComparedProperty> properties;
 
   ComparedTab({
@@ -13,7 +12,6 @@ class ComparedTab {
     required this.max,
     required this.canAdd,
     required this.canCompare,
-    required this.propertyIds,
     required this.properties,
   });
 
@@ -24,7 +22,6 @@ class ComparedTab {
       max: json['max'] ?? 0,
       canAdd: json['can_add'] ?? false,
       canCompare: json['can_compare'] ?? false,
-      propertyIds: List<int>.from(json['property_ids'] ?? []),
       properties: (json['properties'] as List<dynamic>? ?? [])
           .map(
             (item) =>
@@ -41,7 +38,6 @@ class ComparedTab {
       'max': max,
       'can_add': canAdd,
       'can_compare': canCompare,
-      'property_ids': propertyIds,
       'properties': properties.map((item) => item.toJson()).toList(),
     };
   }
