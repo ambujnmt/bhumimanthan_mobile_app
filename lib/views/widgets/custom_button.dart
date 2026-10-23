@@ -25,6 +25,7 @@ class CustomButton extends StatelessWidget {
 
   final Color? textColor;
   final Color? color;
+  final Color? loaderColor;
   final Color? rightIconColor;
   final double? textSize;
   final BoxBorder? border;
@@ -39,6 +40,7 @@ class CustomButton extends StatelessWidget {
     this.left,
     this.right,
     this.leftIcon,
+    this.loaderColor,
     this.rightIcon,
     this.height = 52,
     this.padding = const EdgeInsets.symmetric(horizontal: 20),
@@ -85,7 +87,10 @@ class CustomButton extends StatelessWidget {
         ),
         child: Obx(
           () => showLoader.value
-              ? AppLoader.widget(color: white, size: height * .65)
+              ? AppLoader.widget(
+                  color: loaderColor ?? white,
+                  size: height * .65,
+                )
               : InkWell(
                   borderRadius: BorderRadius.circular(radiusVal),
                   onTap: onTap,

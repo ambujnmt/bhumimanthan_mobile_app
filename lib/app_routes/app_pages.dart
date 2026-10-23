@@ -13,7 +13,9 @@ import '../views/screens/all_featured_properties_screen/all_featured_properties_
 import '../views/screens/auth_screens/otp_input_screen/otp_input_screen.dart';
 import '../views/screens/auth_screens/register_screen/register_screen.dart';
 import '../views/screens/auth_screens/splash_screen/splash_screen.dart';
+import '../views/screens/network_image_view_screen/network_image_view_screen.dart';
 import '../views/screens/property_details_screen/property_details_screen.dart';
+import '../views/screens/property_details_screen/property_details_screen_binding.dart';
 import '../views/screens/search_results_screen/search_results_screen.dart';
 
 class AppPages {
@@ -26,12 +28,15 @@ class AppPages {
       name: AppRoutes.forgetPasswordScreen,
       page: () => const ForgetPasswordScreen(),
     ),
+    GetPage(name: AppRoutes.imageViewScreen, page: () => ImageViewScreen()),
     GetPage(name: AppRoutes.mainScreen, page: () => const MainScreen()),
     GetPage(name: AppRoutes.searchScreen, page: () => const SearchScreen()),
     GetPage(name: AppRoutes.otpInputScreen, page: () => OtpInputScreen()),
     GetPage(
       name: AppRoutes.propertyDetailsScreen,
       page: () => PropertyDetailsScreen(),
+      preventDuplicates: false,
+      binding: PropertyDetailsScreenBinding(),
     ),
 
     GetPage(

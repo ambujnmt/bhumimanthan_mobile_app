@@ -23,14 +23,7 @@ class _AllFeaturedPropertiesScreenState
   Future<void> _getData() async {
     final res = await _api.get(
       '/properties/featured',
-      queries: {
-        'featured': '1',
-        'radius': '100',
-        if (location.value != null) ...{
-          'latitude': location.value!.lat.toString(),
-          'longitude': location.value!.lng.toString(),
-        },
-      },
+      queries: {'featured': '1'},
     );
     if (!res.success) return;
     featuredItems.value = (res.data['data']['properties'] as List)

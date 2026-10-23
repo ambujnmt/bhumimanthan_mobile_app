@@ -10,6 +10,7 @@ import 'package:bhumi_manthan/views/widgets/app_fade_animated_switcher.dart';
 
 import '../../../utils/app_imports.dart';
 import 'property_details_screen_controller.dart';
+import 'widgets/pds_image_widget.dart';
 
 class PropertyDetailsScreen extends StatefulWidget {
   const PropertyDetailsScreen({super.key});
@@ -20,7 +21,15 @@ class PropertyDetailsScreen extends StatefulWidget {
 
 class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
   final sc = ScrollController();
-  final _con = Get.put(PropertyDetailsScreenController());
+
+  late final PropertyDetailsScreenController _con;
+
+  @override
+  void initState() {
+    super.initState();
+    _con = Get.find<PropertyDetailsScreenController>();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,14 +41,18 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
         body: Align(
           alignment: Alignment.topCenter,
           child: Obx(
-            () => Skeletonizer(
-              enabled: _con.isLoading.value,
-              child: AppNetworkImage(
-                imgUrl: _con.data.value?.mainImage ?? '',
-                height: Get.height * .5,
-                width: Get.width,
-                fit: BoxFit.cover,
-              ),
+            () => AppFadeAnimatedSwitcher(
+              child: _con.isLoading.value || _con.data.value == null
+                  ? Skeletonizer(
+                      enabled: _con.isLoading.value,
+                      child: AppNetworkImage(
+                        imgUrl: _con.data.value?.mainImage ?? '',
+                        height: Get.height * .4,
+                        width: Get.width,
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : PdsImageWidget(con: _con),
             ),
           ),
         ),
@@ -186,12 +199,15 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                                     widthSpace10,
                                     Expanded(
                                       child: CustomButton(
-                                        text: 'Compare',
+                                        showLoader: _con.addingToCompare,
+                                        text: 'Add to Compare',
                                         textColor: AppColors.secondary,
+                                        loaderColor: AppColors.secondary,
                                         color: transparent,
                                         border: Border.all(
                                           color: AppColors.secondary,
                                         ),
+                                        onTap: () => _con.addToCompare(),
                                       ),
                                     ),
                                   ],
@@ -200,21 +216,21 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                             ),
                           ),
                           heightSpace20,
-                          PdsAboutWidget(),
+                          PdsAboutWidget(con: _con),
                           heightSpace14,
-                          PdsPropertyDetails(),
+                          PdsPropertyDetails(con: _con),
                           heightSpace10,
                           PdsAmenities(),
                           heightSpace10,
-                          PdsFloorPlan(),
+                          PdsFloorPlan(con: _con),
                           heightSpace10,
-                          PdsBhkAndType(),
+                          PdsBhkAndType(con: _con),
                           heightSpace10,
-                          PdsLocationWidget(),
+                          PdsLocationWidget(con: _con),
                           heightSpace17,
-                          PdsSellerWidget(),
+                          PdsSellerWidget(con: _con),
                           heightSpace17,
-                          PdsSimilarProperties(),
+                          PdsSimilarProperties(con: _con),
                           heightSpace100,
                         ],
                       ),

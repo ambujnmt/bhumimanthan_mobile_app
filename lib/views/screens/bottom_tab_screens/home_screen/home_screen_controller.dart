@@ -27,17 +27,7 @@ class HomeScreenController extends GetxController {
   }
 
   Future<void> _getFeatured() async {
-    final res = await _api.get(
-      '/properties/featured',
-      queries: {
-        'limit': '5',
-        'radius': '100',
-        if (location.value != null) ...{
-          'latitude': location.value!.lat,
-          'longitude': location.value!.lng,
-        },
-      },
-    );
+    final res = await _api.get('/properties/featured', queries: {'limit': '5'});
     if (!res.success) return;
     featuredItems.value = (res.data['data']['properties'] as List)
         .map((json) => FeaturedProperty.fromJson(json))
@@ -45,17 +35,7 @@ class HomeScreenController extends GetxController {
   }
 
   Future<void> _getProjects() async {
-    final res = await _api.get(
-      '/projects',
-      queries: {
-        'limit': '5',
-        'radius': '100',
-        if (location.value != null) ...{
-          'latitude': location.value!.lat,
-          'longitude': location.value!.lng,
-        },
-      },
-    );
+    final res = await _api.get('/projects', queries: {'limit': '5'});
     if (!res.success) return;
     projects.value = (res.data['data']['projects'] as List)
         .map((json) => ProjectsModel.fromJson(json))
@@ -65,14 +45,7 @@ class HomeScreenController extends GetxController {
   Future<void> _getCities() async {
     final res = await _api.get(
       '/cities',
-      queries: {
-        'popular': '1',
-        'limit': '100',
-        if (location.value != null) ...{
-          'latitude': location.value!.lat,
-          'longitude': location.value!.lng,
-        },
-      },
+      queries: {'popular': '1', 'limit': '100'},
     );
     if (!res.success) return;
     cities.value = (res.data['data']['cities'] as List)
@@ -81,17 +54,7 @@ class HomeScreenController extends GetxController {
   }
 
   Future<void> _getLuxury() async {
-    final res = await _api.get(
-      '/properties/luxury',
-      queries: {
-        'limit': '5',
-        'radius': '100',
-        if (location.value != null) ...{
-          'latitude': location.value!.lat,
-          'longitude': location.value!.lng,
-        },
-      },
-    );
+    final res = await _api.get('/properties/luxury', queries: {'limit': '5'});
     if (!res.success) return;
     luxuryItems.value = (res.data['data']['properties'] as List)
         .map((json) => FeaturedProperty.fromJson(json))
@@ -99,16 +62,7 @@ class HomeScreenController extends GetxController {
   }
 
   Future<void> _getBlogs() async {
-    final res = await _api.get(
-      '/blogs',
-      queries: {
-        'limit': '5',
-        if (location.value != null) ...{
-          'latitude': location.value!.lat,
-          'longitude': location.value!.lng,
-        },
-      },
-    );
+    final res = await _api.get('/blogs', queries: {'limit': '5'});
     if (!res.success) return;
     blogs.value = (res.data['data']['blogs'] as List)
         .map((json) => BlogModel.fromJson(json))
@@ -116,7 +70,6 @@ class HomeScreenController extends GetxController {
   }
 
   Future<void> refreshData() async {
-    location.value = LocationController.currentLocation.value;
     isLoading(true);
     await Future.wait([
       _getBanners(),
@@ -131,9 +84,12 @@ class HomeScreenController extends GetxController {
 
   Future<void> _ckeckLocation() async {
     final tc = location.value?.city;
+
     final success = await LocationController.getCityFromIp();
 
-    if (success & (location.value == null || location.value?.city != tc)) {
+    if (!success) return;
+
+    if (location.value == null || location.value?.city != tc) {
       refreshData();
     }
   }

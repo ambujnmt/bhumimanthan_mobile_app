@@ -5,15 +5,14 @@ import '../../../widgets/app_fade_animated_switcher.dart';
 import '../property_details_screen_controller.dart';
 
 class PdsLocationWidget extends StatefulWidget {
-  const PdsLocationWidget({super.key});
+  const PdsLocationWidget({super.key, required this.con});
+  final PropertyDetailsScreenController con;
 
   @override
   State<PdsLocationWidget> createState() => _PdsLocationWidgetState();
 }
 
 class _PdsLocationWidgetState extends State<PdsLocationWidget> {
-  final _con = Get.find<PropertyDetailsScreenController>();
-
   final isMapTileLoaded = false.obs;
 
   @override
@@ -40,8 +39,8 @@ class _PdsLocationWidgetState extends State<PdsLocationWidget> {
                       GoogleMap(
                         initialCameraPosition: CameraPosition(
                           target: LatLng(
-                            double.parse(_con.data.value!.latitude),
-                            double.parse(_con.data.value!.longitude),
+                            double.parse(widget.con.data.value!.latitude),
+                            double.parse(widget.con.data.value!.longitude),
                           ),
                           zoom: 14,
                         ),

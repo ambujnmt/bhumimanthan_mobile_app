@@ -2,8 +2,8 @@ import '../../../../utils/app_imports.dart';
 import '../property_details_screen_controller.dart';
 
 class PdsPropertyDetails extends StatelessWidget {
-  PdsPropertyDetails({super.key});
-  final _con = Get.find<PropertyDetailsScreenController>();
+  const PdsPropertyDetails({super.key, required this.con});
+  final PropertyDetailsScreenController con;
 
   @override
   Widget build(BuildContext context) {
@@ -17,33 +17,33 @@ class PdsPropertyDetails extends StatelessWidget {
           children: [
             _customRow(
               title: 'Property Type',
-              val: _con.data.value!.propertyType,
+              val: con.data.value!.propertyType,
             ),
             Divider(color: AppColors.hint, height: 35),
             _customRow(
               title: 'Floor',
               val:
-                  int.tryParse(_con.data.value!.floor)?.ordinal ??
-                  _con.data.value!.floor,
+                  int.tryParse(con.data.value!.floor)?.ordinal ??
+                  con.data.value!.floor,
             ),
             Divider(color: AppColors.hint, height: 35),
-            _customRow(title: 'Furnishing', val: _con.data.value!.furnishing),
+            _customRow(title: 'Furnishing', val: con.data.value!.furnishing),
             Divider(color: AppColors.hint, height: 35),
             _customRow(
               title: 'Ownership',
-              val: _con.data.value?.ownership ?? 'N/A',
+              val: con.data.value?.ownership ?? 'N/A',
             ),
             Divider(color: AppColors.hint, height: 35),
-            _customRow(title: 'Project', val: _con.data.value!.project),
+            _customRow(title: 'Project', val: con.data.value!.project),
             Divider(color: AppColors.hint, height: 35),
-            _customRow(title: 'Facing', val: _con.data.value!.facing),
+            _customRow(title: 'Facing', val: con.data.value!.facing),
             Divider(color: AppColors.hint, height: 35),
             _customRow(
               title: 'Age of Property',
-              val: _con.data.value!.ageOfProperty ?? 'N/A',
+              val: con.data.value!.ageOfProperty ?? 'N/A',
             ),
             Divider(color: AppColors.hint, height: 35),
-            _customRow(title: 'Balconies', val: _con.data.value!.balconies),
+            _customRow(title: 'Balconies', val: con.data.value!.balconies),
             Divider(color: AppColors.hint, height: 35),
           ],
         ),

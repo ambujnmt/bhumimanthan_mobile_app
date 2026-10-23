@@ -72,23 +72,12 @@ class AppLoader {
     }
   }
 
-  static Widget widget({
-    String? message,
-    double? size,
-    Color? color,
-    Color? color1,
-    Color? color2,
-  }) {
+  static Widget widget({String? message, double? size, Color? color}) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _loaderAnimation(
-            size: size,
-            color: color,
-            color1: color1,
-            color2: color2,
-          ),
+          _loaderAnimation(size: size, color: color),
           if (message != null) CustomText.kText(message),
         ],
       ),
@@ -96,16 +85,9 @@ class AppLoader {
   }
 }
 
-Widget _loaderAnimation({
-  double? size,
-  Color? color,
-  Color? color1,
-  Color? color2,
-}) {
+Widget _loaderAnimation({double? size, Color? color}) {
   return LoadingAnimationWidget.threeArchedCircle(
     size: size ?? 45,
     color: color ?? AppColors.secondary,
-    // secondRingColor: color1 ?? AppColors.secondary,
-    // thirdRingColor: color2 ?? AppColors.secondary.withValues(alpha: 0.5),
   );
 }

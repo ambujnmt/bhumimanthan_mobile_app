@@ -3,8 +3,8 @@ import 'package:bhumi_manthan/views/screens/property_details_screen/property_det
 import '../../../../utils/app_imports.dart';
 
 class PdsAboutWidget extends StatelessWidget {
-  PdsAboutWidget({super.key});
-  final _con = Get.find<PropertyDetailsScreenController>();
+  const PdsAboutWidget({super.key, required this.con});
+  final PropertyDetailsScreenController con;
   @override
   Widget build(BuildContext context) {
     return SectionWidget(
@@ -14,11 +14,13 @@ class PdsAboutWidget extends StatelessWidget {
           horizontal: AppDimentions.defaultScreenPadding,
         ),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ExpandableText(
-              text: _con.data.value!.description,
+              text: con.data.value!.description,
               // 'Experience elevated living at DLF The Arbour, a spacious four-bedroom residence designed around light, privacy and garden views. The apartment features expansive living spaces, floor-to-ceiling glazing, premium finishes and generous balconies. Located just off Golf Course Extension Road, it offers easy access to leading schools, hospitals, business districts and everyday conveniences.',
               maxLines: 5,
+              align: TextAlign.left,
             ),
           ],
         ),
@@ -30,6 +32,7 @@ class PdsAboutWidget extends StatelessWidget {
 class ExpandableText extends StatefulWidget {
   final String text;
   final int maxLines;
+  final TextAlign? align;
   final TextStyle? style;
 
   const ExpandableText({
@@ -37,6 +40,7 @@ class ExpandableText extends StatefulWidget {
     required this.text,
     this.maxLines = 3,
     this.style,
+    this.align,
   });
 
   @override
@@ -49,63 +53,68 @@ class _ExpandableTextState extends State<ExpandableText> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        LayoutBuilder(
-          builder: (context, constraints) {
-            final textPainter = TextPainter(
-              text: TextSpan(
-                text: widget.text,
-                style: widget.style ?? CustomText.kTextStyle(),
-              ),
-              maxLines: widget.maxLines,
-              textDirection: Directionality.of(context),
-            )..layout(maxWidth: constraints.maxWidth);
+    return SizedBox(
+      width: Get.width,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final textPainter = TextPainter(
+                text: TextSpan(
+                  text: widget.text,
+                  style: widget.style ?? CustomText.kTextStyle(),
+                ),
+                maxLines: widget.maxLines,
+                textAlign: widget.align ?? TextAlign.start,
+                textDirection: Directionality.of(context),
+              )..layout(maxWidth: constraints.maxWidth);
 
-            isOverflowing = textPainter.didExceedMaxLines;
+              isOverflowing = textPainter.didExceedMaxLines;
 
-            return CustomText.kText(
-              widget.text,
-              size: 16,
-              color: AppColors.subtitle,
-              lines: isExpanded ? null : widget.maxLines,
-              textOverFlow: isExpanded
-                  ? TextOverflow.visible
-                  : TextOverflow.ellipsis,
-              style: widget.style,
-            );
-          },
-        ),
-        if (isOverflowing)
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                isExpanded = !isExpanded;
-              });
+              return CustomText.kText(
+                widget.text,
+                size: 16,
+                align: widget.align,
+                color: AppColors.subtitle,
+                lines: isExpanded ? null : widget.maxLines,
+                textOverFlow: isExpanded
+                    ? TextOverflow.visible
+                    : TextOverflow.ellipsis,
+                style: widget.style,
+              );
             },
-            child: Padding(
-              padding: const EdgeInsets.only(top: 4),
-              child: Row(
-                children: [
-                  CustomText.kText(
-                    isExpanded ? 'Show less' : 'Show more',
-                    color: AppColors.primary,
-                    size: 14,
-                    weight: FontWeight.bold,
-                  ),
-                  Icon(
-                    isExpanded
-                        ? Icons.keyboard_arrow_up
-                        : Icons.keyboard_arrow_down,
-                    color: AppColors.primary,
-                    size: 22,
-                  ),
-                ],
+          ),
+          if (isOverflowing)
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  isExpanded = !isExpanded;
+                });
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Row(
+                  children: [
+                    CustomText.kText(
+                      isExpanded ? 'Show less' : 'Show more',
+                      color: AppColors.primary,
+                      size: 14,
+                      weight: FontWeight.bold,
+                    ),
+                    Icon(
+                      isExpanded
+                          ? Icons.keyboard_arrow_up
+                          : Icons.keyboard_arrow_down,
+                      color: AppColors.primary,
+                      size: 22,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-      ],
+        ],
+      ),
     );
   }
 }

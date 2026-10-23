@@ -21,17 +21,7 @@ class _AllLuxuryPropertiesScreenState extends State<AllLuxuryPropertiesScreen> {
   final items = <FeaturedProperty>[].obs;
 
   Future<void> _getData() async {
-    final res = await _api.get(
-      '/properties/luxury',
-      queries: {
-        'luxury': '1',
-        'radius': '100',
-        if (location.value != null) ...{
-          'latitude': location.value!.lat.toString(),
-          'longitude': location.value!.lng.toString(),
-        },
-      },
-    );
+    final res = await _api.get('/properties/luxury', queries: {'luxury': '1'});
     if (!res.success) return;
     items.value = (res.data['data']['properties'] as List)
         .map((json) => FeaturedProperty.fromJson(json))

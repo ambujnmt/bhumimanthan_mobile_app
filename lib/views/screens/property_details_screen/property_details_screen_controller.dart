@@ -9,10 +9,24 @@ class PropertyDetailsScreenController extends GetxController {
 
   final data = Rxn<PropertyDetailsModel>();
 
+  List<PropertyDetailsModel> similarItems = <PropertyDetailsModel>[];
+
   Future<void> _getData() async {
     final res = await _api.get('/properties/detail/$idOrSlug');
     if (!res.success) return;
     data.value = PropertyDetailsModel.fromJson(res.data['data']['property']);
+    similarItems = (res.data['data']['similar_properties'] as List)
+        .map((json) => PropertyDetailsModel.fromJson(json))
+        .toList();
+  }
+
+  final addingToCompare = false.obs;
+
+  Future<void> addToCompare() async {
+    addingToCompare(true);
+    final res = await _api.post('endPoint', showErrorToast: true);
+    addingToCompare(false);
+    if (!res.success) return;
   }
 
   Future<void> refreshData() async {

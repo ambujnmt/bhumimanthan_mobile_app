@@ -11,7 +11,6 @@ class AllBlogsScreen extends StatefulWidget {
 
 class _AllBlogsScreenState extends State<AllBlogsScreen> {
   final _api = ApiServices();
-  final location = LocationController.currentLocation;
 
   final sc = ScrollController();
 
@@ -20,17 +19,7 @@ class _AllBlogsScreenState extends State<AllBlogsScreen> {
   final items = <BlogModel>[].obs;
 
   Future<void> _getData() async {
-    final res = await _api.get(
-      '/properties/luxury',
-      queries: {
-        'luxury': '1',
-        'radius': '100',
-        if (location.value != null) ...{
-          'latitude': location.value!.lat.toString(),
-          'longitude': location.value!.lng.toString(),
-        },
-      },
-    );
+    final res = await _api.get('/properties/luxury', queries: {'luxury': '1'});
     if (!res.success) return;
     items.value = (res.data['data']['properties'] as List)
         .map((json) => BlogModel.fromJson(json))

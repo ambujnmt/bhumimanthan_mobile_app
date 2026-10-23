@@ -38,15 +38,21 @@ class ApiServices {
     final http.Client? client,
   }) async {
     try {
-      // final lc = Get.find<LanguageController>();
-
       debugPrint('payload: ${payload.toString()}');
+
+      final location = LocationController.currentLocation.value;
 
       final finalUri =
           uri ??
           setUri(
             endPoint,
-            // queries: {'lang': lc.selectedLanguage.locale.languageCode},
+            queries: location == null
+                ? null
+                : {
+                    'latitude': location.lat,
+                    'longitude': location.lng,
+                    'radius': '100',
+                  },
           );
 
       final res = await (client ?? _httpClient).post(
@@ -78,7 +84,7 @@ class ApiServices {
     final http.Client? client,
   }) async {
     try {
-      // final lc = Get.find<LanguageController>();
+      final location = LocationController.currentLocation.value;
 
       debugPrint('payload: ${payload.toString()}');
 
@@ -86,7 +92,13 @@ class ApiServices {
           uri ??
           setUri(
             endPoint,
-            // queries: {'lang': lc.selectedLanguage.locale.languageCode},
+            queries: location == null
+                ? null
+                : {
+                    'latitude': location.lat,
+                    'longitude': location.lng,
+                    'radius': '100',
+                  },
           );
 
       final res = await (client ?? _httpClient).put(
@@ -117,7 +129,7 @@ class ApiServices {
     final http.Client? client,
   }) async {
     try {
-      // final lc = Get.find<LanguageController>();
+      final location = LocationController.currentLocation.value;
 
       debugPrint('payload: ${payload.toString()}');
 
@@ -125,7 +137,13 @@ class ApiServices {
           uri ??
           setUri(
             endPoint,
-            // queries: {'lang': lc.selectedLanguage.locale.languageCode},
+            queries: location == null
+                ? null
+                : {
+                    'latitude': location.lat,
+                    'longitude': location.lng,
+                    'radius': '100',
+                  },
           );
 
       final res = await (client ?? _httpClient).delete(
@@ -156,11 +174,21 @@ class ApiServices {
     final http.Client? client,
   }) async {
     try {
-      // final lc = Get.find<LanguageController>();
+      final location = LocationController.currentLocation.value;
 
-      debugPrint('queries: ${queries.toString()}');
+      final finalQueries = {
+        if (location != null) ...{
+          'latitude': location.lat,
+          'longitude': location.lng,
+          'radius': '100',
+        },
+        ...?queries,
+      };
 
-      final finalUri = uri ?? setUri(endPoint, queries: queries);
+      debugPrint('queries: ${finalQueries.toString()}');
+
+      final finalUri = uri ?? setUri(endPoint, queries: finalQueries);
+
       final res = await (client ?? _httpClient).get(
         finalUri,
         headers: customHeaders ?? ApiHeaders.authHeaders(),
@@ -333,14 +361,7 @@ class ApiServices {
 
   void showErrorToastWithResponse(http.Response response) {
     try {
-      final json = jsonDecode(response.body);
-      var errorMessage = 'Something went wrong.';
-      if (json.containsKey('message')) {
-        errorMessage = json['message'];
-      } else {
-        errorMessage =
-            (json['errors'] as Map<String, dynamic>).values.first[0] as String;
-      }
+      final errorMessage = getErrorMessageFromRes(jsonDecode(response.body));
       AppToast.error(errorMessage);
     } catch (e) {
       AppToast.error('Something went wrong.');
