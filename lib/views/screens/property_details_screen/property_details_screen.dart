@@ -77,163 +77,177 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                       onRefresh: _con.refreshData,
                       child: errorLoadingData(),
                     )
-                  : SingleChildScrollView(
+                  : ListView(
                       controller: sc,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: AppDimentions.defaultScreenPadding,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                heightSpace17,
-                                CustomText.kText(
-                                  _con.data.value!.configuration,
-                                  size: 12,
-                                  weight: FontWeight.bold,
-                                  color: AppColors.primary,
-                                ),
-                                heightSpace5,
-                                CustomText.kText(
-                                  _con.data.value!.title,
-                                  size: 25,
-                                  family: CustomFonts.outfit,
-                                ),
-                                heightSpace10,
-                                Row(
-                                  children: [
-                                    Image.asset(
-                                      Images.mapPinIcon,
-                                      height: 15,
-                                      width: 15,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: AppDimentions.defaultScreenPadding,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              heightSpace17,
+                              CustomText.kText(
+                                _con.data.value!.configuration,
+                                size: 12,
+                                weight: FontWeight.bold,
+                                color: AppColors.primary,
+                              ),
+                              heightSpace5,
+                              CustomText.kText(
+                                _con.data.value!.title,
+                                size: 25,
+                                family: CustomFonts.outfit,
+                              ),
+                              heightSpace10,
+                              Row(
+                                children: [
+                                  Image.asset(
+                                    Images.mapPinIcon,
+                                    height: 15,
+                                    width: 15,
+                                    color: AppColors.subtitle,
+                                  ),
+                                  widthSpace2,
+                                  Expanded(
+                                    child: CustomText.kText(
+                                      _con.data.value!.location,
+                                      size: 14,
                                       color: AppColors.subtitle,
                                     ),
-                                    widthSpace2,
-                                    Expanded(
-                                      child: CustomText.kText(
-                                        _con.data.value!.location,
-                                        size: 14,
-                                        color: AppColors.subtitle,
+                                  ),
+                                ],
+                              ),
+                              heightSpace10,
+                              CustomText.kText(
+                                formatPrice(_con.data.value!.price),
+                                size: 25,
+                                color: AppColors.primary,
+                                weight: FontWeight.w800,
+                                family: CustomFonts.outfit,
+                              ),
+                              CustomText.kText(
+                                'Posted ${timeAgo(_con.data.value!.createdAt)}',
+                                size: 12,
+                                color: AppColors.subtitle,
+                              ),
+                              heightSpace15,
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: CustomText.kText(
+                                      _con.data.value!.status,
+                                      size: 16,
+                                      weight: FontWeight.w600,
+                                      color: AppColors.subtitle,
+                                      align: TextAlign.center,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 40,
+                                    child: VerticalDivider(
+                                      color: AppColors.hint,
+                                      thickness: 1.5,
+                                      width: 15,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: CustomText.kText(
+                                      _con.data.value!.furnishing,
+                                      size: 16,
+                                      weight: FontWeight.w600,
+                                      color: AppColors.subtitle,
+                                      align: TextAlign.center,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 40,
+                                    child: VerticalDivider(
+                                      color: AppColors.hint,
+                                      thickness: 1.5,
+                                      width: 15,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: CustomText.kText(
+                                      _con.data.value!.ownership ?? 'N/A',
+                                      size: 16,
+                                      weight: FontWeight.w600,
+                                      color: AppColors.subtitle,
+                                      align: TextAlign.center,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              heightSpace20,
+                              CustomButton(text: 'Contact Agent'),
+                              heightSpace15,
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 4,
+                                    child: CustomButton(
+                                      text: 'View',
+                                      textColor: AppColors.primary,
+                                      color: transparent,
+                                      border: Border.all(
+                                        color: AppColors.primary,
                                       ),
                                     ),
-                                  ],
-                                ),
-                                heightSpace10,
-                                CustomText.kText(
-                                  formatPrice(_con.data.value!.price),
-                                  size: 25,
-                                  color: AppColors.primary,
-                                  weight: FontWeight.w800,
-                                  family: CustomFonts.outfit,
-                                ),
-                                CustomText.kText(
-                                  'Posted ${timeAgo(_con.data.value!.createdAt)}',
-                                  size: 12,
-                                  color: AppColors.subtitle,
-                                ),
-                                heightSpace15,
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: CustomText.kText(
-                                        _con.data.value!.status,
-                                        size: 16,
-                                        weight: FontWeight.w600,
-                                        color: AppColors.subtitle,
-                                        align: TextAlign.center,
-                                      ),
+                                  ),
+                                  widthSpace10,
+                                  Expanded(
+                                    flex: 6,
+                                    child: Obx(
+                                      () => _con.addedToCompare.value
+                                          ? CustomButton(
+                                              showLoader: _con.addingToCompare,
+                                              text: 'Remove Compare',
+                                              textColor: AppColors.secondary,
+                                              loaderColor: AppColors.secondary,
+                                              color: transparent,
+                                              border: Border.all(
+                                                color: AppColors.secondary,
+                                              ),
+                                              onTap: () => _con.removeCompare(),
+                                            )
+                                          : CustomButton(
+                                              showLoader: _con.addingToCompare,
+                                              text: 'Add to Compare',
+                                              textColor: AppColors.secondary,
+                                              loaderColor: AppColors.secondary,
+                                              color: transparent,
+                                              border: Border.all(
+                                                color: AppColors.secondary,
+                                              ),
+                                              onTap: () => _con.addToCompare(),
+                                            ),
                                     ),
-                                    SizedBox(
-                                      height: 40,
-                                      child: VerticalDivider(
-                                        color: AppColors.hint,
-                                        thickness: 1.5,
-                                        width: 15,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: CustomText.kText(
-                                        _con.data.value!.furnishing,
-                                        size: 16,
-                                        weight: FontWeight.w600,
-                                        color: AppColors.subtitle,
-                                        align: TextAlign.center,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 40,
-                                      child: VerticalDivider(
-                                        color: AppColors.hint,
-                                        thickness: 1.5,
-                                        width: 15,
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: CustomText.kText(
-                                        _con.data.value!.ownership ?? 'N/A',
-                                        size: 16,
-                                        weight: FontWeight.w600,
-                                        color: AppColors.subtitle,
-                                        align: TextAlign.center,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                heightSpace20,
-                                CustomButton(text: 'Contact Agent'),
-                                heightSpace15,
-                                Row(
-                                  children: [
-                                    Expanded(
-                                      child: CustomButton(
-                                        text: 'View',
-                                        textColor: AppColors.primary,
-                                        color: transparent,
-                                        border: Border.all(
-                                          color: AppColors.primary,
-                                        ),
-                                      ),
-                                    ),
-                                    widthSpace10,
-                                    Expanded(
-                                      child: CustomButton(
-                                        showLoader: _con.addingToCompare,
-                                        text: 'Add to Compare',
-                                        textColor: AppColors.secondary,
-                                        loaderColor: AppColors.secondary,
-                                        color: transparent,
-                                        border: Border.all(
-                                          color: AppColors.secondary,
-                                        ),
-                                        onTap: () => _con.addToCompare(),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                          heightSpace20,
-                          PdsAboutWidget(con: _con),
-                          heightSpace14,
-                          PdsPropertyDetails(con: _con),
-                          heightSpace10,
-                          PdsAmenities(),
-                          heightSpace10,
-                          PdsFloorPlan(con: _con),
-                          heightSpace10,
-                          PdsBhkAndType(con: _con),
-                          heightSpace10,
-                          PdsLocationWidget(con: _con),
-                          heightSpace17,
-                          PdsSellerWidget(con: _con),
-                          heightSpace17,
-                          PdsSimilarProperties(con: _con),
-                          heightSpace100,
-                        ],
-                      ),
+                        ),
+                        heightSpace20,
+                        PdsAboutWidget(con: _con),
+                        heightSpace14,
+                        PdsPropertyDetails(con: _con),
+                        heightSpace10,
+                        PdsAmenities(),
+                        heightSpace10,
+                        PdsFloorPlan(con: _con),
+                        heightSpace10,
+                        PdsBhkAndType(con: _con),
+                        heightSpace10,
+                        PdsLocationWidget(con: _con),
+                        heightSpace17,
+                        PdsSellerWidget(con: _con),
+                        heightSpace17,
+                        PdsSimilarProperties(con: _con),
+                        heightSpace100,
+                      ],
                     ),
             ),
           ),

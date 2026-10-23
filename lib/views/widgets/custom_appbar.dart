@@ -3,8 +3,14 @@ import '../../utils/app_imports.dart';
 class CustomAppbar extends StatefulWidget implements PreferredSizeWidget {
   final ScrollController? scrollController;
   final String? title;
+  final bool showLeading;
 
-  const CustomAppbar({super.key, this.scrollController, this.title});
+  const CustomAppbar({
+    super.key,
+    this.scrollController,
+    this.title,
+    this.showLeading = true,
+  });
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -63,24 +69,26 @@ class _CustomAppbarState extends State<CustomAppbar> {
       backgroundColor: AppColors.backgroundColor,
       surfaceTintColor: AppColors.backgroundColor,
       elevation: 0,
-      leading: InkWell(
-        onTap: Get.back,
-        child: Align(
-          alignment: Alignment.centerRight,
-          child: AppContainer(
-            height: 42,
-            width: 42,
-            color: fromHex('e8eaee'),
-            shape: BoxShape.circle,
-            padding: EdgeInsets.zero,
-            child: Icon(Icons.arrow_back, color: AppColors.secondary),
-          ),
-        ),
-      ),
+      leading: widget.showLeading
+          ? InkWell(
+              onTap: Get.back,
+              child: Align(
+                alignment: Alignment.centerRight,
+                child: AppContainer(
+                  height: 42,
+                  width: 42,
+                  color: fromHex('e8eaee'),
+                  shape: BoxShape.circle,
+                  padding: EdgeInsets.zero,
+                  child: Icon(Icons.arrow_back, color: AppColors.secondary),
+                ),
+              ),
+            )
+          : null,
       title: CustomText.kText(
         widget.title ?? 'title',
         lines: 1,
-        size: 17,
+        size: 20,
         weight: FontWeight.w600,
         family: CustomFonts.outfit,
       ),

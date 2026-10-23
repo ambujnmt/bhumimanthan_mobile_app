@@ -10,7 +10,7 @@ class UserController {
   static Future<void> init() async {
     user.value = UserStorage.getUserData();
     final token = UserStorage.getToken();
-
+    debugPrint('token: $token');
     if (token == null || user.value == null) {
       Get.offAllNamed(AppRoutes.loginScreen);
       return;

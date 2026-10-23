@@ -27,4 +27,5 @@ class Images {
   static const searchIcon = 'assets/icons/search.png';
   static const mapPinIcon = 'assets/icons/map-pin.png';
   static const settingsIcon = 'assets/icons/settings.png';
+  static const compareIcon = 'assets/icons/compare-icon.png';
 }
