@@ -103,7 +103,10 @@ class ComparedTabCard extends StatefulWidget {
 }
 
 class _ComparedTabCardState extends State<ComparedTabCard> {
+  bool isdeleting = false;
   Future<void> onDelete(int id) async {
+    if (isdeleting) return;
+    isdeleting = true;
     final index = widget.comparedTab.properties.indexWhere((i) => i.id == id);
     if (index == -1) return;
 
@@ -114,7 +117,7 @@ class _ComparedTabCardState extends State<ComparedTabCard> {
     });
 
     final success = await CompareController.removeCompare(id);
-
+    isdeleting = false;
     if (success) {
       if (widget.comparedTab.properties.isEmpty) {
         findController<CompareScreenController>()?.refreshData();
