@@ -9,7 +9,8 @@ class FavoritesScreen extends StatefulWidget {
   State<FavoritesScreen> createState() => _FavoritesScreenState();
 }
 
-class _FavoritesScreenState extends State<FavoritesScreen> {
+class _FavoritesScreenState extends State<FavoritesScreen>
+    with AutomaticKeepAliveClientMixin {
   final sc = ScrollController();
 
   final favorites = <PropertyDetailsModel>[].obs;
@@ -23,7 +24,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: CustomAppbar(
         scrollController: sc,

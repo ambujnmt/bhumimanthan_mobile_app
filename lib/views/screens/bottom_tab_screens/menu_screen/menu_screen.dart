@@ -7,10 +7,14 @@ class MenuScreen extends StatefulWidget {
   State<MenuScreen> createState() => _MenuScreenState();
 }
 
-class _MenuScreenState extends State<MenuScreen> {
+class _MenuScreenState extends State<MenuScreen>
+    with AutomaticKeepAliveClientMixin {
   final sc = ScrollController();
   @override
+  bool get wantKeepAlive => true;
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: CustomAppbar(
         scrollController: sc,

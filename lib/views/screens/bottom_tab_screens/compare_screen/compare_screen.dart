@@ -10,10 +10,14 @@ class CompareScreen extends StatefulWidget {
   State<CompareScreen> createState() => _CompareScreenState();
 }
 
-class _CompareScreenState extends State<CompareScreen> {
+class _CompareScreenState extends State<CompareScreen>
+    with AutomaticKeepAliveClientMixin {
   final _con = Get.put(CompareScreenController());
   @override
+  bool get wantKeepAlive => true;
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     // return Scaffold(
     //   appBar: CustomAppbar(title: 'Compare'),
     //   body: Obx(
