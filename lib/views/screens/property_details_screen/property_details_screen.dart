@@ -182,7 +182,13 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                                 ],
                               ),
                               heightSpace20,
-                              CustomButton(text: 'Contact Agent'),
+                              CustomButton(
+                                text: 'Enquiry',
+                                onTap: () => Get.toNamed(
+                                  AppRoutes.propertyEnquiryScreen,
+                                  arguments: {'data': _con.data.value},
+                                ),
+                              ),
                               heightSpace15,
                               Row(
                                 children: [

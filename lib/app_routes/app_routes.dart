@@ -17,4 +17,6 @@ abstract class AppRoutes {
   static final projectDetailsScreen = '/project-details';
   static final imageViewScreen = '/image-view';
   static final propertiesCompareScreen = '/properties-compare';
+  static const propertyEnquiryScreen = '/property-enquiry';
+  static final enquirySuccessScreen = '/enquiry-submitted';
 }

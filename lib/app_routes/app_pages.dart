@@ -6,6 +6,7 @@ import 'package:bhumi_manthan/views/screens/auth_screens/welcome_screen/welcome_
 import 'package:bhumi_manthan/views/screens/blog_details_screen/blog_details_screen.dart';
 import 'package:bhumi_manthan/views/screens/project_details_screen/project_details_screen.dart';
 import 'package:bhumi_manthan/views/screens/property_compare_screen/properties_compare_screen.dart';
+import 'package:bhumi_manthan/views/screens/property_enquiry_screen/property_enquiry_screen.dart';
 import 'package:bhumi_manthan/views/screens/search_screen/search_screen.dart';
 import 'package:bhumi_manthan/zz_main_screen/main_screen.dart';
 
@@ -17,6 +18,7 @@ import '../views/screens/auth_screens/splash_screen/splash_screen.dart';
 import '../views/screens/network_image_view_screen/network_image_view_screen.dart';
 import '../views/screens/property_details_screen/property_details_screen.dart';
 import '../views/screens/property_details_screen/property_details_screen_binding.dart';
+import '../views/screens/property_enquiry_screen/property_enquiry_screen_controller.dart';
 import '../views/screens/search_results_screen/search_results_screen.dart';
 
 class AppPages {
@@ -68,6 +70,14 @@ class AppPages {
     GetPage(
       name: AppRoutes.propertiesCompareScreen,
       page: () => PropertiesCompareScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.propertyEnquiryScreen,
+      page: () => const PropertyEnquiryScreen(),
+    ),
+    GetPage(
+      name: AppRoutes.enquirySuccessScreen,
+      page: () => EnquirySuccessScreen(),
     ),
   ];
 }

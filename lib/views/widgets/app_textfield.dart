@@ -20,6 +20,7 @@ class AppTextfield extends StatefulWidget {
   final VoidCallback? onTap;
   final Widget? prefixIcon;
   final double? radiusVal;
+  final Color? textColor;
 
   AppTextfield({
     super.key,
@@ -42,6 +43,7 @@ class AppTextfield extends StatefulWidget {
     this.actions,
     this.onTap,
     this.radiusVal,
+    this.textColor,
   }) : errorText = errorText ?? ''.obs;
 
   @override
@@ -114,14 +116,21 @@ class _AppTextfieldState extends State<AppTextfield> {
                     : TextCapitalization.none),
             minLines: widget.useObscure ? 1 : widget.minLines ?? 1,
             maxLines: widget.useObscure ? 1 : widget.maxLines,
+            autofillHints: [
+              if (widget.inputType == TextInputType.phone)
+                AutofillHints.telephoneNumber,
+              if (widget.inputType == TextInputType.emailAddress)
+                AutofillHints.email,
+              if (widget.inputType == TextInputType.name) AutofillHints.name,
+            ],
             onChanged:
                 widget.onChanged ??
                 (value) {
                   widget.errorText!('');
                 },
             style: widget.readOnly
-                ? CustomText.kTextStyle(color: grey)
-                : CustomText.kTextStyle(),
+                ? CustomText.kTextStyle(color: widget.textColor ?? grey)
+                : CustomText.kTextStyle(color: widget.textColor),
             textAlignVertical: TextAlignVertical.center,
             decoration: InputDecoration(
               filled: true,
