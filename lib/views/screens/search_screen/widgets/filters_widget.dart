@@ -38,7 +38,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                           child: Wrap(
                             spacing: 8,
                             runSpacing: 8,
-                            children: _con.selectedTags.map((suggestion) {
+                            children: _con.selectedTags.map((tag) {
                               return AppContainer(
                                 color: fromHex('ffe8d1'),
                                 borderColor: transparent,
@@ -51,17 +51,14 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                                   child: Row(
                                     children: [
                                       CustomText.kText(
-                                        suggestion,
+                                        tag.title,
                                         size: 14,
                                         weight: FontWeight.w400,
                                         color: grey[700],
                                       ),
                                       widthSpace6,
                                       InkWell(
-                                        onTap: () =>
-                                            _con.selectedTags.removeWhere(
-                                              (r) => r == suggestion,
-                                            ),
+                                        onTap: () => _con.removeTag(tag),
                                         child: Icon(
                                           Icons.close,
                                           size: 15,

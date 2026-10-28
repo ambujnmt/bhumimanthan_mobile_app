@@ -15,70 +15,86 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Container(color: white, height: Get.mediaQuery.padding.top),
-          Container(
-            color: white,
-            child: Row(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    padding: EdgeInsets.all(AppDimentions.defaultScreenPadding),
+      body: Obx(
+        () => _con.isLoading.value
+            ? AppLoader.widget()
+            : Column(
+                children: [
+                  Container(color: white, height: Get.mediaQuery.padding.top),
+                  Container(
+                    color: white,
                     child: Row(
-                      spacing: 8,
-                      children: _appbarItems
-                          .map(
-                            (j) => InkWell(
-                              onTap: () => _con.selectedMainTag(j),
-                              child: Obx(() {
-                                final isActive =
-                                    j == _con.selectedMainTag.value;
-                                return AppContainer(
-                                  color: isActive ? AppColors.primary : white,
-                                  borderRadius: 100,
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal:
-                                        AppDimentions.defaultScreenPadding,
-                                    vertical: AppDimentions.screenPaddingXS,
-                                  ),
-                                  child: CustomText.kText(
-                                    j,
-                                    color: isActive ? white : black,
-                                    weight: FontWeight.w600,
-                                    family: CustomFonts.outfit,
-                                  ),
-                                );
-                              }),
+                      children: [
+                        Expanded(
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            padding: EdgeInsets.all(
+                              AppDimentions.defaultScreenPadding,
                             ),
-                          )
-                          .toList(),
+                            child: Row(
+                              spacing: 8,
+                              children: _con.tabs
+                                  .map(
+                                    (j) => InkWell(
+                                      onTap: () => _con.selectedTab(j),
+                                      child: Obx(() {
+                                        final isActive =
+                                            j == _con.selectedTab.value;
+                                        return AppContainer(
+                                          color: isActive
+                                              ? AppColors.primary
+                                              : white,
+                                          borderRadius: 100,
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal: AppDimentions
+                                                .defaultScreenPadding,
+                                            vertical:
+                                                AppDimentions.screenPaddingXS,
+                                          ),
+                                          child: CustomText.kText(
+                                            j.label,
+                                            color: isActive ? white : black,
+                                            weight: FontWeight.w600,
+                                            family: CustomFonts.outfit,
+                                          ),
+                                        );
+                                      }),
+                                    ),
+                                  )
+                                  .toList(),
+                            ),
+                          ),
+                        ),
+                        widthSpace12,
+                        InkWell(
+                          onTap: Get.back,
+                          child: AppContainer(
+                            height: 30,
+                            width: 30,
+                            shape: BoxShape.circle,
+                            color: grey[300]!,
+                            padding: EdgeInsets.zero,
+                            child: Icon(
+                              Icons.close,
+                              color: AppColors.subtitle,
+                              size: 20,
+                            ),
+                          ),
+                        ),
+                        widthSpace12,
+                      ],
                     ),
                   ),
-                ),
-                widthSpace12,
-                AppContainer(
-                  height: 30,
-                  width: 30,
-                  shape: BoxShape.circle,
-                  color: grey[300]!,
-                  padding: EdgeInsets.zero,
-                  child: Icon(Icons.close, color: AppColors.subtitle, size: 20),
-                ),
-                widthSpace12,
-              ],
-            ),
-          ),
-          Expanded(
-            child: Obx(
-              () => _con.showFilters.value ? FiltersWidget() : SearchWidget(),
-            ),
-          ),
-        ],
+                  Expanded(
+                    child: Obx(
+                      () => _con.showFilters.value
+                          ? FiltersWidget()
+                          : SearchWidget(),
+                    ),
+                  ),
+                ],
+              ),
       ),
     );
   }
 }
-
-final _appbarItems = ['Buy', 'Rent', 'Commercial', 'Flat', 'Villa'];

@@ -42,7 +42,7 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
           alignment: Alignment.topCenter,
           child: Obx(
             () => AppFadeAnimatedSwitcher(
-              child: _con.isLoading.value || _con.data.value == null
+              child: _con.isLoading.value
                   ? Skeletonizer(
                       enabled: _con.isLoading.value,
                       enableSwitchAnimation: true,

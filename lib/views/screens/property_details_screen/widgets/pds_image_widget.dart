@@ -46,23 +46,31 @@ class _PdsImageWidgetState extends State<PdsImageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final images = widget.con.data.value?.galleryImages ?? [];
+    if (images.isEmpty) {
+      return AppNetworkImage(
+        imgUrl: widget.con.data.value?.mainImage,
+        height: Get.height * .4,
+        width: Get.width,
+        fit: BoxFit.cover,
+      );
+    }
     return Stack(
       children: [
         CarouselSlider.builder(
-          itemCount: widget.con.data.value!.galleryImages.length,
+          itemCount: images.length,
           options: CarouselOptions(
             viewportFraction: 1,
             height: Get.height * .4,
-            autoPlay: widget.con.data.value!.galleryImages.length > 1,
+            autoPlay: images.length > 1,
             autoPlayInterval: const Duration(seconds: 4),
             autoPlayAnimationDuration: const Duration(milliseconds: 600),
             autoPlayCurve: Curves.easeInOut,
-            enableInfiniteScroll:
-                widget.con.data.value!.galleryImages.length > 1,
+            enableInfiniteScroll: images.length > 1,
             onPageChanged: (index, reason) => _currentIndex(index),
           ),
           itemBuilder: (context, index, realIndex) {
-            final imgUrl = widget.con.data.value!.galleryImages[index];
+            final imgUrl = images[index];
             return InkWell(
               onTap: () =>
                   Get.toNamed(AppRoutes.imageViewScreen, arguments: imgUrl),
@@ -82,9 +90,8 @@ class _PdsImageWidgetState extends State<PdsImageWidget> {
           right: 0,
           child: Obx(
             () => DotsIndicator(
-              dotsCount: widget.con.data.value!.galleryImages.length,
+              dotsCount: images.length,
               position: _currentIndex.value.toDouble(),
-
               decorator: DotsDecorator(
                 color: AppColors.secondary,
                 activeColor: AppColors.primary,
