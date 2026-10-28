@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:bhumi_manthan/utils/app_imports.dart';
@@ -11,6 +12,10 @@ class SearchScreenController extends GetxController {
 
   final showFilters = false.obs;
 
+  final textController = TextEditingController();
+
+  final textNode = FocusNode();
+
   final cities = <String>[].obs;
 
   final localities = <String>[].obs;
@@ -20,6 +25,8 @@ class SearchScreenController extends GetxController {
   late final selectedTab = Rxn<SearchTab>();
 
   final selectedTags = <SearchTag>[].obs;
+
+  final suggestions = <SearchTag>[].obs;
 
   Future<void> _getCities() async {
     if (jsonData == null) {
@@ -65,6 +72,36 @@ class SearchScreenController extends GetxController {
         .toList();
   }
 
+  Timer? _searchDebounce;
+  Future<void> getSuggesttions() async {
+    _searchDebounce?.cancel();
+    _searchDebounce = Timer(const Duration(milliseconds: 200), () async {
+      final old = textController.text.trim();
+
+      if (old.isEmpty) {
+        suggestions.clear();
+        return;
+      }
+      final city = selectedTags.firstWhereOrNull((t) => t.type == 'city');
+
+      final res = await _api.get(
+        '/search/suggestions',
+        queries: {
+          'q': old,
+          if (city != null) ...{'city': city.title},
+        },
+      );
+      if (old != textController.text || !res.success) return;
+      final list = (res.data['data']['suggestions'] as List)
+          .map((json) => SearchTag(type: json['type'], title: json['name']))
+          .toList();
+      if (selectedTags.isNotEmpty) {
+        list.removeWhere((k) => k.type == 'city');
+      }
+      suggestions(list);
+    });
+  }
+
   void addTag(SearchTag tag) {
     selectedTags.insert(0, tag);
     if (selectedTags.length == 1) {
@@ -86,6 +123,7 @@ class SearchScreenController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    textNode.requestFocus();
     jsonData = SearchStorage.getData();
     refreshData();
   }

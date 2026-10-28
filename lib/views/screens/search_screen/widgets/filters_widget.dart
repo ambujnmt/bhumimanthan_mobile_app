@@ -29,47 +29,54 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                 child: Column(
                   children: [
                     AppContainer(
-                      padding: EdgeInsets.all(AppDimentions.screenPaddingXS),
+                      padding: EdgeInsets.symmetric(
+                        vertical: AppDimentions.screenPaddingXS,
+                      ),
                       clip: Clip.hardEdge,
                       borderColor: grey.shade300,
                       child: Obx(
                         () => SizedBox(
                           width: Get.width,
-                          child: Wrap(
-                            spacing: 8,
-                            runSpacing: 8,
-                            children: _con.selectedTags.map((tag) {
-                              return AppContainer(
-                                color: fromHex('ffe8d1'),
-                                borderColor: transparent,
-                                borderRadius: AppDimentions.boxRadiusXXS,
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: AppDimentions.screenPaddingXS,
-                                  vertical: AppDimentions.screenPaddingXXS,
-                                ),
-                                child: IntrinsicWidth(
-                                  child: Row(
-                                    children: [
-                                      CustomText.kText(
-                                        tag.title,
-                                        size: 14,
-                                        weight: FontWeight.w400,
-                                        color: grey[700],
-                                      ),
-                                      widthSpace6,
-                                      InkWell(
-                                        onTap: () => _con.removeTag(tag),
-                                        child: Icon(
-                                          Icons.close,
-                                          size: 15,
-                                          color: AppColors.subtitle,
-                                        ),
-                                      ),
-                                    ],
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: AppDimentions.screenPaddingXS,
+                            ),
+                            child: Row(
+                              spacing: 8,
+                              children: _con.selectedTags.map((tag) {
+                                return AppContainer(
+                                  color: fromHex('ffe8d1'),
+                                  borderColor: transparent,
+                                  borderRadius: AppDimentions.boxRadiusXXS,
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: AppDimentions.screenPaddingXS,
+                                    vertical: AppDimentions.screenPaddingXXS,
                                   ),
-                                ),
-                              );
-                            }).toList(),
+                                  child: IntrinsicWidth(
+                                    child: Row(
+                                      children: [
+                                        CustomText.kText(
+                                          tag.title,
+                                          size: 14,
+                                          weight: FontWeight.w400,
+                                          color: grey[700],
+                                        ),
+                                        widthSpace6,
+                                        InkWell(
+                                          onTap: () => _con.removeTag(tag),
+                                          child: Icon(
+                                            Icons.close,
+                                            size: 15,
+                                            color: AppColors.subtitle,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                            ),
                           ),
                         ),
                       ),
@@ -284,35 +291,40 @@ class _FiltersWidgetState extends State<FiltersWidget> {
             ],
           ),
         ),
-        Obx(
-          () => _con.selectedTags.isEmpty
-              ? SizedBox.shrink()
-              : Padding(
-                  padding: EdgeInsets.all(AppDimentions.defaultScreenPadding),
-                  child: Column(
-                    children: [
-                      CustomButton(
-                        text: 'Show 542 Properties',
-                        onTap: () => Get.toNamed(AppRoutes.searchResultsScreen),
-                      ),
-                      heightSpace10,
-                      CustomButton(
-                        text: 'Clear All',
-                        color: transparent,
-                        border: Border.all(
-                          color: AppColors.secondary,
-                          width: 1.5,
-                        ),
-                        textColor: AppColors.secondary,
-                        onTap: () {
-                          _con.selectedTags.clear();
-                          _con.showFilters(false);
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-        ),
+        // Obx(
+        //   () => _con.selectedTags.isEmpty
+        //       ? SizedBox.shrink()
+        //       : Padding(
+        //           padding: EdgeInsets.all(AppDimentions.defaultScreenPadding),
+        //           child: Row(
+        //             children: [
+        //               Expanded(
+        //                 child: CustomButton(
+        //                   text: 'Clear All',
+        //                   color: transparent,
+        //                   border: Border.all(
+        //                     color: AppColors.secondary,
+        //                     width: 1.5,
+        //                   ),
+        //                   textColor: AppColors.secondary,
+        //                   onTap: () {
+        //                     _con.selectedTags.clear();
+        //                     _con.showFilters(false);
+        //                   },
+        //                 ),
+        //               ),
+        //               widthSpace10,
+        //               Expanded(
+        //                 child: CustomButton(
+        //                   text: '542 Properties',
+        //                   onTap: () =>
+        //                       Get.toNamed(AppRoutes.searchResultsScreen),
+        //                 ),
+        //               ),
+        //             ],
+        //           ),
+        //         ),
+        // ),
       ],
     );
   }

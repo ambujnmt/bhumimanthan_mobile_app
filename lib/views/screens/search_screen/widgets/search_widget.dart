@@ -29,7 +29,11 @@ class _SearchWidgetState extends State<SearchWidget> {
                       height: 55,
                       child: TextField(
                         maxLines: 1,
+                        controller: _con.textController,
+                        focusNode: _con.textNode,
+                        onChanged: (value) => _con.getSuggesttions(),
                         textAlignVertical: TextAlignVertical.center,
+                        textCapitalization: TextCapitalization.sentences,
                         decoration: InputDecoration(
                           hintText: 'Search locality, projects or builders',
                           hintStyle: CustomText.kTextStyle(
@@ -66,7 +70,6 @@ class _SearchWidgetState extends State<SearchWidget> {
                                 ),
                                 Container(
                                   constraints: BoxConstraints(minHeight: 50),
-
                                   child: Obx(
                                     () => SizedBox(
                                       width: Get.width,
@@ -126,142 +129,220 @@ class _SearchWidgetState extends State<SearchWidget> {
                 ),
               ),
               heightSpace15,
-              Obx(
-                () =>
-                    _con.selectedTags.isNotEmpty ||
-                        _con.selectedTags.any((t) => t.type == 'city')
-                    ? Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CustomText.kText(
-                            'Localities',
-                            size: 14,
-                            weight: FontWeight.w600,
-                            family: CustomFonts.outfit,
-                            color: AppColors.subtitle,
-                          ),
-                          heightSpace10,
-                          SizedBox(
-                            width: Get.width,
-                            child: Obx(
-                              () => Wrap(
-                                spacing: 8,
-                                runSpacing: 10,
-                                children: _con.localities
-                                    .where(
-                                      (t) => _con.selectedTags.every(
-                                        (o) => o.title != t,
-                                      ),
-                                    )
-                                    .map((name) {
-                                      return GestureDetector(
-                                        onTap: () => _con.addTag(
-                                          SearchTag(title: name, type: 'local'),
+              ListenableBuilder(
+                listenable: _con.textController,
+                builder: (context, child) => Obx(
+                  () => _con.textController.text.isNotEmpty
+                      ? Column(
+                          children: _con.suggestions
+                              .map(
+                                (s) => InkWell(
+                                  onTap: () {
+                                    if (s.type == 'city' &&
+                                        _con.selectedTags.any(
+                                          (u) => u.type == s.type,
+                                        )) {
+                                      return;
+                                    }
+                                    _con.addTag(s);
+                                    _con.textController.clear();
+                                    _con.suggestions.clear();
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(vertical: 10),
+                                    decoration: BoxDecoration(
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: grey.shade300,
                                         ),
-                                        child: AppContainer(
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal:
-                                                AppDimentions.screenPaddingXS,
-                                            vertical:
-                                                AppDimentions.screenPaddingXXS,
+                                      ),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                            top: 5.0,
                                           ),
-                                          child: IntrinsicWidth(
-                                            child: Row(
-                                              children: [
-                                                Icon(Icons.add, size: 14),
-                                                widthSpace2,
-                                                CustomText.kText(
-                                                  name,
-                                                  size: 13,
-                                                ),
-                                              ],
+                                          child: Icon(
+                                            Icons.call_made,
+                                            size: 15,
+                                            color: grey,
+                                          ),
+                                        ),
+                                        widthSpace10,
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              CustomText.kText(
+                                                s.title,
+                                                size: 13,
+                                                weight: FontWeight.w600,
+                                              ),
+                                              CustomText.kText(
+                                                s.type == 'city'
+                                                    ? 'City'
+                                                    : 'Locality',
+                                                color: grey,
+                                                size: 12,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              )
+                              .toList(),
+                        )
+                      : _con.selectedTags.isNotEmpty ||
+                            _con.selectedTags.any((t) => t.type == 'city')
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomText.kText(
+                              'Localities',
+                              size: 14,
+                              weight: FontWeight.w600,
+                              family: CustomFonts.outfit,
+                              color: AppColors.subtitle,
+                            ),
+                            heightSpace10,
+                            SizedBox(
+                              width: Get.width,
+                              child: Obx(
+                                () => Wrap(
+                                  spacing: 8,
+                                  runSpacing: 10,
+                                  children: _con.localities
+                                      .where(
+                                        (t) => _con.selectedTags.every(
+                                          (o) => o.title != t,
+                                        ),
+                                      )
+                                      .map((name) {
+                                        return GestureDetector(
+                                          onTap: () => _con.addTag(
+                                            SearchTag(
+                                              title: name,
+                                              type: 'locality',
                                             ),
                                           ),
-                                        ),
-                                      );
-                                    })
-                                    .toList(),
+                                          child: AppContainer(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal:
+                                                  AppDimentions.screenPaddingXS,
+                                              vertical: AppDimentions
+                                                  .screenPaddingXXS,
+                                            ),
+                                            child: IntrinsicWidth(
+                                              child: Row(
+                                                children: [
+                                                  Icon(Icons.add, size: 14),
+                                                  widthSpace2,
+                                                  CustomText.kText(
+                                                    name,
+                                                    size: 13,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      })
+                                      .toList(),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      )
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CustomText.kText(
-                            'Popular cities',
-                            size: 14,
-                            weight: FontWeight.w600,
-                            family: CustomFonts.outfit,
-                            color: AppColors.subtitle,
-                          ),
-                          heightSpace10,
-                          SizedBox(
-                            width: Get.width,
-                            child: Obx(
-                              () => Wrap(
-                                spacing: 8,
-                                runSpacing: 10,
-                                children: _con.cities.map((city) {
-                                  return GestureDetector(
-                                    onTap: () => _con.addTag(
-                                      SearchTag(title: city, type: 'city'),
-                                    ),
-                                    child: AppContainer(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal:
-                                            AppDimentions.screenPaddingXS,
-                                        vertical:
-                                            AppDimentions.screenPaddingXXS,
+                          ],
+                        )
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomText.kText(
+                              'Popular cities',
+                              size: 14,
+                              weight: FontWeight.w600,
+                              family: CustomFonts.outfit,
+                              color: AppColors.subtitle,
+                            ),
+                            heightSpace10,
+                            SizedBox(
+                              width: Get.width,
+                              child: Obx(
+                                () => Wrap(
+                                  spacing: 8,
+                                  runSpacing: 10,
+                                  children: _con.cities.map((city) {
+                                    return GestureDetector(
+                                      onTap: () => _con.addTag(
+                                        SearchTag(title: city, type: 'city'),
                                       ),
-                                      child: IntrinsicWidth(
-                                        child: Row(
-                                          children: [
-                                            Icon(Icons.add, size: 14),
-                                            widthSpace2,
-                                            CustomText.kText(city, size: 13),
-                                          ],
+                                      child: AppContainer(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal:
+                                              AppDimentions.screenPaddingXS,
+                                          vertical:
+                                              AppDimentions.screenPaddingXXS,
+                                        ),
+                                        child: IntrinsicWidth(
+                                          child: Row(
+                                            children: [
+                                              Icon(Icons.add, size: 14),
+                                              widthSpace2,
+                                              CustomText.kText(city, size: 13),
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                  );
-                                }).toList(),
+                                    );
+                                  }).toList(),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
+                          ],
+                        ),
+                ),
               ),
             ],
           ),
         ),
-        Obx(
-          () => _con.selectedTags.isEmpty
-              ? SizedBox.shrink()
-              : Padding(
-                  padding: EdgeInsets.all(AppDimentions.defaultScreenPadding),
-                  child: Column(
-                    children: [
-                      CustomButton(
-                        text: 'Next',
-                        onTap: () => _con.showFilters(true),
-                      ),
-                      heightSpace10,
-                      CustomButton(
-                        text: 'Clear All',
-                        color: transparent,
-                        border: Border.all(
-                          color: AppColors.secondary,
-                          width: 1.5,
-                        ),
-                        textColor: AppColors.secondary,
-                        onTap: () => _con.selectedTags.clear(),
-                      ),
-                    ],
-                  ),
-                ),
-        ),
+        // Obx(
+        //   () => _con.selectedTags.isEmpty
+        //       ? SizedBox.shrink()
+        //       : Padding(
+        //           padding: EdgeInsets.all(AppDimentions.defaultScreenPadding),
+        //           child: Row(
+        //             children: [
+        //               Expanded(
+        //                 child: CustomButton(
+        //                   text: 'Clear All',
+        //                   color: transparent,
+        //                   border: Border.all(
+        //                     color: AppColors.secondary,
+        //                     width: 1.5,
+        //                   ),
+        //                   textColor: AppColors.secondary,
+        //                   onTap: () => _con.selectedTags.clear(),
+        //                 ),
+        //               ),
+        //               widthSpace10,
+        //               Expanded(
+        //                 child: CustomButton(
+        //                   text: 'Next',
+        //                   onTap: () => _con.showFilters(true),
+        //                 ),
+        //               ),
+        //             ],
+        //           ),
+        //         ),
+        // ),
       ],
     );
   }

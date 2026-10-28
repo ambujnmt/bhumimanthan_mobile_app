@@ -15,6 +15,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Obx(
         () => _con.isLoading.value
             ? AppLoader.widget()
@@ -94,6 +95,74 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ],
               ),
+      ),
+      bottomNavigationBar: AnimatedPadding(
+        duration: const Duration(milliseconds: 100),
+        curve: Curves.easeOut,
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.viewInsetsOf(context).bottom,
+        ),
+        child: Obx(
+          () => _con.selectedTags.isEmpty
+              ? SizedBox.shrink()
+              : _con.showFilters.value
+              ? Padding(
+                  padding: EdgeInsets.all(AppDimentions.defaultScreenPadding),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: CustomButton(
+                          text: 'Clear All',
+                          color: transparent,
+                          border: Border.all(
+                            color: AppColors.secondary,
+                            width: 1.5,
+                          ),
+                          textColor: AppColors.secondary,
+                          onTap: () {
+                            _con.selectedTags.clear();
+                            _con.showFilters(false);
+                          },
+                        ),
+                      ),
+                      widthSpace10,
+                      Expanded(
+                        child: CustomButton(
+                          text: '542 Properties',
+                          onTap: () =>
+                              Get.toNamed(AppRoutes.searchResultsScreen),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : Padding(
+                  padding: EdgeInsets.all(AppDimentions.defaultScreenPadding),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: CustomButton(
+                          text: 'Clear All',
+                          color: transparent,
+                          border: Border.all(
+                            color: AppColors.secondary,
+                            width: 1.5,
+                          ),
+                          textColor: AppColors.secondary,
+                          onTap: () => _con.selectedTags.clear(),
+                        ),
+                      ),
+                      widthSpace10,
+                      Expanded(
+                        child: CustomButton(
+                          text: 'Next',
+                          onTap: () => _con.showFilters(true),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+        ),
       ),
     );
   }
