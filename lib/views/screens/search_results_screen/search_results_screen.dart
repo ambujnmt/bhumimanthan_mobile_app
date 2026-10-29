@@ -1,7 +1,6 @@
 import 'package:bhumi_manthan/utils/app_imports.dart';
 import 'package:bhumi_manthan/views/screens/search_results_screen/widgets/srs_items_widget.dart';
 
-import '../bottom_tab_screens/home_screen/widgets/home_data.dart';
 import 'search_results_screen_controller.dart';
 
 class SearchResultsScreen extends StatefulWidget {
@@ -28,9 +27,9 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                     child: ListView.builder(
                       controller: sc,
                       padding: const EdgeInsets.all(16),
-                      itemCount: cityItems.length,
+                      itemCount: _con.items.length,
                       itemBuilder: (context, index) =>
-                          SrsItemsWidget(item: cityItems[index]),
+                          SrsItemsWidget(item: _con.items[index]),
                     ),
                   ),
                 ],

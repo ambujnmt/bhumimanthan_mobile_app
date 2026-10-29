@@ -1,8 +1,8 @@
+import 'package:bhumi_manthan/models/search_property_model.dart';
 import 'package:bhumi_manthan/utils/app_imports.dart';
-import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/home_data.dart';
 
 class SrsItemsWidget extends StatelessWidget {
-  final HomeItems item;
+  final SearchPropertyModel item;
   const SrsItemsWidget({super.key, required this.item});
 
   @override
@@ -34,7 +34,7 @@ class SrsItemsWidget extends StatelessWidget {
             Stack(
               children: [
                 AppNetworkImage(
-                  imgUrl: item.img,
+                  imgUrl: item.mainImage,
                   width: double.infinity,
                   height: 220,
                   fit: BoxFit.cover,
@@ -52,7 +52,7 @@ class SrsItemsWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: CustomText.kText(
-                      item.size,
+                      '${formatNumber(item.superArea)} Sq. Ft.',
                       weight: FontWeight.w600,
                       size: 12,
                     ),
@@ -115,7 +115,7 @@ class SrsItemsWidget extends StatelessWidget {
                             ),
                             const SizedBox(height: 4),
                             CustomText.kText(
-                              '₹${item.price}',
+                              formatPrice(item.price),
                               size: 18,
                               family: CustomFonts.outfit,
                               color: AppColors.primary,
@@ -139,7 +139,7 @@ class SrsItemsWidget extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            item.owner,
+                            item.ownership ?? 'N/A',
                             style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w600,

@@ -124,9 +124,11 @@ class _SearchScreenState extends State<SearchScreen> {
                       widthSpace10,
                       Expanded(
                         child: CustomButton(
-                          text: '542 Properties',
-                          onTap: () =>
-                              Get.toNamed(AppRoutes.searchResultsScreen),
+                          text: '${_con.pCount.value} Properties',
+                          onTap: () => Get.toNamed(
+                            AppRoutes.searchResultsScreen,
+                            arguments: _con.getQueryParams(),
+                          ),
                         ),
                       ),
                     ],

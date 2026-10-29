@@ -8,6 +8,8 @@ class SearchScreenController extends GetxController {
 
   Map? jsonData;
 
+  RxInt pCount = 0.obs;
+
   final isLoading = true.obs;
 
   final showFilters = false.obs;
@@ -38,7 +40,7 @@ class SearchScreenController extends GetxController {
   final minBudget = Rxn<SearchBudget>();
   final maxBudget = Rxn<SearchBudget>();
 
-  Future<void> _getCities() async {
+  Future<void> _getSearchOptions() async {
     if (jsonData == null) {
       await _getSearchData();
     } else {
@@ -177,6 +179,34 @@ class SearchScreenController extends GetxController {
             .toList();
   }
 
+  Future<void> _refreshPCOunt() async {
+    if (!showFilters.value || jsonData == null) return;
+
+    pCount.value = await _getPropertyCount(getQueryParams());
+  }
+
+  Map<String, String> getQueryParams() {
+    final q = <String, String?>{
+      'type': selectedTab.value?.key,
+      'city': selectedTags.firstWhereOrNull((t) => t.type == 'city')?.title,
+      'localities': selectedTags
+          .where((e) => e.type != 'city')
+          .map((e) => e.title)
+          .join(','),
+      'budget_min': minBudget.value?.value,
+      'budget_max': maxBudget.value?.value,
+      'property_types': selectedType.value?.key,
+      'bedrooms': selectedBed.value?.key,
+      'furnishing': selectedFurnishing.value?.key,
+    };
+
+    return Map.fromEntries(
+      q.entries
+          .where((e) => e.value != null)
+          .map((e) => MapEntry(e.key, e.value!)),
+    );
+  }
+
   void clearAll() {
     selectedTags.clear();
     minBudget.value = null;
@@ -184,10 +214,27 @@ class SearchScreenController extends GetxController {
     showFilters(false);
   }
 
+  Future<int> _getPropertyCount(Map<String, String>? q) async {
+    final res = await _api.get('/search/count', queries: q);
+    if (!res.success) return 0;
+    return res.data['data']['total'];
+  }
+
   Future<void> refreshData() async {
     isLoading(true);
-    await _getCities();
+    await _getSearchOptions();
     isLoading(false);
+  }
+
+  void startListening() {
+    everAll([
+      showFilters,
+      minBudget,
+      maxBudget,
+      selectedType,
+      selectedBed,
+      selectedFurnishing,
+    ], (_) => _refreshPCOunt());
   }
 
   @override
@@ -196,6 +243,7 @@ class SearchScreenController extends GetxController {
     textNode.requestFocus();
     jsonData = SearchStorage.getData();
     refreshData();
+    startListening();
   }
 }
 
