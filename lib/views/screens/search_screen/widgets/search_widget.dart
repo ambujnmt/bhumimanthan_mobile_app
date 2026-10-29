@@ -15,125 +15,126 @@ class _SearchWidgetState extends State<SearchWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Expanded(
-          child: ListView(
-            padding: EdgeInsets.all(AppDimentions.defaultScreenPadding),
+        AppContainer(
+          padding: EdgeInsets.zero,
+          clip: Clip.hardEdge,
+          borderColor: grey.shade300,
+          margin: EdgeInsets.symmetric(
+            horizontal: AppDimentions.defaultScreenPadding,
+          ),
+          child: Column(
             children: [
-              AppContainer(
-                padding: EdgeInsets.zero,
-                clip: Clip.hardEdge,
-                borderColor: grey.shade300,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 55,
-                      child: TextField(
-                        maxLines: 1,
-                        controller: _con.textController,
-                        focusNode: _con.textNode,
-                        onChanged: (value) => _con.getSuggesttions(),
-                        textAlignVertical: TextAlignVertical.center,
-                        textCapitalization: TextCapitalization.sentences,
-                        decoration: InputDecoration(
-                          hintText: 'Search locality, projects or builders',
-                          hintStyle: CustomText.kTextStyle(
-                            color: grey,
-                            size: 16,
-                          ),
-                          border: _inputBorder,
-                          errorBorder: _inputBorder,
-                          enabledBorder: _inputBorder,
-                          focusedBorder: _inputBorder,
-                          disabledBorder: _inputBorder,
-                          focusedErrorBorder: _inputBorder,
-                          prefixIcon: IntrinsicWidth(
-                            child: Center(
-                              child: Image.asset(
-                                Images.searchIcon,
-                                height: 20,
-                                width: 20,
-                              ),
-                            ),
-                          ),
+              SizedBox(
+                height: 55,
+                child: TextField(
+                  maxLines: 1,
+                  controller: _con.textController,
+                  focusNode: _con.textNode,
+                  onChanged: (value) => _con.getSuggesttions(),
+                  textAlignVertical: TextAlignVertical.center,
+                  textCapitalization: TextCapitalization.sentences,
+                  decoration: InputDecoration(
+                    hintText: 'Search locality, projects or builders',
+                    hintStyle: CustomText.kTextStyle(color: grey, size: 16),
+                    border: _inputBorder,
+                    errorBorder: _inputBorder,
+                    enabledBorder: _inputBorder,
+                    focusedBorder: _inputBorder,
+                    disabledBorder: _inputBorder,
+                    focusedErrorBorder: _inputBorder,
+                    prefixIcon: IntrinsicWidth(
+                      child: Center(
+                        child: Image.asset(
+                          Images.searchIcon,
+                          height: 20,
+                          width: 20,
                         ),
                       ),
                     ),
-                    Obx(() {
-                      return _con.selectedTags.isEmpty
-                          ? SizedBox.shrink()
-                          : Column(
-                              children: [
-                                Divider(
-                                  height: 0,
-                                  color: grey.shade300,
-                                  thickness: 1.3,
-                                ),
-                                Container(
-                                  constraints: BoxConstraints(minHeight: 50),
-                                  child: Obx(
-                                    () => SizedBox(
-                                      width: Get.width,
-                                      child: SingleChildScrollView(
-                                        scrollDirection: Axis.horizontal,
-                                        padding: EdgeInsets.all(
-                                          AppDimentions.screenPaddingXS,
-                                        ),
-                                        child: Row(
-                                          spacing: 8,
-                                          children: _con.selectedTags.map((
-                                            tag,
-                                          ) {
-                                            return InkWell(
-                                              onTap: () => _con.removeTag(tag),
-                                              child: AppContainer(
-                                                color: fromHex('ffe8d1'),
-                                                borderColor: transparent,
-                                                borderRadius:
-                                                    AppDimentions.boxRadiusXXS,
-                                                padding: EdgeInsets.symmetric(
-                                                  horizontal: AppDimentions
-                                                      .screenPaddingXS,
-                                                  vertical: AppDimentions
-                                                      .screenPaddingXXS,
-                                                ),
-                                                child: IntrinsicWidth(
-                                                  child: Row(
-                                                    children: [
-                                                      CustomText.kText(
-                                                        tag.title,
-                                                        size: 13,
-                                                        color: grey[700],
-                                                      ),
-                                                      widthSpace6,
-                                                      Icon(
-                                                        Icons.close,
-                                                        size: 15,
-                                                        color:
-                                                            AppColors.subtitle,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          }).toList(),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                    }),
-                  ],
+                  ),
                 ),
               ),
-              heightSpace15,
+              Obx(() {
+                return _con.selectedTags.isEmpty
+                    ? SizedBox.shrink()
+                    : Column(
+                        children: [
+                          Divider(
+                            height: 0,
+                            color: grey.shade300,
+                            thickness: 1.3,
+                          ),
+                          Container(
+                            constraints: BoxConstraints(minHeight: 50),
+                            child: Obx(
+                              () => SizedBox(
+                                width: Get.width,
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  padding: EdgeInsets.all(
+                                    AppDimentions.screenPaddingXS,
+                                  ),
+                                  child: Row(
+                                    spacing: 8,
+                                    children: _con.selectedTags.map((tag) {
+                                      return InkWell(
+                                        onTap: () => _con.removeTag(tag),
+                                        child: AppContainer(
+                                          color: fromHex('ffe8d1'),
+                                          borderColor: transparent,
+                                          borderRadius:
+                                              AppDimentions.boxRadiusXXS,
+                                          padding: EdgeInsets.symmetric(
+                                            horizontal:
+                                                AppDimentions.screenPaddingXS,
+                                            vertical:
+                                                AppDimentions.screenPaddingXXS,
+                                          ),
+                                          child: IntrinsicWidth(
+                                            child: Row(
+                                              children: [
+                                                CustomText.kText(
+                                                  tag.title,
+                                                  size: 13,
+                                                  color: grey[700],
+                                                ),
+                                                widthSpace6,
+                                                Icon(
+                                                  Icons.close,
+                                                  size: 15,
+                                                  color: AppColors.subtitle,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+              }),
+            ],
+          ),
+        ),
+        heightSpace10,
+        Expanded(
+          child: ListView(
+            padding: EdgeInsets.symmetric(
+              horizontal: AppDimentions.defaultScreenPadding,
+            ),
+            children: [
+              heightSpace5,
               ListenableBuilder(
                 listenable: _con.textController,
                 builder: (context, child) => Obx(
                   () => _con.textController.text.isNotEmpty
                       ? Column(
+                          spacing: 10,
                           children: _con.suggestions
                               .map(
                                 (s) => InkWell(
@@ -149,7 +150,7 @@ class _SearchWidgetState extends State<SearchWidget> {
                                     _con.suggestions.clear();
                                   },
                                   child: Container(
-                                    padding: EdgeInsets.symmetric(vertical: 10),
+                                    padding: EdgeInsets.only(bottom: 10),
                                     decoration: BoxDecoration(
                                       border: Border(
                                         bottom: BorderSide(

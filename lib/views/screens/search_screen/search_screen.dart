@@ -19,72 +19,71 @@ class _SearchScreenState extends State<SearchScreen> {
       body: Obx(
         () => _con.isLoading.value
             ? AppLoader.widget()
+            : _con.jsonData == null
+            ? errorLoadingData()
             : Column(
                 children: [
-                  Container(color: white, height: Get.mediaQuery.padding.top),
-                  Container(
-                    color: white,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            padding: EdgeInsets.all(
-                              AppDimentions.defaultScreenPadding,
-                            ),
-                            child: Row(
-                              spacing: 8,
-                              children: _con.tabs
-                                  .map(
-                                    (j) => InkWell(
-                                      onTap: () => _con.selectedTab(j),
-                                      child: Obx(() {
-                                        final isActive =
-                                            j == _con.selectedTab.value;
-                                        return AppContainer(
-                                          color: isActive
-                                              ? AppColors.primary
-                                              : white,
-                                          borderRadius: 100,
-                                          padding: EdgeInsets.symmetric(
-                                            horizontal: AppDimentions
-                                                .defaultScreenPadding,
-                                            vertical:
-                                                AppDimentions.screenPaddingXS,
-                                          ),
-                                          child: CustomText.kText(
-                                            j.label,
-                                            color: isActive ? white : black,
-                                            weight: FontWeight.w600,
-                                            family: CustomFonts.outfit,
-                                          ),
-                                        );
-                                      }),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
+                  SizedBox(height: Get.mediaQuery.padding.top),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          padding: EdgeInsets.all(
+                            AppDimentions.defaultScreenPadding,
+                          ),
+                          child: Row(
+                            spacing: 8,
+                            children: _con.tabs
+                                .map(
+                                  (j) => GestureDetector(
+                                    onTap: () => _con.setTab(j),
+                                    child: Obx(() {
+                                      final isActive =
+                                          j == _con.selectedTab.value;
+                                      return AppContainer(
+                                        color: isActive
+                                            ? AppColors.primary
+                                            : white,
+                                        borderRadius: 100,
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: AppDimentions
+                                              .defaultScreenPadding,
+                                          vertical:
+                                              AppDimentions.screenPaddingXS,
+                                        ),
+                                        child: CustomText.kText(
+                                          j.label,
+                                          color: isActive ? white : black,
+                                          weight: FontWeight.w600,
+                                          family: CustomFonts.outfit,
+                                        ),
+                                      );
+                                    }),
+                                  ),
+                                )
+                                .toList(),
                           ),
                         ),
-                        widthSpace12,
-                        InkWell(
-                          onTap: Get.back,
-                          child: AppContainer(
-                            height: 30,
-                            width: 30,
-                            shape: BoxShape.circle,
-                            color: grey[300]!,
-                            padding: EdgeInsets.zero,
-                            child: Icon(
-                              Icons.close,
-                              color: AppColors.subtitle,
-                              size: 20,
-                            ),
+                      ),
+                      widthSpace12,
+                      InkWell(
+                        onTap: Get.back,
+                        child: AppContainer(
+                          height: 30,
+                          width: 30,
+                          shape: BoxShape.circle,
+                          color: grey[300]!,
+                          padding: EdgeInsets.zero,
+                          child: Icon(
+                            Icons.close,
+                            color: AppColors.subtitle,
+                            size: 20,
                           ),
                         ),
-                        widthSpace12,
-                      ],
-                    ),
+                      ),
+                      widthSpace12,
+                    ],
                   ),
                   Expanded(
                     child: Obx(
@@ -119,10 +118,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             width: 1.5,
                           ),
                           textColor: AppColors.secondary,
-                          onTap: () {
-                            _con.selectedTags.clear();
-                            _con.showFilters(false);
-                          },
+                          onTap: () => _con.clearAll(),
                         ),
                       ),
                       widthSpace10,
@@ -149,7 +145,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             width: 1.5,
                           ),
                           textColor: AppColors.secondary,
-                          onTap: () => _con.selectedTags.clear(),
+                          onTap: () => _con.clearAll(),
                         ),
                       ),
                       widthSpace10,

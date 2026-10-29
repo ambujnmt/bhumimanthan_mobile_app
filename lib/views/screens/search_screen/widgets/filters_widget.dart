@@ -1,5 +1,4 @@
 import '../../../../utils/app_imports.dart';
-import '../../bottom_tab_screens/home_screen/home_screen.dart';
 import '../search_screen_controller.dart';
 
 class FiltersWidget extends StatefulWidget {
@@ -19,7 +18,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
         Expanded(
           child: ListView(
             padding: EdgeInsets.symmetric(
-              vertical: AppDimentions.defaultScreenPadding,
+              vertical: AppDimentions.screenPaddingXS,
             ),
             children: [
               Padding(
@@ -97,7 +96,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                                 Icon(Icons.add, size: 18, color: grey),
                                 CustomText.kText(
                                   'Add More',
-                                  color: grey,
+                                  color: grey.shade700,
                                   size: 14,
                                 ),
                               ],
@@ -119,7 +118,7 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CustomText.kText(
-                        'Budget in Rs',
+                        'Budget',
                         family: CustomFonts.outfit,
                         size: 14,
                         color: AppColors.subtitle,
@@ -128,9 +127,23 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                       heightSpace10,
                       Row(
                         children: [
-                          _budgetWidget(title: 'Min ₹'),
+                          Obx(
+                            () => _budgetWidget(
+                              title: 'Min ₹',
+                              hint: 'No min',
+                              val: _con.minBudget.value?.label,
+                              onSelected: (budget) => _con.minBudget(budget),
+                            ),
+                          ),
                           widthSpace10,
-                          _budgetWidget(title: 'Max ₹'),
+                          Obx(
+                            () => _budgetWidget(
+                              title: 'Max ₹',
+                              hint: 'No max',
+                              val: _con.maxBudget.value?.label,
+                              onSelected: (budget) => _con.maxBudget(budget),
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -154,88 +167,44 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                         weight: FontWeight.w600,
                       ),
                       heightSpace10,
-                      Row(
-                        spacing: 10,
-                        children: categories
-                            .map(
-                              (c) => Expanded(
-                                child: AppContainer(
-                                  color: c.title == 'Flat'
-                                      ? fromHex('ffe8d1')
-                                      : white,
-                                  borderColor: grey.shade300,
-                                  child: Column(
-                                    children: [
-                                      Image.asset(
-                                        height: 25,
-                                        width: 25,
-                                        c.icon,
-                                      ),
-                                      heightSpace7,
-                                      CustomText.kText(c.title, size: 14),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            )
-                            .toList(),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              heightSpace10,
-              Container(
-                width: Get.width,
-                color: white,
-                child: Padding(
-                  padding: EdgeInsets.all(AppDimentions.defaultScreenPadding),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomText.kText(
-                        'No of Bed Rooms',
-                        family: CustomFonts.outfit,
-                        size: 14,
-                        color: AppColors.subtitle,
-                        weight: FontWeight.w600,
-                      ),
-                      heightSpace10,
-                      AppContainer(
-                        clip: Clip.hardEdge,
-                        padding: EdgeInsets.zero,
-                        borderColor: grey.shade300,
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        padding: EdgeInsets.all(2),
                         child: Row(
-                          children: List.generate(_items.length, (index) {
-                            return Expanded(
-                              child: Container(
-                                height: 40,
-                                color: index == 0 ? fromHex('ffe8d1') : null,
-                                child: Row(
-                                  children: [
-                                    if (index != 0 || index == _items.length)
-                                      SizedBox(
-                                        height: 40,
-                                        child: VerticalDivider(
-                                          width: 0,
-                                          thickness: 1.3,
-                                          color: grey.shade300,
-                                        ),
-                                      ),
-                                    Expanded(
-                                      child: Center(
-                                        child: CustomText.kText(
-                                          _items[index],
-                                          size: 14,
-                                          weight: FontWeight.w700,
-                                        ),
+                          spacing: 10,
+                          children: _con.pTypes
+                              .map(
+                                (c) => InkWell(
+                                  onTap: () => _con.selectedType(c),
+                                  child: Obx(
+                                    () => AppContainer(
+                                      // height: 100,
+                                      width: 100,
+                                      color:
+                                          c.key == _con.selectedType.value?.key
+                                          ? fromHex('ffe8d1')
+                                          : white,
+                                      borderColor: grey.shade300,
+                                      child: Column(
+                                        children: [
+                                          // Image.asset(
+                                          //   height: 25,
+                                          //   width: 25,
+                                          //   c.icon,
+                                          // ),
+                                          // heightSpace7,
+                                          CustomText.kText(
+                                            c.label,
+                                            size: 14,
+                                            lines: 1,
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ),
-                            );
-                          }),
+                              )
+                              .toList(),
                         ),
                       ),
                     ],
@@ -243,94 +212,187 @@ class _FiltersWidgetState extends State<FiltersWidget> {
                 ),
               ),
               heightSpace10,
-              Container(
-                width: Get.width,
-                color: white,
-                child: Padding(
-                  padding: EdgeInsets.all(AppDimentions.defaultScreenPadding),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomText.kText(
-                        'Furnishing Status',
-                        family: CustomFonts.outfit,
-                        size: 14,
-                        color: AppColors.subtitle,
-                        weight: FontWeight.w600,
-                      ),
-                      heightSpace10,
-                      Row(
-                        spacing: 10,
-                        children: ['Furnished', 'Semi Furnished', 'Unfurnished']
-                            .map(
-                              (c) => Expanded(
-                                child: AppContainer(
-                                  height: 45,
-                                  color: c == 'Furnished'
-                                      ? fromHex('ffe8d1')
-                                      : white,
-                                  padding: EdgeInsets.zero,
-                                  borderRadius: AppDimentions.boxRadiusXXS,
-                                  child: Center(
-                                    child: CustomText.kText(
-                                      c,
+              Obx(
+                () => AnimatedSize(
+                  duration: Duration(milliseconds: 250),
+                  child:
+                      !['flat', 'house'].contains(_con.selectedType.value?.key)
+                      ? SizedBox()
+                      : Column(
+                          children: [
+                            Container(
+                              width: Get.width,
+                              color: white,
+                              child: Padding(
+                                padding: EdgeInsets.all(
+                                  AppDimentions.defaultScreenPadding,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CustomText.kText(
+                                      'Bed Rooms',
+                                      family: CustomFonts.outfit,
                                       size: 14,
                                       color: AppColors.subtitle,
+                                      weight: FontWeight.w600,
                                     ),
-                                  ),
+                                    heightSpace10,
+                                    AppContainer(
+                                      clip: Clip.hardEdge,
+                                      padding: EdgeInsets.zero,
+                                      borderColor: grey.shade300,
+                                      child: SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: Row(
+                                          children: List.generate(
+                                            _con.bedrooms.length,
+                                            (i) {
+                                              final b = _con.bedrooms[i];
+                                              return InkWell(
+                                                onTap: () => _con.setBedroom(b),
+                                                child: Obx(
+                                                  () => Container(
+                                                    height: 40,
+                                                    width: 100,
+                                                    color:
+                                                        b ==
+                                                            _con
+                                                                .selectedBed
+                                                                .value
+                                                        ? fromHex('ffe8d1')
+                                                        : null,
+                                                    child: Row(
+                                                      children: [
+                                                        if (i != 0 ||
+                                                            i ==
+                                                                _con
+                                                                    .bedrooms
+                                                                    .length)
+                                                          SizedBox(
+                                                            height: 40,
+                                                            child:
+                                                                VerticalDivider(
+                                                                  width: 0,
+                                                                  thickness:
+                                                                      1.3,
+                                                                  color: grey
+                                                                      .shade300,
+                                                                ),
+                                                          ),
+                                                        Expanded(
+                                                          child: Center(
+                                                            child:
+                                                                CustomText.kText(
+                                                                  b.label,
+                                                                  size: 14,
+                                                                  weight:
+                                                                      FontWeight
+                                                                          .w700,
+                                                                  color: grey
+                                                                      .shade800,
+                                                                ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            )
-                            .toList(),
-                      ),
-                    ],
-                  ),
+                            ),
+                            heightSpace10,
+                            Container(
+                              width: Get.width,
+                              color: white,
+                              child: Padding(
+                                padding: EdgeInsets.all(
+                                  AppDimentions.defaultScreenPadding,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CustomText.kText(
+                                      'Furnishing Status',
+                                      family: CustomFonts.outfit,
+                                      size: 14,
+                                      color: AppColors.subtitle,
+                                      weight: FontWeight.w600,
+                                    ),
+                                    heightSpace10,
+                                    SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Row(
+                                        spacing: 10,
+                                        children: _con.furnishings
+                                            .map(
+                                              (item) => InkWell(
+                                                onTap: () =>
+                                                    _con.setFurnishing(item),
+                                                child: Obx(
+                                                  () => AppContainer(
+                                                    borderColor: grey.shade300,
+                                                    color:
+                                                        item ==
+                                                            _con
+                                                                .selectedFurnishing
+                                                                .value
+                                                        ? fromHex('ffe8d1')
+                                                        : white,
+                                                    padding: EdgeInsets.symmetric(
+                                                      horizontal: AppDimentions
+                                                          .screenPaddingS,
+                                                      vertical: AppDimentions
+                                                          .screenPaddingXXS,
+                                                    ),
+                                                    borderRadius: AppDimentions
+                                                        .boxRadiusXXS,
+                                                    child: Center(
+                                                      child: CustomText.kText(
+                                                        item.label,
+                                                        size: 14,
+                                                        color: grey.shade800,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                            .toList(),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                 ),
               ),
+
               heightSpace100,
             ],
           ),
         ),
-        // Obx(
-        //   () => _con.selectedTags.isEmpty
-        //       ? SizedBox.shrink()
-        //       : Padding(
-        //           padding: EdgeInsets.all(AppDimentions.defaultScreenPadding),
-        //           child: Row(
-        //             children: [
-        //               Expanded(
-        //                 child: CustomButton(
-        //                   text: 'Clear All',
-        //                   color: transparent,
-        //                   border: Border.all(
-        //                     color: AppColors.secondary,
-        //                     width: 1.5,
-        //                   ),
-        //                   textColor: AppColors.secondary,
-        //                   onTap: () {
-        //                     _con.selectedTags.clear();
-        //                     _con.showFilters(false);
-        //                   },
-        //                 ),
-        //               ),
-        //               widthSpace10,
-        //               Expanded(
-        //                 child: CustomButton(
-        //                   text: '542 Properties',
-        //                   onTap: () =>
-        //                       Get.toNamed(AppRoutes.searchResultsScreen),
-        //                 ),
-        //               ),
-        //             ],
-        //           ),
-        //         ),
-        // ),
       ],
     );
   }
 }
 
-Expanded _budgetWidget({required String title}) {
+Expanded _budgetWidget({
+  required String title,
+  required String hint,
+  String? val,
+  Function(SearchBudget budget)? onSelected,
+}) {
+  final con = Get.find<SearchScreenController>();
   return Expanded(
     child: AppContainer(
       clip: Clip.hardEdge,
@@ -352,13 +414,28 @@ Expanded _budgetWidget({required String title}) {
           ),
           widthSpace5,
           Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CustomText.kText('5L', weight: FontWeight.w700),
-                widthSpace10,
-                Icon(Icons.keyboard_arrow_down),
-              ],
+            child: PopupMenuButton<SearchBudget>(
+              // constraints: const BoxConstraints(minWidth: 300, maxWidth: 400),
+              onSelected: (value) => onSelected?.call(value),
+              itemBuilder: (context) => con.budgets.map((value) {
+                return PopupMenuItem<SearchBudget>(
+                  height: 42,
+                  value: value,
+                  child: CustomText.kText(value.label),
+                );
+              }).toList(),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CustomText.kText(
+                    val ?? hint,
+                    weight: FontWeight.w600,
+                    color: val == null ? grey : black,
+                  ),
+                  widthSpace10,
+                  Icon(Icons.keyboard_arrow_down),
+                ],
+              ),
             ),
           ),
         ],

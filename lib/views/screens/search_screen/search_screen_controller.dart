@@ -19,14 +19,24 @@ class SearchScreenController extends GetxController {
   final cities = <String>[].obs;
 
   final localities = <String>[].obs;
-
-  final tabs = <SearchTab>[].obs;
-
-  late final selectedTab = Rxn<SearchTab>();
-
+  final suggestions = <SearchTag>[].obs;
   final selectedTags = <SearchTag>[].obs;
 
-  final suggestions = <SearchTag>[].obs;
+  final tabs = <SearchTab>[].obs;
+  late final selectedTab = Rxn<SearchTab>();
+
+  final pTypes = <SearchTab>[].obs;
+  late final selectedType = Rxn<SearchTab>();
+
+  final bedrooms = <SearchTab>[].obs;
+  late final selectedBed = Rxn<SearchTab>();
+
+  final furnishings = <SearchTab>[].obs;
+  late final selectedFurnishing = Rxn<SearchTab>();
+
+  final budgets = <SearchBudget>[].obs;
+  final minBudget = Rxn<SearchBudget>();
+  final maxBudget = Rxn<SearchBudget>();
 
   Future<void> _getCities() async {
     if (jsonData == null) {
@@ -46,8 +56,32 @@ class SearchScreenController extends GetxController {
           ),
         )
         .toList();
+    pTypes.value = (jsonData!['data']['property_types'] as List)
+        .map(
+          (json) => SearchTab(
+            key: json['key'].toString(),
+            label: json['label'].toString(),
+          ),
+        )
+        .toList();
+    bedrooms.value = (jsonData!['data']['bedrooms'] as List)
+        .map(
+          (json) => SearchTab(
+            key: json['key'].toString(),
+            label: json['label'].toString(),
+          ),
+        )
+        .toList();
+    furnishings.value = (jsonData!['data']['furnishing'] as List)
+        .map(
+          (json) => SearchTab(
+            key: json['key'].toString(),
+            label: json['label'].toString(),
+          ),
+        )
+        .toList();
     if (tabs.isNotEmpty) {
-      selectedTab.value = tabs.first;
+      setTab(tabs.first);
     }
   }
 
@@ -114,6 +148,42 @@ class SearchScreenController extends GetxController {
     selectedTags.removeWhere((r) => r == tag);
   }
 
+  void setTab(SearchTab tab) {
+    selectedTab(tab);
+    updateBudgets();
+  }
+
+  void setPType(SearchTab type) {
+    selectedType(type);
+  }
+
+  void setBedroom(SearchTab bed) {
+    selectedBed(bed);
+  }
+
+  void setFurnishing(SearchTab fur) {
+    selectedFurnishing(fur);
+  }
+
+  void updateBudgets() {
+    minBudget.value = null;
+    maxBudget.value = null;
+    budgets.value =
+        (jsonData!['data']['budgets'][selectedTab.value!.key] as List)
+            .map(
+              (u) =>
+                  SearchBudget(value: u['value'].toString(), label: u['label']),
+            )
+            .toList();
+  }
+
+  void clearAll() {
+    selectedTags.clear();
+    minBudget.value = null;
+    maxBudget.value = null;
+    showFilters(false);
+  }
+
   Future<void> refreshData() async {
     isLoading(true);
     await _getCities();
@@ -153,4 +223,10 @@ class SearchTab {
   final String key;
   final String label;
   SearchTab({required this.key, required this.label});
+}
+
+class SearchBudget {
+  final String value;
+  final String label;
+  SearchBudget({required this.value, required this.label});
 }
