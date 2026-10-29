@@ -70,8 +70,8 @@ class _SearchScreenState extends State<SearchScreen> {
                       InkWell(
                         onTap: Get.back,
                         child: AppContainer(
-                          height: 30,
-                          width: 30,
+                          height: 32,
+                          width: 32,
                           shape: BoxShape.circle,
                           color: grey[300]!,
                           padding: EdgeInsets.zero,

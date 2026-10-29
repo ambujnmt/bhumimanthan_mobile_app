@@ -10,7 +10,7 @@ class SrsItemsWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () => Get.toNamed(
         AppRoutes.propertyDetailsScreen,
-        arguments: {'data': item},
+        arguments: {'id': item.id},
       ),
       child: Container(
         margin: const EdgeInsets.only(bottom: 20),
