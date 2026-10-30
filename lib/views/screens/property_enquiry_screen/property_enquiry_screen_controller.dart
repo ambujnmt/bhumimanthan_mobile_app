@@ -1,14 +1,15 @@
 import 'package:bhumi_manthan/models/propertiy_details_model.dart';
 
 import '../../../utils/app_imports.dart';
+import '../../widgets/app_dropdown.dart';
 
 class PropertyEnquiryScreenController extends GetxController {
   late final PropertyDetailsModel property;
 
   final isLoading = false.obs;
 
-  final selectedBudget = Rxn<String>();
-  final selectedInterest = Rxn<String>();
+  final selectedBudget = Rxn<CustomDropdownItem>();
+  final selectedInterest = Rxn<CustomDropdownItem>();
 
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
@@ -33,8 +34,8 @@ class PropertyEnquiryScreenController extends GetxController {
         "name": nameController.text,
         "phone": phoneController.text,
         "email": emailController.text,
-        "interested_in": "apartment",
-        "budget": selectedBudget.value,
+        "interested_in": selectedInterest.value?.value,
+        "budget": selectedBudget.value?.value,
         "message": moreController.text,
       },
       showErrorToast: true,
@@ -79,7 +80,7 @@ class PropertyEnquiryScreenController extends GetxController {
     }
 
     // Interested property type
-    if (selectedInterest.value == null || selectedInterest.value!.isEmpty) {
+    if (selectedInterest.value == null) {
       typeError.value = 'Please select a property type';
       isValid = false;
     } else {
@@ -87,7 +88,7 @@ class PropertyEnquiryScreenController extends GetxController {
     }
 
     // Budget
-    if (selectedBudget.value == null || selectedBudget.value!.isEmpty) {
+    if (selectedBudget.value == null) {
       budgetError.value = 'Please select your budget';
       isValid = false;
     } else {

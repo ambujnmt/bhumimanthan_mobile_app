@@ -12,22 +12,20 @@ class PropertyEnquiryScreen extends StatefulWidget {
 class _PropertyEnquiryScreenState extends State<PropertyEnquiryScreen> {
   final _con = Get.put(PropertyEnquiryScreenController());
 
-  final List<String> _interests = [
-    'Apartment',
-    'Villa',
-    'Plot',
-    'Independent House',
-    'Commercial',
-    'Other',
+  final List<CustomDropdownItem<String>> _interests = [
+    CustomDropdownItem(value: 'residential', title: 'Residential Plots'),
+    CustomDropdownItem(value: 'commercial', title: 'Commercial Plots'),
+    CustomDropdownItem(value: 'apartment', title: 'Apartments'),
+    CustomDropdownItem(value: 'villa', title: 'Villas'),
+    CustomDropdownItem(value: 'farmhouse', title: 'Farm House'),
   ];
 
-  final List<String> _budgets = [
-    'Below 25 Lakhs',
-    '25-50 Lakhs',
-    '50-1cr',
-    '1cr-2cr',
-    '2cr-5cr',
-    'Above 5cr',
+  final List<CustomDropdownItem<String>> _budgets = [
+    CustomDropdownItem(value: 'below-25', title: 'Below 25 Lac'),
+    CustomDropdownItem(value: '25-50', title: '25 Lac - 50 Lac'),
+    CustomDropdownItem(value: '50-1cr', title: '50 Lac - 1 Cr'),
+    CustomDropdownItem(value: '1-2cr', title: '1 Cr - 2 Cr'),
+    CustomDropdownItem(value: 'above-2cr', title: 'Above 2 Cr'),
   ];
 
   final sc = ScrollController();
@@ -105,16 +103,9 @@ class _PropertyEnquiryScreenState extends State<PropertyEnquiryScreen> {
                 isRequired: true,
                 label: 'Interested In',
                 hintText: 'Select',
-                selected: _con.selectedInterest.value == null
-                    ? null
-                    : CustomDropdownItem(
-                        value: _con.selectedInterest.value,
-                        title: _con.selectedInterest.value!,
-                      ),
-                items: _interests
-                    .map((i) => CustomDropdownItem(value: i, title: i))
-                    .toList(),
-                onSelect: (item) => _con.selectedInterest(item!.value),
+                selected: _con.selectedInterest.value,
+                items: _interests,
+                onSelect: (item) => _con.selectedInterest(item),
                 errorText: _con.typeError,
               ),
 
@@ -122,16 +113,9 @@ class _PropertyEnquiryScreenState extends State<PropertyEnquiryScreen> {
                 isRequired: true,
                 label: 'Budget',
                 hintText: 'Select your budget',
-                selected: _con.selectedBudget.value == null
-                    ? null
-                    : CustomDropdownItem(
-                        value: _con.selectedBudget.value,
-                        title: _con.selectedBudget.value!,
-                      ),
-                items: _budgets
-                    .map((i) => CustomDropdownItem(value: i, title: i))
-                    .toList(),
-                onSelect: (item) => _con.selectedBudget(item!.value),
+                selected: _con.selectedBudget.value,
+                items: _budgets,
+                onSelect: (item) => _con.selectedBudget(item),
                 errorText: _con.budgetError,
               ),
 
