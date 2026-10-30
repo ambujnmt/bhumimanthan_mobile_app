@@ -1,4 +1,4 @@
-import 'package:flutter_html/flutter_html.dart';
+import '../../widgets/html_content.dart';
 
 import '../../../utils/app_imports.dart';
 
@@ -47,7 +47,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
               )
             : SingleChildScrollView(
                 padding: EdgeInsets.all(AppDimentions.screenPaddingXS),
-                child: Html(data: data.value!['content']),
+                child: HtmlContent(data: data.value!['content']),
               ),
       ),
     );

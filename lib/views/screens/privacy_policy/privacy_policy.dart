@@ -1,6 +1,5 @@
-import 'package:flutter_html/flutter_html.dart';
-
 import '../../../utils/app_imports.dart';
+import '../../widgets/html_content.dart';
 
 class PrivacyPolicy extends StatefulWidget {
   const PrivacyPolicy({super.key});
@@ -47,7 +46,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
               )
             : SingleChildScrollView(
                 padding: EdgeInsets.all(AppDimentions.screenPaddingXS),
-                child: Html(data: data.value!['content']),
+                child: HtmlContent(data: data.value!['content']),
               ),
       ),
     );
