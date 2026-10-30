@@ -15,6 +15,7 @@ import '../views/screens/all_featured_properties_screen/all_featured_properties_
 import '../views/screens/auth_screens/otp_input_screen/otp_input_screen.dart';
 import '../views/screens/auth_screens/register_screen/register_screen.dart';
 import '../views/screens/auth_screens/splash_screen/splash_screen.dart';
+import '../views/screens/edit_profile_screen/edit_profile_screen.dart';
 import '../views/screens/network_image_view_screen/network_image_view_screen.dart';
 import '../views/screens/property_details_screen/property_details_screen.dart';
 import '../views/screens/property_details_screen/property_details_screen_binding.dart';
@@ -79,5 +80,6 @@ class AppPages {
       name: AppRoutes.enquirySuccessScreen,
       page: () => EnquirySuccessScreen(),
     ),
+    GetPage(name: AppRoutes.editProfileScreen, page: () => EditProfileScreen()),
   ];
 }

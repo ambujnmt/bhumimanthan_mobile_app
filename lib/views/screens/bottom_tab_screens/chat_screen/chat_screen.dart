@@ -14,6 +14,6 @@ class _ChatScreenState extends State<ChatScreen>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return const Placeholder();
+    return Scaffold();
   }
 }

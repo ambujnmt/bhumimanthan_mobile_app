@@ -107,7 +107,7 @@ class ApiServices {
       );
       return handleResponse(
         res,
-        'POST',
+        'PUT',
         finalUri.toString(),
         showErrorToast: showErrorToast,
       );

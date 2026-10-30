@@ -1,4 +1,5 @@
 import '../../../../utils/app_imports.dart';
+import 'menu_screen_controller.dart';
 
 class MenuScreen extends StatefulWidget {
   const MenuScreen({super.key});
@@ -9,6 +10,7 @@ class MenuScreen extends StatefulWidget {
 
 class _MenuScreenState extends State<MenuScreen>
     with AutomaticKeepAliveClientMixin {
+  final _con = Get.put(MenuScreenController());
   final sc = ScrollController();
   @override
   bool get wantKeepAlive => true;
@@ -21,188 +23,183 @@ class _MenuScreenState extends State<MenuScreen>
         title: 'My Account',
         showLeading: false,
       ),
-      body: ListView(
-        controller: sc,
-        padding: const EdgeInsets.all(16),
-        children: [
-          _profileCard(),
-          const SizedBox(height: 24),
+      body: Obx(
+        () => ListView(
+          controller: sc,
+          padding: const EdgeInsets.all(16),
+          children: [
+            _profileCard(_con),
+            const SizedBox(height: 24),
 
-          _sectionTitle('ACCOUNT'),
-          _menuCard([
-            _MenuItem(
-              icon: Icons.person_outline_rounded,
-              title: 'My Profile',
-              subtitle: 'Manage your personal information',
-              onTap: () => _navigate('/profile'),
-            ),
-            _MenuItem(
-              icon: Icons.home_work_outlined,
-              title: 'My Properties',
-              subtitle: 'View your saved or listed properties',
-              onTap: () => _navigate('/my-properties'),
-            ),
-            _MenuItem(
-              icon: Icons.favorite_border_rounded,
-              title: 'My Favorites',
-              subtitle: 'Properties you have saved',
-              onTap: () => _navigate('/favorites'),
-            ),
-            _MenuItem(
-              icon: Icons.compare_arrows_rounded,
-              title: 'Compare Properties',
-              subtitle: 'Compare your shortlisted properties',
-              onTap: () => _navigate('/compare'),
-            ),
-            _MenuItem(
-              icon: Icons.location_on_outlined,
-              title: 'Saved Addresses',
-              subtitle: 'Manage your preferred locations',
-              onTap: () => _navigate('/saved-addresses'),
-            ),
-          ]),
+            _sectionTitle('ACCOUNT'),
+            _menuCard([
+              _MenuItem(
+                icon: Icons.person_outline_rounded,
+                title: 'Edit Profile',
+                subtitle: 'Manage your personal information',
+                onTap: () => _navigate(AppRoutes.editProfileScreen),
+              ),
+              _MenuItem(
+                icon: Icons.home_work_outlined,
+                title: 'My Properties',
+                subtitle: 'View your saved or listed properties',
+                onTap: () => _navigate('/my-properties'),
+              ),
+              _MenuItem(
+                icon: Icons.favorite_border_rounded,
+                title: 'My Favorites',
+                subtitle: 'Properties you have saved',
+                onTap: () => _navigate('/favorites'),
+              ),
+              _MenuItem(
+                icon: Icons.compare_arrows_rounded,
+                title: 'Compare Properties',
+                subtitle: 'Compare your shortlisted properties',
+                onTap: () => _navigate('/compare'),
+              ),
+              _MenuItem(
+                icon: Icons.location_on_outlined,
+                title: 'Saved Addresses',
+                subtitle: 'Manage your preferred locations',
+                onTap: () => _navigate('/saved-addresses'),
+              ),
+            ]),
 
-          const SizedBox(height: 24),
+            const SizedBox(height: 24),
 
-          _sectionTitle('PREFERENCES'),
-          _menuCard([
-            _MenuItem(
-              icon: Icons.notifications_none_rounded,
-              title: 'Notifications',
-              onTap: () => _navigate('/notifications'),
-            ),
-            _MenuItem(
-              icon: Icons.language_rounded,
-              title: 'Language',
-              onTap: () => _navigate('/language'),
-            ),
-          ]),
+            _sectionTitle('PREFERENCES'),
+            _menuCard([
+              _MenuItem(
+                icon: Icons.notifications_none_rounded,
+                title: 'Notifications',
+                onTap: () => _navigate('/notifications'),
+              ),
+              _MenuItem(
+                icon: Icons.language_rounded,
+                title: 'Language',
+                onTap: () => _navigate('/language'),
+              ),
+            ]),
 
-          const SizedBox(height: 24),
+            const SizedBox(height: 24),
 
-          _sectionTitle('INFORMATION & SUPPORT'),
-          _menuCard([
-            _MenuItem(
-              icon: Icons.description_outlined,
-              title: 'Terms & Conditions',
-              onTap: () => _navigate('/terms-and-conditions'),
-            ),
-            _MenuItem(
-              icon: Icons.privacy_tip_outlined,
-              title: 'Privacy Policy',
-              onTap: () => _navigate('/privacy-policy'),
-            ),
-            _MenuItem(
-              icon: Icons.support_agent_rounded,
-              title: 'Contact Us',
-              onTap: () => _navigate('/contact-us'),
-            ),
-            _MenuItem(
-              icon: Icons.info_outline_rounded,
-              title: 'About Us',
-              onTap: () => _navigate('/about-us'),
-            ),
-            _MenuItem(
-              icon: Icons.star_outline_rounded,
-              title: 'Rate the App',
-              onTap: () {
-                // Open your app's store listing.
-              },
-            ),
-            _MenuItem(
-              icon: Icons.share_outlined,
-              title: 'Share App',
-              onTap: () {
-                // Add your share functionality.
-              },
-            ),
-          ]),
+            _sectionTitle('INFORMATION & SUPPORT'),
+            _menuCard([
+              _MenuItem(
+                icon: Icons.description_outlined,
+                title: 'Terms & Conditions',
+                onTap: () => _navigate('/terms-and-conditions'),
+              ),
+              _MenuItem(
+                icon: Icons.privacy_tip_outlined,
+                title: 'Privacy Policy',
+                onTap: () => _navigate('/privacy-policy'),
+              ),
+              _MenuItem(
+                icon: Icons.support_agent_rounded,
+                title: 'Contact Us',
+                onTap: () => _navigate('/contact-us'),
+              ),
+              _MenuItem(
+                icon: Icons.info_outline_rounded,
+                title: 'About Us',
+                onTap: () => _navigate('/about-us'),
+              ),
+              _MenuItem(
+                icon: Icons.star_outline_rounded,
+                title: 'Rate the App',
+                onTap: () {
+                  // Open your app's store listing.
+                },
+              ),
+              _MenuItem(
+                icon: Icons.share_outlined,
+                title: 'Share App',
+                onTap: () {
+                  // Add your share functionality.
+                },
+              ),
+            ]),
 
-          const SizedBox(height: 24),
+            const SizedBox(height: 24),
 
-          _menuCard([
-            _MenuItem(
-              icon: Icons.logout_rounded,
-              title: 'Logout',
-              iconColor: Colors.red.shade600,
-              titleColor: Colors.red.shade600,
-              showArrow: false,
-              onTap: _showLogoutDialog,
-            ),
-          ]),
+            _menuCard([
+              _MenuItem(
+                icon: Icons.logout_rounded,
+                title: 'Logout',
+                iconColor: Colors.red.shade600,
+                titleColor: Colors.red.shade600,
+                showArrow: false,
+                onTap: _showLogoutDialog,
+              ),
+            ]),
 
-          const SizedBox(height: 24),
+            const SizedBox(height: 24),
 
-          Center(
-            child: CustomText.kText(
-              'Bhumi Manthan',
-              size: 13,
-              color: Colors.grey.shade600,
-              weight: FontWeight.w600,
+            Center(
+              child: CustomText.kText(
+                'Bhumi Manthan',
+                size: 13,
+                color: Colors.grey.shade600,
+                weight: FontWeight.w600,
+              ),
             ),
-          ),
-          const SizedBox(height: 4),
-          Center(
-            child: CustomText.kText(
-              'Version 1.0.0',
-              size: 11,
-              color: Colors.grey.shade500,
+            const SizedBox(height: 4),
+            Center(
+              child: CustomText.kText(
+                'Version 1.0.0',
+                size: 11,
+                color: Colors.grey.shade500,
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
-        ],
+            const SizedBox(height: 20),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _profileCard() {
-    return InkWell(
-      onTap: () => _navigate('/profile'),
-      borderRadius: BorderRadius.circular(18),
-      child: Container(
-        padding: const EdgeInsets.all(18),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: Colors.grey.shade200),
-        ),
-        child: Row(
-          children: [
-            CircleAvatar(
-              radius: 30,
-              backgroundColor: Colors.blue.shade50,
-              child: Icon(
-                Icons.person_rounded,
-                size: 34,
-                color: Colors.blue.shade700,
-              ),
-            ),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomText.kText(
-                    'Welcome!',
-                    size: 18,
-                    weight: FontWeight.w700,
+  Widget _profileCard(MenuScreenController con) {
+    return AppContainer(
+      child: Row(
+        children: [
+          AppContainer(
+            height: 55,
+            width: 55,
+            clip: Clip.hardEdge,
+            padding: EdgeInsets.zero,
+            shape: BoxShape.circle,
+            child: con.user.value?.profileImage == null
+                ? Icon(
+                    Icons.person_rounded,
+                    size: 34,
+                    color: AppColors.secondary,
+                  )
+                : AppNetworkImage(
+                    imgUrl: con.user.value?.profileImage,
+                    fit: BoxFit.cover,
                   ),
-                  const SizedBox(height: 5),
-                  CustomText.kText(
-                    'View and manage your account',
-                    size: 12,
-                    color: Colors.grey.shade600,
-                  ),
-                ],
-              ),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomText.kText(
+                  con.user.value?.name ?? 'Welcome!',
+                  size: 18,
+                  weight: FontWeight.w700,
+                ),
+                const SizedBox(height: 5),
+                CustomText.kText(
+                  con.user.value?.email ?? 'Login to access your account',
+                  size: 12,
+                  color: Colors.grey.shade600,
+                ),
+              ],
             ),
-            Icon(
-              Icons.arrow_forward_ios_rounded,
-              size: 16,
-              color: Colors.grey.shade500,
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

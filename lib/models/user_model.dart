@@ -4,12 +4,10 @@ class UserModel {
   final String email;
   final String phone;
   final String role;
+  final String? profileImage;
   final bool termsAccepted;
   final bool isVerified;
   final String status;
-  final int isDeleted;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
 
   UserModel({
     required this.id,
@@ -20,9 +18,7 @@ class UserModel {
     required this.termsAccepted,
     required this.isVerified,
     required this.status,
-    required this.isDeleted,
-    this.createdAt,
-    this.updatedAt,
+    this.profileImage,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -35,13 +31,7 @@ class UserModel {
       termsAccepted: json['terms_accepted'] ?? false,
       isVerified: json['is_verified'] ?? false,
       status: json['status'] ?? '',
-      isDeleted: json['is_deleted'] ?? 0,
-      createdAt: json['created_at'] != null
-          ? DateTime.tryParse(json['created_at'])
-          : null,
-      updatedAt: json['updated_at'] != null
-          ? DateTime.tryParse(json['updated_at'])
-          : null,
+      profileImage: json['profile_image'],
     );
   }
 
@@ -55,9 +45,7 @@ class UserModel {
       'terms_accepted': termsAccepted,
       'is_verified': isVerified,
       'status': status,
-      'is_deleted': isDeleted,
-      'created_at': createdAt?.toIso8601String(),
-      'updated_at': updatedAt?.toIso8601String(),
+      'profile_image': profileImage,
     };
   }
 }

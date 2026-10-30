@@ -19,4 +19,5 @@ abstract class AppRoutes {
   static final propertiesCompareScreen = '/properties-compare';
   static const propertyEnquiryScreen = '/property-enquiry';
   static final enquirySuccessScreen = '/enquiry-submitted';
+  static final editProfileScreen = '/edit=profile';
 }
