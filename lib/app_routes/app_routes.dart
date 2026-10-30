@@ -19,5 +19,9 @@ abstract class AppRoutes {
   static final propertiesCompareScreen = '/properties-compare';
   static const propertyEnquiryScreen = '/property-enquiry';
   static final enquirySuccessScreen = '/enquiry-submitted';
-  static final editProfileScreen = '/edit=profile';
+  static final editProfileScreen = '/edit-profile';
+  static final termsAndConditions = '/terms-and-conditions';
+  static final contactUs = '/contact-us';
+  static final aboutUs = '/about-us';
+  static final privacyPolicy = '/privacy-policy';
 }

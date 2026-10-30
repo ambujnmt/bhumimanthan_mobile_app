@@ -1,13 +1,17 @@
+import 'package:bhumi_manthan/views/screens/about_us/about_us.dart';
 import 'package:bhumi_manthan/views/screens/all_blogs_screen/all_blogs_screen.dart';
 import 'package:bhumi_manthan/views/screens/all_luxury_properties_screen/all_luxury_properties_screen.dart';
 import 'package:bhumi_manthan/views/screens/auth_screens/forget_password_screen/forget_password_screen.dart';
 import 'package:bhumi_manthan/views/screens/auth_screens/login_screen/login_screen.dart';
 import 'package:bhumi_manthan/views/screens/auth_screens/welcome_screen/welcome_screen.dart';
 import 'package:bhumi_manthan/views/screens/blog_details_screen/blog_details_screen.dart';
+import 'package:bhumi_manthan/views/screens/contact_us/contact_us.dart';
+import 'package:bhumi_manthan/views/screens/privacy_policy/privacy_policy.dart';
 import 'package:bhumi_manthan/views/screens/project_details_screen/project_details_screen.dart';
 import 'package:bhumi_manthan/views/screens/property_compare_screen/properties_compare_screen.dart';
 import 'package:bhumi_manthan/views/screens/property_enquiry_screen/property_enquiry_screen.dart';
 import 'package:bhumi_manthan/views/screens/search_screen/search_screen.dart';
+import 'package:bhumi_manthan/views/screens/terms_and_conditions/terms_and_conditions.dart';
 import 'package:bhumi_manthan/zz_main_screen/main_screen.dart';
 
 import '../utils/app_imports.dart';
@@ -81,5 +85,12 @@ class AppPages {
       page: () => EnquirySuccessScreen(),
     ),
     GetPage(name: AppRoutes.editProfileScreen, page: () => EditProfileScreen()),
+    GetPage(name: AppRoutes.privacyPolicy, page: () => PrivacyPolicy()),
+    GetPage(
+      name: AppRoutes.termsAndConditions,
+      page: () => TermsAndConditions(),
+    ),
+    GetPage(name: AppRoutes.contactUs, page: () => ContactUs()),
+    GetPage(name: AppRoutes.aboutUs, page: () => AboutUs()),
   ];
 }

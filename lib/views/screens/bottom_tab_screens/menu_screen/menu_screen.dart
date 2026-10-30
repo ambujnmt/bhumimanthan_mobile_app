@@ -1,3 +1,4 @@
+import '../../../../controllers/user_controller.dart';
 import '../../../../utils/app_imports.dart';
 import 'menu_screen_controller.dart';
 
@@ -46,38 +47,9 @@ class _MenuScreenState extends State<MenuScreen>
                 onTap: () => _navigate('/my-properties'),
               ),
               _MenuItem(
-                icon: Icons.favorite_border_rounded,
-                title: 'My Favorites',
-                subtitle: 'Properties you have saved',
-                onTap: () => _navigate('/favorites'),
-              ),
-              _MenuItem(
-                icon: Icons.compare_arrows_rounded,
-                title: 'Compare Properties',
-                subtitle: 'Compare your shortlisted properties',
-                onTap: () => _navigate('/compare'),
-              ),
-              _MenuItem(
-                icon: Icons.location_on_outlined,
-                title: 'Saved Addresses',
-                subtitle: 'Manage your preferred locations',
-                onTap: () => _navigate('/saved-addresses'),
-              ),
-            ]),
-
-            const SizedBox(height: 24),
-
-            _sectionTitle('PREFERENCES'),
-            _menuCard([
-              _MenuItem(
                 icon: Icons.notifications_none_rounded,
                 title: 'Notifications',
                 onTap: () => _navigate('/notifications'),
-              ),
-              _MenuItem(
-                icon: Icons.language_rounded,
-                title: 'Language',
-                onTap: () => _navigate('/language'),
               ),
             ]),
 
@@ -88,36 +60,22 @@ class _MenuScreenState extends State<MenuScreen>
               _MenuItem(
                 icon: Icons.description_outlined,
                 title: 'Terms & Conditions',
-                onTap: () => _navigate('/terms-and-conditions'),
+                onTap: () => _navigate(AppRoutes.termsAndConditions),
               ),
               _MenuItem(
                 icon: Icons.privacy_tip_outlined,
                 title: 'Privacy Policy',
-                onTap: () => _navigate('/privacy-policy'),
+                onTap: () => _navigate(AppRoutes.privacyPolicy),
               ),
               _MenuItem(
                 icon: Icons.support_agent_rounded,
                 title: 'Contact Us',
-                onTap: () => _navigate('/contact-us'),
+                onTap: () => _navigate(AppRoutes.contactUs),
               ),
               _MenuItem(
                 icon: Icons.info_outline_rounded,
                 title: 'About Us',
-                onTap: () => _navigate('/about-us'),
-              ),
-              _MenuItem(
-                icon: Icons.star_outline_rounded,
-                title: 'Rate the App',
-                onTap: () {
-                  // Open your app's store listing.
-                },
-              ),
-              _MenuItem(
-                icon: Icons.share_outlined,
-                title: 'Share App',
-                onTap: () {
-                  // Add your share functionality.
-                },
+                onTap: () => _navigate(AppRoutes.aboutUs),
               ),
             ]),
 
@@ -130,7 +88,7 @@ class _MenuScreenState extends State<MenuScreen>
                 iconColor: Colors.red.shade600,
                 titleColor: Colors.red.shade600,
                 showArrow: false,
-                onTap: _showLogoutDialog,
+                onTap: () => UserController.logout(),
               ),
             ]),
 
@@ -302,28 +260,6 @@ class _MenuScreenState extends State<MenuScreen>
 
   void _navigate(String route) {
     Get.toNamed(route);
-  }
-
-  void _showLogoutDialog() {
-    Get.dialog(
-      AlertDialog(
-        title: const Text('Logout'),
-        content: const Text(
-          'Are you sure you want to log out of your account?',
-        ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-        actions: [
-          TextButton(onPressed: Get.back, child: const Text('Cancel')),
-          TextButton(
-            onPressed: () {
-              Get.back();
-              // TODO: Call your authentication controller's logout method.
-            },
-            child: Text('Logout', style: TextStyle(color: Colors.red.shade600)),
-          ),
-        ],
-      ),
-    );
   }
 }
 
