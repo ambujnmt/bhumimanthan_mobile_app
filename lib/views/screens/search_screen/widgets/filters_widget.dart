@@ -443,5 +443,3 @@ Expanded _budgetWidget({
     ),
   );
 }
-
-final _items = ['1 BHK', '2 BHK', '3 BHK', '4 BHK', '4+ BHK'];

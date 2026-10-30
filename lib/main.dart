@@ -1,10 +1,15 @@
 import 'package:bhumi_manthan/app_routes/app_pages.dart';
 
 import 'utils/app_imports.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Future.wait([SharedPrefs.init()]);
+  await Future.wait([
+    Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
+    SharedPrefs.init(),
+  ]);
   runApp(const MyApp());
 }
 

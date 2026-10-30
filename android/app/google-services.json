@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "897078098090",
+    "project_id": "marriage-app-dc11e",
+    "storage_bucket": "marriage-app-dc11e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:897078098090:android:396ba63e69e14a3705f8d3",
+        "android_client_info": {
+          "package_name": "com.example.bhumi_manthan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "897078098090-09ceb2ph35nsf6t2u4mr7ofih4svl5k8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnInZ0ktgTXY9QdyP7-S8PB2SYP6vPl8s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "897078098090-09ceb2ph35nsf6t2u4mr7ofih4svl5k8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "897078098090-car3euq53daur69n21h3i95no9bcgi3k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.nmt.marriage"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:897078098090:android:76861633fb372f9605f8d3",
+        "android_client_info": {
+          "package_name": "com.nmt.marriage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "897078098090-85l92hpeukv8meb72770cl86c1q4jk5j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nmt.marriage",
+            "certificate_hash": "1a77ddd30f655422c6122513c4425d1ec6119046"
+          }
+        },
+        {
+          "client_id": "897078098090-09ceb2ph35nsf6t2u4mr7ofih4svl5k8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnInZ0ktgTXY9QdyP7-S8PB2SYP6vPl8s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "897078098090-09ceb2ph35nsf6t2u4mr7ofih4svl5k8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "897078098090-car3euq53daur69n21h3i95no9bcgi3k.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.nmt.marriage"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
