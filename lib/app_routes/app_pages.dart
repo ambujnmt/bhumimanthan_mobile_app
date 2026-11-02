@@ -5,6 +5,7 @@ import 'package:bhumi_manthan/views/screens/auth_screens/forget_password_screen/
 import 'package:bhumi_manthan/views/screens/auth_screens/login_screen/login_screen.dart';
 import 'package:bhumi_manthan/views/screens/auth_screens/welcome_screen/welcome_screen.dart';
 import 'package:bhumi_manthan/views/screens/blog_details_screen/blog_details_screen.dart';
+import 'package:bhumi_manthan/views/screens/chat_screens/user_to_agent_chat_screen/user_to_agent_chat_screen.dart';
 import 'package:bhumi_manthan/views/screens/contact_us/contact_us.dart';
 import 'package:bhumi_manthan/views/screens/privacy_policy/privacy_policy.dart';
 import 'package:bhumi_manthan/views/screens/project_details_screen/project_details_screen.dart';
@@ -92,5 +93,9 @@ class AppPages {
     ),
     GetPage(name: AppRoutes.contactUs, page: () => ContactUs()),
     GetPage(name: AppRoutes.aboutUs, page: () => AboutUs()),
+    GetPage(
+      name: AppRoutes.userToAgentChatScreen,
+      page: () => UserToAgentChatScreen(),
+    ),
   ];
 }

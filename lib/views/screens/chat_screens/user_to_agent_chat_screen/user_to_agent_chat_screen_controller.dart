@@ -1,0 +1,181 @@
+import '../../../../controllers/user_controller.dart';
+import '../../../../utils/app_imports.dart';
+
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'user_to_agent_chat_model.dart';
+
+class UserToAgentChatScreenController extends GetxController {
+  final collectionName = 'chats';
+
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  final user = UserController.user.value;
+
+  late final String agentId;
+
+  late final String chatId;
+
+  late final String currentUserId;
+
+  final messageController = TextEditingController();
+
+  final scrollController = ScrollController();
+
+  final RxList<UserToAgentChatModel> messages = <UserToAgentChatModel>[].obs;
+
+  final RxBool isLoading = true.obs;
+  final RxBool isSending = false.obs;
+  final RxBool hasError = false.obs;
+
+  StreamSubscription<QuerySnapshot<Map<String, dynamic>>>?
+  _messagesSubscription;
+
+  bool _isDisposed = false;
+
+  DocumentReference<Map<String, dynamic>> get _chatRef =>
+      _firestore.collection(collectionName).doc(chatId);
+
+  CollectionReference<Map<String, dynamic>> get _messagesRef =>
+      _chatRef.collection('messages');
+
+  @override
+  void onInit() {
+    super.onInit();
+
+    final args = Get.arguments as Map<String, dynamic>;
+
+    agentId = args['id'].toString();
+    chatId = _getChatId(agentId);
+    currentUserId = user!.id.toString();
+
+    listenToMessages();
+  }
+
+  String _getChatId(String agentId) {
+    return '18_12';
+    return '${user?.id}_$agentId';
+  }
+
+  // Listen to the latest 50 messages in real time.
+  void listenToMessages() {
+    _messagesSubscription?.cancel();
+
+    isLoading.value = true;
+    hasError.value = false;
+
+    _messagesSubscription = _messagesRef
+        .orderBy('created_at', descending: true)
+        .limit(50)
+        .snapshots()
+        .listen(
+          (snapshot) {
+            if (_isDisposed) return;
+
+            messages.assignAll(
+              snapshot.docs.map(UserToAgentChatModel.fromDocument),
+            );
+
+            isLoading.value = false;
+            hasError.value = false;
+
+            // Mark incoming messages as seen.
+            markMessagesAsSeen(snapshot.docs);
+          },
+          onError: (Object error) {
+            if (_isDisposed) return;
+
+            isLoading.value = false;
+            hasError.value = true;
+
+            debugPrint('Firestore message listener error: $error');
+          },
+        );
+  }
+
+  // Send a text message.
+  Future<void> sendMessage() async {
+    final text = messageController.text.trim();
+    messageController.clear();
+
+    if (text.isEmpty || isSending.value) return;
+
+    isSending.value = true;
+
+    try {
+      final batch = _firestore.batch();
+      final messageRef = _messagesRef.doc();
+
+      final message = UserToAgentChatModel(
+        id: messageRef.id,
+        senderId: currentUserId,
+        message: text,
+        isSeen: false,
+      );
+
+      batch.set(messageRef, message.toMap());
+
+      // // Update the conversation's latest-message information.
+      // batch.set(_chatRef, {
+      //   'lastMessage': text,
+      //   'lastMessageAt': FieldValue.serverTimestamp(),
+      //   'lastMessageSenderId': currentUserId,
+      // }, SetOptions(merge: true));
+
+      await batch.commit();
+    } catch (e) {
+      debugPrint('Send message error: $e');
+      AppToast.error('Please try again, Message not sent');
+    } finally {
+      if (!_isDisposed) {
+        isSending.value = false;
+      }
+    }
+  }
+
+  // Mark only messages received from the other participant as seen.
+  Future<void> markMessagesAsSeen(
+    List<QueryDocumentSnapshot<Map<String, dynamic>>> docs,
+  ) async {
+    debugPrint('messages marked as seen');
+    final unseenMessages = docs.where((doc) {
+      final data = doc.data();
+
+      return data['sender_id'] != currentUserId &&
+          (data['isSeen'] as bool? ?? false) == false;
+    }).toList();
+
+    if (unseenMessages.isEmpty) return;
+
+    try {
+      final batch = _firestore.batch();
+
+      for (final doc in unseenMessages) {
+        batch.update(doc.reference, {'isSeen': true});
+      }
+
+      await batch.commit();
+    } catch (e) {
+      debugPrint('Mark messages as seen error: $e');
+    }
+  }
+
+  // Retry after a stream error.
+  void retryLoading() {
+    if (_isDisposed) return;
+    listenToMessages();
+  }
+
+  @override
+  void onClose() {
+    _isDisposed = true;
+
+    _messagesSubscription?.cancel();
+    messageController.dispose();
+    scrollController.dispose();
+
+    super.onClose();
+  }
+}

@@ -7,8 +7,8 @@ class CompareController {
     final res = await _api.post(
       '/compare/add',
       payload: {'property_id': id.toString()},
-      showErrorToast: true,
     );
+    if (res.code == 409) return true;
     if (!res.success) return false;
     return true;
   }
