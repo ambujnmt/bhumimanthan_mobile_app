@@ -1,4 +1,5 @@
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/home_screen_controller.dart';
+import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/distance_widget.dart';
 
 import '../../../../../utils/app_imports.dart';
 
@@ -37,11 +38,22 @@ class FeaturedProperties extends StatelessWidget {
                           children: [
                             Expanded(
                               flex: 4,
-                              child: AppNetworkImage(
-                                imgUrl: item.mainImage,
-                                height: Get.height,
-                                width: Get.width,
-                                fit: BoxFit.cover,
+                              child: Stack(
+                                children: [
+                                  AppNetworkImage(
+                                    imgUrl: item.mainImage,
+                                    height: Get.height,
+                                    width: Get.width,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  Positioned(
+                                    bottom: 10,
+                                    right: 10,
+                                    child: distanceWidget(
+                                      item.distanceKm.toStringAsFixed(0),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             Expanded(

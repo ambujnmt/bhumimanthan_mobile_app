@@ -1,5 +1,6 @@
 import '../../../../../utils/app_imports.dart';
 import '../home_screen_controller.dart';
+import 'distance_widget.dart';
 
 class LuxuryPerperties extends StatelessWidget {
   LuxuryPerperties({super.key});
@@ -37,10 +38,23 @@ class LuxuryPerperties extends StatelessWidget {
                           children: [
                             Expanded(
                               flex: 7,
-                              child: AppNetworkImage(
-                                imgUrl: item.mainImage,
-                                width: Get.width,
-                                fit: BoxFit.cover,
+                              child: Stack(
+                                children: [
+                                  Positioned.fill(
+                                    child: AppNetworkImage(
+                                      imgUrl: item.mainImage,
+                                      width: Get.width,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  Positioned(
+                                    bottom: 10,
+                                    left: 10,
+                                    child: distanceWidget(
+                                      item.distanceKm.toStringAsFixed(0),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                             Expanded(

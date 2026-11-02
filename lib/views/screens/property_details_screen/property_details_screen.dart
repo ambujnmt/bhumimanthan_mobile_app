@@ -80,6 +80,7 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                     )
                   : ListView(
                       controller: sc,
+                      padding: EdgeInsets.zero,
                       children: [
                         Padding(
                           padding: EdgeInsets.symmetric(
