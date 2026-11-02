@@ -1,5 +1,5 @@
 import '../../../../utils/app_imports.dart';
-import 'user_to_agent_chat_model.dart';
+import 'model/user_to_agent_chat_model.dart';
 import 'user_to_agent_chat_screen_controller.dart';
 
 class UserToAgentChatScreen extends StatefulWidget {
@@ -13,14 +13,23 @@ class _UserToAgentChatScreenState extends State<UserToAgentChatScreen> {
   final controller = Get.put(UserToAgentChatScreenController());
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppbar(title: 'Messages'),
-      body: Column(
-        children: [
-          Expanded(child: _buildMessages()),
-          _buildMessageInput(context),
-        ],
-      ),
+    return Obx(
+      () => controller.isLoadingData.value
+          ? Scaffold(
+              appBar: CustomAppbar(title: 'Chat'),
+              body: AppLoader.widget(),
+            )
+          : Scaffold(
+              appBar: CustomAppbar(
+                title: controller.data.value?.creator.name ?? 'Messages',
+              ),
+              body: Column(
+                children: [
+                  Expanded(child: _buildMessages()),
+                  _buildMessageInput(context),
+                ],
+              ),
+            ),
     );
   }
 

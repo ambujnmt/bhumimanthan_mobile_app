@@ -67,7 +67,7 @@ class PdsSellerWidget extends StatelessWidget {
               text: 'Chat with Seller/Agent',
               onTap: () => Get.toNamed(
                 AppRoutes.userToAgentChatScreen,
-                arguments: {'id': 2},
+                arguments: {'id': con.data.value!.id},
               ),
             ),
           ],

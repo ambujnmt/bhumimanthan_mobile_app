@@ -47,10 +47,9 @@ class PropertyDetailsModel {
   final String? rapidMetroDistance;
   final String? schoolDistance;
   final String? hospitalDistance;
-  final int createdBy;
+  final Creator creator;
+  final bool isCompared;
   final String createdAt;
-  final String updatedAt;
-  final String? deletedAt;
 
   const PropertyDetailsModel({
     required this.id,
@@ -101,10 +100,9 @@ class PropertyDetailsModel {
     this.rapidMetroDistance,
     this.schoolDistance,
     this.hospitalDistance,
-    required this.createdBy,
+    required this.isCompared,
+    required this.creator,
     required this.createdAt,
-    required this.updatedAt,
-    this.deletedAt,
   });
 
   factory PropertyDetailsModel.fromJson(Map<String, dynamic> json) {
@@ -161,10 +159,9 @@ class PropertyDetailsModel {
       rapidMetroDistance: json['rapid_metro_distance']?.toString(),
       schoolDistance: json['school_distance']?.toString(),
       hospitalDistance: json['hospital_distance']?.toString(),
-      createdBy: json['created_by'] ?? 0,
+      isCompared: json['is_compared'] ?? false,
+      creator: Creator.fromJson(json['creator']),
       createdAt: json['created_at'] ?? '',
-      updatedAt: json['updated_at'] ?? '',
-      deletedAt: json['deleted_at'],
     );
   }
 
@@ -218,10 +215,24 @@ class PropertyDetailsModel {
       'rapid_metro_distance': rapidMetroDistance,
       'school_distance': schoolDistance,
       'hospital_distance': hospitalDistance,
-      'created_by': createdBy,
+      'is_compared': isCompared,
+      'creator': creator.toJson(),
       'created_at': createdAt,
-      'updated_at': updatedAt,
-      'deleted_at': deletedAt,
     };
+  }
+}
+
+class Creator {
+  final int id;
+  final String name;
+  final String role;
+  Creator({required this.id, required this.name, required this.role});
+
+  factory Creator.fromJson(Map json) {
+    return Creator(id: json['id'], name: json['name'], role: json['role']);
+  }
+
+  Map toJson() {
+    return {'id': id, 'name': name, 'role': role};
   }
 }

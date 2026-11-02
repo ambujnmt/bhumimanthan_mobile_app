@@ -1,20 +1,22 @@
-import '../../../../controllers/user_controller.dart';
+import 'package:bhumi_manthan/models/propertiy_details_model.dart';
+
 import '../../../../utils/app_imports.dart';
 
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'user_to_agent_chat_model.dart';
+import 'model/user_to_agent_chat_model.dart';
 
 class UserToAgentChatScreenController extends GetxController {
+  final data = Rxn<PropertyDetailsModel>();
+  final isLoadingData = true.obs;
+
   final collectionName = 'chats';
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   final user = UserController.user.value;
-
-  late final String agentId;
 
   late final String chatId;
 
@@ -41,22 +43,43 @@ class UserToAgentChatScreenController extends GetxController {
   CollectionReference<Map<String, dynamic>> get _messagesRef =>
       _chatRef.collection('messages');
 
-  @override
-  void onInit() {
-    super.onInit();
+  void _setChatData() {
+    chatId = _getChatId();
+  }
 
+  Future<void> _getData() async {
+    final res = await ApiServices().get(
+      '/properties/detail/${Get.arguments['id']}',
+    );
+
+    if (!res.success) return;
+    data.value = PropertyDetailsModel.fromJson(res.data['data']['property']);
+    _setChatData();
+  }
+
+  Future<void> refreshData() async {
+    isLoadingData(true);
     final args = Get.arguments as Map<String, dynamic>;
 
-    agentId = args['id'].toString();
-    chatId = _getChatId(agentId);
-    currentUserId = user!.id.toString();
-
+    data.value = args['data'] as PropertyDetailsModel?;
+    if (data.value == null) {
+      await _getData();
+    } else {
+      _setChatData();
+    }
+    isLoadingData(false);
     listenToMessages();
   }
 
-  String _getChatId(String agentId) {
-    return '18_12';
-    return '${user?.id}_$agentId';
+  @override
+  void onInit() {
+    super.onInit();
+    currentUserId = user!.id.toString();
+    refreshData();
+  }
+
+  String _getChatId() {
+    return 'chat_${data.value!.id}_${user?.id}_${data.value!.creator.id}';
   }
 
   // Listen to the latest 50 messages in real time.
@@ -117,12 +140,20 @@ class UserToAgentChatScreenController extends GetxController {
 
       batch.set(messageRef, message.toMap());
 
-      // // Update the conversation's latest-message information.
-      // batch.set(_chatRef, {
-      //   'lastMessage': text,
-      //   'lastMessageAt': FieldValue.serverTimestamp(),
-      //   'lastMessageSenderId': currentUserId,
-      // }, SetOptions(merge: true));
+      // Update the conversation's latest-message information.
+      batch.set(_chatRef, {
+        'last_message': text,
+        'last_message_at': FieldValue.serverTimestamp(),
+        'last_message_sender_id': currentUserId,
+        if (messages.isEmpty) ...{
+          'listing_data': {
+            'property_id': data.value!.id.toString(),
+            'property_name': data.value!.title,
+            'agent_name': data.value!.creator.name,
+            'role': data.value!.creator.role,
+          },
+        },
+      }, SetOptions(merge: true));
 
       await batch.commit();
     } catch (e) {
