@@ -6,7 +6,6 @@ import 'package:bhumi_manthan/views/screens/property_details_screen/widgets/pds_
 import 'package:bhumi_manthan/views/screens/property_details_screen/widgets/pds_property_details.dart';
 import 'package:bhumi_manthan/views/screens/property_details_screen/widgets/pds_seller_widget.dart';
 import 'package:bhumi_manthan/views/screens/property_details_screen/widgets/pds_similar_properties.dart';
-import 'package:bhumi_manthan/views/widgets/app_fade_animated_switcher.dart';
 
 import '../../../utils/app_imports.dart';
 import 'property_details_screen_controller.dart';
@@ -57,15 +56,10 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                         controller: sc,
                         padding: EdgeInsets.zero,
                         children: [
-                          AppFadeAnimatedSwitcher(
-                            child: _con.isLoading.value
-                                ? AppNetworkImage(
-                                    imgUrl: _con.data.value?.mainImage ?? '',
-                                    height: Get.height * .4,
-                                    width: Get.width,
-                                    fit: BoxFit.cover,
-                                  )
-                                : PdsImageWidget(con: _con),
+                          PdsImageWidget(
+                            images: _con.data.value!.galleryImages.isNotEmpty
+                                ? _con.data.value!.galleryImages
+                                : [_con.data.value?.mainImage ?? ''],
                           ),
                           Transform.translate(
                             offset: const Offset(0, -AppDimentions.boxRadiusXL),

@@ -1,6 +1,7 @@
 import 'package:bhumi_manthan/models/blog_model.dart';
 
 import '../../../utils/app_imports.dart';
+import 'widgets/abs_list_card_widget.dart';
 
 class AllBlogsScreen extends StatefulWidget {
   const AllBlogsScreen({super.key});
@@ -19,9 +20,9 @@ class _AllBlogsScreenState extends State<AllBlogsScreen> {
   final items = <BlogModel>[].obs;
 
   Future<void> _getData() async {
-    final res = await _api.get('/properties/luxury', queries: {'luxury': '1'});
+    final res = await _api.get('/blogs');
     if (!res.success) return;
-    items.value = (res.data['data']['properties'] as List)
+    items.value = (res.data['data']['blogs'] as List)
         .map((json) => BlogModel.fromJson(json))
         .toList();
   }
@@ -56,10 +57,8 @@ class _AllBlogsScreenState extends State<AllBlogsScreen> {
                     100,
                   ),
                   itemCount: items.length,
-                  itemBuilder: (context, index) => AppContainer(
-                    // label: 'LUXURY',
-                    // property: featuredItems[index],
-                  ),
+                  itemBuilder: (context, index) =>
+                      blogListCard(blog: items[index]),
                   separatorBuilder: (context, index) => heightSpace10,
                 ),
         ),

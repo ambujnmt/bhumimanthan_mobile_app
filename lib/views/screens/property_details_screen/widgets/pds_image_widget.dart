@@ -1,12 +1,11 @@
-import 'package:bhumi_manthan/views/screens/property_details_screen/property_details_screen_controller.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 
 import '../../../../../utils/app_imports.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class PdsImageWidget extends StatefulWidget {
-  const PdsImageWidget({super.key, required this.con});
-  final PropertyDetailsScreenController con;
+  const PdsImageWidget({super.key, this.images = const ['']});
+  final List<String> images;
 
   @override
   State<PdsImageWidget> createState() => _PdsImageWidgetState();
@@ -29,7 +28,7 @@ class _PdsImageWidgetState extends State<PdsImageWidget> {
   Future<void> _preloadBanners() async {
     if (!mounted) return;
 
-    final urls = widget.con.data.value!.galleryImages
+    final urls = widget.images
         .map((img) => img)
         .where((url) => url.isNotEmpty && !_preloadedImages.contains(url))
         .toSet();
@@ -46,15 +45,15 @@ class _PdsImageWidgetState extends State<PdsImageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final images = widget.con.data.value?.galleryImages ?? [];
-    if (images.isEmpty) {
-      return AppNetworkImage(
-        imgUrl: widget.con.data.value?.mainImage,
-        height: Get.height * .4,
-        width: Get.width,
-        fit: BoxFit.cover,
-      );
-    }
+    final images = widget.images;
+    // if (images.isEmpty) {
+    //   return AppNetworkImage(
+    //     imgUrl: widget.con.data.value?.mainImage,
+    //     height: Get.height * .4,
+    //     width: Get.width,
+    //     fit: BoxFit.cover,
+    //   );
+    // }
     return Stack(
       children: [
         CarouselSlider.builder(

@@ -1,4 +1,5 @@
 import 'package:bhumi_manthan/models/project_details_model.dart';
+import 'package:bhumi_manthan/views/screens/all_projects/widgets/aps_card_widget.dart';
 
 import '../../../utils/app_imports.dart';
 
@@ -22,7 +23,7 @@ class _AllProjectsState extends State<AllProjects> {
   Future<void> _getData() async {
     final res = await _api.get('/projects');
     if (!res.success) return;
-    items.value = (res.data['data']['properties'] as List)
+    items.value = (res.data['data']['projects'] as List)
         .map((json) => ProjectDetailsModel.fromJson(json))
         .toList();
   }
@@ -41,6 +42,30 @@ class _AllProjectsState extends State<AllProjects> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(appBar: CustomAppbar(title: 'Projects'));
+    return Scaffold(
+      appBar: CustomAppbar(scrollController: sc, title: 'Projects'),
+      body: Obx(
+        () => AppRefreshIndicator(
+          onRefresh: refreshData,
+          child: isLoading.value
+              ? AppLoader.widget()
+              : items.isEmpty
+              ? noDataAvailable()
+              : ListView.separated(
+                  controller: sc,
+                  padding: EdgeInsets.fromLTRB(
+                    AppDimentions.defaultScreenPadding,
+                    AppDimentions.defaultScreenPadding,
+                    AppDimentions.defaultScreenPadding,
+                    100,
+                  ),
+                  itemCount: items.length,
+                  itemBuilder: (context, index) =>
+                      ApsCardWidget(item: items[index]),
+                  separatorBuilder: (context, index) => heightSpace10,
+                ),
+        ),
+      ),
+    );
   }
 }

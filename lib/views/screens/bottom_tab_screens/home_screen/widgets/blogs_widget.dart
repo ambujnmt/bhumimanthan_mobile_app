@@ -9,7 +9,7 @@ class BlogsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SectionWidget(
       title: 'Real Estate News & Insights',
-      onViewAll: () {},
+      onViewAll: () => Get.toNamed(AppRoutes.allBlogsScreen),
       content: Obx(
         () => _con.blogs.isEmpty
             ? noDataAvailable(isScrollable: false, height: 80)
@@ -81,25 +81,22 @@ class BlogsWidget extends StatelessWidget {
                                       family: CustomFonts.outfit,
                                     ),
                                     Spacer(),
-                                    InkWell(
-                                      onTap: () {},
-                                      child: Row(
-                                        children: [
-                                          CustomText.kText(
-                                            'Read More',
-                                            size: 14,
-                                            lines: 1,
-                                            weight: FontWeight.w700,
-                                            color: AppColors.primary,
-                                            family: CustomFonts.outfit,
-                                          ),
-                                          Icon(
-                                            Icons.keyboard_arrow_right,
-                                            size: 20,
-                                            color: AppColors.primary,
-                                          ),
-                                        ],
-                                      ),
+                                    Row(
+                                      children: [
+                                        CustomText.kText(
+                                          'Read More',
+                                          size: 14,
+                                          lines: 1,
+                                          weight: FontWeight.w700,
+                                          color: AppColors.primary,
+                                          family: CustomFonts.outfit,
+                                        ),
+                                        Icon(
+                                          Icons.keyboard_arrow_right,
+                                          size: 20,
+                                          color: AppColors.primary,
+                                        ),
+                                      ],
                                     ),
                                     Spacer(),
                                   ],
