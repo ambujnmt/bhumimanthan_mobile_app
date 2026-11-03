@@ -6,7 +6,6 @@ export 'package:flutter/material.dart';
 export 'package:cached_network_image/cached_network_image.dart';
 export 'package:get/get.dart';
 export 'package:skeletonizer/skeletonizer.dart';
-export 'package:sliding_up_panel2/sliding_up_panel2.dart';
 
 // App-wide custom imports
 export 'package:bhumi_manthan/controllers/user_controller.dart';

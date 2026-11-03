@@ -41,6 +41,6 @@ class _AllProjectsState extends State<AllProjects> {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const Scaffold(appBar: CustomAppbar(title: 'Projects'));
   }
 }

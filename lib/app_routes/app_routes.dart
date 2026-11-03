@@ -25,4 +25,5 @@ abstract class AppRoutes {
   static final aboutUs = '/about-us';
   static final privacyPolicy = '/privacy-policy';
   static final userToAgentChatScreen = '/user-to-agent-chat';
+  static final allProjects = '/all-projects';
 }

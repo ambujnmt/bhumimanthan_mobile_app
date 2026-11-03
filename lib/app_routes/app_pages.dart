@@ -17,6 +17,7 @@ import 'package:bhumi_manthan/zz_main_screen/main_screen.dart';
 
 import '../utils/app_imports.dart';
 import '../views/screens/all_featured_properties_screen/all_featured_properties_screen.dart';
+import '../views/screens/all_projects/all_projects.dart';
 import '../views/screens/auth_screens/otp_input_screen/otp_input_screen.dart';
 import '../views/screens/auth_screens/register_screen/register_screen.dart';
 import '../views/screens/auth_screens/splash_screen/splash_screen.dart';
@@ -97,5 +98,6 @@ class AppPages {
       name: AppRoutes.userToAgentChatScreen,
       page: () => UserToAgentChatScreen(),
     ),
+    GetPage(name: AppRoutes.allProjects, page: () => AllProjects()),
   ];
 }

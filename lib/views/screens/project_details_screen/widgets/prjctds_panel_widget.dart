@@ -1,5 +1,4 @@
 import 'package:bhumi_manthan/views/screens/project_details_screen/project_details_screen_controller.dart';
-import 'package:bhumi_manthan/views/widgets/app_fade_animated_switcher.dart';
 
 import '../../../../models/project_details_model.dart';
 import '../../../../utils/app_imports.dart';
@@ -34,187 +33,157 @@ class _PrjctdsPanelWidgetState extends State<PrjctdsPanelWidget> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colors = theme.colorScheme;
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.backgroundColor,
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(AppDimentions.boxRadiusXL),
+    ProjectDetailsModel project = _con.data.value!;
+    String formattedPrice = getPrice(project);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        heightSpace15,
+        CustomText.kText(
+          project.name,
+          size: 20,
+          weight: FontWeight.w600,
+          family: CustomFonts.outfit,
         ),
-      ),
-      child: Obx(
-        () => AppFadeAnimatedSwitcher(
-          child: _con.isLoading.value
-              ? Column(
-                  children: [SizedBox(height: 400, child: AppLoader.widget())],
-                )
-              : _con.data.value == null
-              ? AppRefreshIndicator(
-                  onRefresh: _con.refreshData,
-                  child: errorLoadingData(),
-                )
-              : Builder(
-                  builder: (context) {
-                    ProjectDetailsModel project = _con.data.value!;
-                    String formattedPrice = getPrice(project);
-                    return ListView(
-                      controller: widget.sc,
-                      padding: EdgeInsets.all(
-                        AppDimentions.defaultScreenPadding,
-                      ),
-                      children: [
-                        CustomText.kText(
-                          project.name,
-                          size: 20,
-                          weight: FontWeight.w600,
-                          family: CustomFonts.outfit,
-                        ),
-                        const SizedBox(height: 8),
+        const SizedBox(height: 8),
 
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.location_on_outlined,
-                              size: 18,
-                              color: AppColors.subtitle,
-                            ),
-                            const SizedBox(width: 5),
-                            Expanded(
-                              child: CustomText.kText(
-                                '${project.location}, ${project.city}, ${project.state}',
-                                size: 14,
-                                color: AppColors.subtitle,
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        const SizedBox(height: 22),
-                        AppContainer(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CustomText.kText(
-                                'Starting Price',
-                                size: 12,
-                                color: AppColors.subtitle,
-                              ),
-                              heightSpace4,
-                              CustomText.kText(
-                                project.priceLabel?.isNotEmpty == true
-                                    ? project.priceLabel!
-                                    : formattedPrice,
-                                size: 25,
-                                family: CustomFonts.outfit,
-                                weight: FontWeight.w800,
-                                color: AppColors.primary,
-                              ),
-                              heightSpace8,
-                              CustomText.kText(
-                                project.configuration,
-                                weight: FontWeight.w600,
-                                size: 14,
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        const SizedBox(height: 28),
-
-                        _sectionTitle(context, 'Project Overview'),
-                        const SizedBox(height: 16),
-
-                        _infoTile(
-                          context,
-                          Icons.business_outlined,
-                          'Developer',
-                          project.builderName,
-                        ),
-                        _infoTile(
-                          context,
-                          Icons.location_city_outlined,
-                          'Project Location',
-                          '${project.location}, ${project.city}',
-                        ),
-                        _infoTile(
-                          context,
-                          Icons.apartment_outlined,
-                          'Configuration',
-                          project.configuration,
-                        ),
-                        _infoTile(
-                          context,
-                          Icons.flag_outlined,
-                          'Launch Status',
-                          project.launchStatus,
-                        ),
-
-                        if (project.description?.isNotEmpty == true) ...[
-                          const SizedBox(height: 24),
-                          _sectionTitle(context, 'About This Project'),
-                          const SizedBox(height: 12),
-                          Text(
-                            project.description!,
-                            style: theme.textTheme.bodyLarge?.copyWith(
-                              height: 1.6,
-                              color: colors.onSurfaceVariant,
-                            ),
-                          ),
-                        ],
-
-                        if (project.galleryImages.isNotEmpty) ...[
-                          const SizedBox(height: 28),
-                          _sectionTitle(context, 'Project Gallery'),
-                          const SizedBox(height: 14),
-                          SizedBox(
-                            height: 150,
-                            child: ListView.separated(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: project.galleryImages.length,
-                              separatorBuilder: (_, _) =>
-                                  const SizedBox(width: 12),
-                              itemBuilder: (context, index) {
-                                return ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: Image.network(
-                                    project.galleryImages[index],
-                                    width: 210,
-                                    height: 150,
-                                    fit: BoxFit.cover,
-                                    errorBuilder: (_, _, _) => Container(
-                                      width: 210,
-                                      color: colors.surfaceContainerHighest,
-                                      child: const Icon(
-                                        Icons.broken_image_outlined,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-
-                        const SizedBox(height: 28),
-
-                        _sectionTitle(context, 'Project Details'),
-                        const SizedBox(height: 14),
-
-                        _detailRow(context, 'Project ID', '${project.id}'),
-                        _detailRow(context, 'Builder', project.builderName),
-                        _detailRow(context, 'City', project.city),
-                        _detailRow(context, 'State', project.state),
-                        _detailRow(
-                          context,
-                          'Coordinates',
-                          '${project.latitude}, ${project.longitude}',
-                        ),
-                        heightSpace100,
-                      ],
-                    );
-                  },
-                ),
+        Row(
+          children: [
+            Icon(
+              Icons.location_on_outlined,
+              size: 18,
+              color: AppColors.subtitle,
+            ),
+            const SizedBox(width: 5),
+            Expanded(
+              child: CustomText.kText(
+                '${project.location}, ${project.city}, ${project.state}',
+                size: 14,
+                color: AppColors.subtitle,
+              ),
+            ),
+          ],
         ),
-      ),
+
+        const SizedBox(height: 22),
+        AppContainer(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomText.kText(
+                'Starting Price',
+                size: 12,
+                color: AppColors.subtitle,
+              ),
+              heightSpace4,
+              CustomText.kText(
+                project.priceLabel?.isNotEmpty == true
+                    ? project.priceLabel!
+                    : formattedPrice,
+                size: 25,
+                family: CustomFonts.outfit,
+                weight: FontWeight.w800,
+                color: AppColors.primary,
+              ),
+              heightSpace8,
+              CustomText.kText(
+                project.configuration,
+                weight: FontWeight.w600,
+                size: 14,
+              ),
+            ],
+          ),
+        ),
+
+        const SizedBox(height: 28),
+
+        _sectionTitle(context, 'Project Overview'),
+        const SizedBox(height: 16),
+
+        _infoTile(
+          context,
+          Icons.business_outlined,
+          'Developer',
+          project.builderName,
+        ),
+        _infoTile(
+          context,
+          Icons.location_city_outlined,
+          'Project Location',
+          '${project.location}, ${project.city}',
+        ),
+        _infoTile(
+          context,
+          Icons.apartment_outlined,
+          'Configuration',
+          project.configuration,
+        ),
+        _infoTile(
+          context,
+          Icons.flag_outlined,
+          'Launch Status',
+          project.launchStatus,
+        ),
+
+        if (project.description?.isNotEmpty == true) ...[
+          const SizedBox(height: 24),
+          _sectionTitle(context, 'About This Project'),
+          const SizedBox(height: 12),
+          Text(
+            project.description!,
+            style: theme.textTheme.bodyLarge?.copyWith(
+              height: 1.6,
+              color: colors.onSurfaceVariant,
+            ),
+          ),
+        ],
+
+        if (project.galleryImages.isNotEmpty) ...[
+          const SizedBox(height: 28),
+          _sectionTitle(context, 'Project Gallery'),
+          const SizedBox(height: 14),
+          SizedBox(
+            height: 150,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: project.galleryImages.length,
+              separatorBuilder: (_, _) => const SizedBox(width: 12),
+              itemBuilder: (context, index) {
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.network(
+                    project.galleryImages[index],
+                    width: 210,
+                    height: 150,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, _, _) => Container(
+                      width: 210,
+                      color: colors.surfaceContainerHighest,
+                      child: const Icon(Icons.broken_image_outlined),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+
+        const SizedBox(height: 28),
+
+        _sectionTitle(context, 'Project Details'),
+        const SizedBox(height: 14),
+
+        _detailRow(context, 'Project ID', '${project.id}'),
+        _detailRow(context, 'Builder', project.builderName),
+        _detailRow(context, 'City', project.city),
+        _detailRow(context, 'State', project.state),
+        _detailRow(
+          context,
+          'Coordinates',
+          '${project.latitude}, ${project.longitude}',
+        ),
+        heightSpace100,
+      ],
     );
   }
 }

@@ -9,7 +9,7 @@ class PremiumProjects extends StatelessWidget {
   Widget build(BuildContext context) {
     return SectionWidget(
       title: 'New Launch & Premium Projects',
-      onViewAll: () {},
+      onViewAll: () => Get.toNamed(AppRoutes.allProjects),
       content: Obx(
         () => _con.projects.isEmpty
             ? noDataAvailable(isScrollable: false, height: 80)
