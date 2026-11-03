@@ -1,18 +1,18 @@
 import 'package:bhumi_manthan/utils/app_imports.dart';
 
-import 'chat_screen_controller.dart';
+import 'chat_history_screen_controller.dart';
 import 'model/chat_history_model.dart';
 
-class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+class ChatHistoryScreen extends StatefulWidget {
+  const ChatHistoryScreen({super.key});
 
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  State<ChatHistoryScreen> createState() => _ChatHistoryScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen>
+class _ChatHistoryScreenState extends State<ChatHistoryScreen>
     with AutomaticKeepAliveClientMixin {
-  final _con = Get.put(ChatScreenController());
+  final _con = Get.put(ChatHistoryScreenController());
   @override
   bool get wantKeepAlive => true;
   @override

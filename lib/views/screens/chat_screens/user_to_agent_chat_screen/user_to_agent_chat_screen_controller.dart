@@ -1,5 +1,4 @@
 import 'package:bhumi_manthan/models/propertiy_details_model.dart';
-import 'package:bhumi_manthan/views/screens/bottom_tab_screens/chat_screen/chat_screen_controller.dart';
 
 import '../../../../utils/app_imports.dart';
 

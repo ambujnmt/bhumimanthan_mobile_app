@@ -1,4 +1,3 @@
-import 'package:bhumi_manthan/controllers/user_controller.dart';
 import 'package:bhumi_manthan/shared_prefs/storage/user_storage.dart';
 import 'package:bhumi_manthan/views/screens/auth_screens/otp_input_screen/otp_input_screen_controller.dart';
 

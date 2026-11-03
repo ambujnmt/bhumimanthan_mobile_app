@@ -1,5 +1,4 @@
-import 'package:bhumi_manthan/controllers/user_controller.dart';
-import 'package:bhumi_manthan/views/screens/bottom_tab_screens/chat_screen/chat_screen.dart';
+import 'package:bhumi_manthan/views/screens/bottom_tab_screens/chat_history_screen/chat_history_screen.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/favorites_screen/favorites_screen.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/menu_screen/menu_screen.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/compare_screen/compare_screen.dart';
@@ -64,7 +63,7 @@ class _MainScreenState extends State<MainScreen> {
             HomeScreen(),
             SearchScreen(),
             FavoritesScreen(),
-            ChatScreen(),
+            ChatHistoryScreen(),
             CompareScreen(),
             MenuScreen(),
           ],

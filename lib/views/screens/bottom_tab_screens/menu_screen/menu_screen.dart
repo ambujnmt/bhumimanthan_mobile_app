@@ -1,4 +1,3 @@
-import '../../../../controllers/user_controller.dart';
 import '../../../../utils/app_imports.dart';
 import 'menu_screen_controller.dart';
 

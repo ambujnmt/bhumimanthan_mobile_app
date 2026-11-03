@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../../utils/app_imports.dart';
 import 'model/chat_history_model.dart';
 
-class ChatScreenController extends GetxController {
+class ChatHistoryScreenController extends GetxController {
   final isLoadingData = true.obs;
 
   final collectionName = 'chats';

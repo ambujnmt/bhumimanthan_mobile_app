@@ -1,4 +1,3 @@
-import 'package:bhumi_manthan/controllers/user_controller.dart';
 import 'package:bhumi_manthan/utils/app_imports.dart';
 
 class EditProfileScreen extends StatefulWidget {

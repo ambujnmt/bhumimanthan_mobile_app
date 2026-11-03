@@ -1,4 +1,3 @@
-import 'package:bhumi_manthan/controllers/user_controller.dart';
 import 'package:bhumi_manthan/shared_prefs/storage/auth_prefs.dart';
 
 import '../../../../utils/app_imports.dart';
