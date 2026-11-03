@@ -14,85 +14,64 @@ class ChatScreenController extends GetxController {
 
   final user = UserController.user.value;
 
-  late final String chatId;
-
-  late final String currentUserId;
-
-  final messageController = TextEditingController();
-
   final scrollController = ScrollController();
 
-  final RxList<ChatHistoryModel> messages = <ChatHistoryModel>[].obs;
+  final RxList<ChatHistoryModel> chatHistory = <ChatHistoryModel>[].obs;
 
   final RxBool isLoading = true.obs;
-  final RxBool isSending = false.obs;
   final RxBool hasError = false.obs;
 
-  StreamSubscription<QuerySnapshot<Map<String, dynamic>>>?
-  _messagesSubscription;
-
-  bool _isDisposed = false;
-
-  DocumentReference<Map<String, dynamic>> get _chatRef =>
-      _firestore.collection(collectionName).doc(chatId);
-
-  CollectionReference<Map<String, dynamic>> get _messagesRef =>
-      _chatRef.collection('messages');
+  Future<void> refreshData() async {
+    // isLoading(true);
+    // await _getChatHistory();
+    _listenToChatHistory();
+    // isLoading(false);
+  }
 
   @override
   void onInit() {
     super.onInit();
-    currentUserId = user!.id.toString();
-    listenToMessages();
+    refreshData();
   }
 
-  // Listen to the latest 50 messages in real time.
-  void listenToMessages() {
-    _messagesSubscription?.cancel();
+  StreamSubscription<QuerySnapshot<Map<String, dynamic>>>?
+  _chatHistorySubscription;
+
+  void _listenToChatHistory() {
+    // Cancel any previous listener
+    _chatHistorySubscription?.cancel();
 
     isLoading.value = true;
     hasError.value = false;
 
-    _messagesSubscription = _messagesRef
-        .orderBy('created_at', descending: true)
-        .limit(50)
+    _chatHistorySubscription = _firestore
+        .collection(collectionName)
+        .where('users', arrayContains: user!.id.toString())
+        // .orderBy('last_message_at', descending: true)
         .snapshots()
         .listen(
           (snapshot) {
-            if (_isDisposed) return;
-
-            messages.assignAll(
-              snapshot.docs.map(ChatHistoryModel.fromDocument),
-            );
-
+            final chats = snapshot.docs
+                .map((doc) => ChatHistoryModel.fromDocument(doc))
+                .toList();
+            chats.sort((a, b) => b.lastMessageAt.compareTo(a.lastMessageAt));
+            chatHistory.assignAll(chats);
             isLoading.value = false;
-            hasError.value = false;
+
+            debugPrint('Total chats: ${chats.length}');
           },
-          onError: (Object error) {
-            if (_isDisposed) return;
-
-            isLoading.value = false;
+          onError: (error) {
             hasError.value = true;
+            isLoading.value = false;
 
-            debugPrint('Firestore message listener error: $error');
+            debugPrint('Listen chat history error: $error');
           },
         );
   }
 
-  // Retry after a stream error.
-  void retryLoading() {
-    if (_isDisposed) return;
-    listenToMessages();
-  }
-
   @override
   void onClose() {
-    _isDisposed = true;
-
-    _messagesSubscription?.cancel();
-    messageController.dispose();
     scrollController.dispose();
-
     super.onClose();
   }
 }

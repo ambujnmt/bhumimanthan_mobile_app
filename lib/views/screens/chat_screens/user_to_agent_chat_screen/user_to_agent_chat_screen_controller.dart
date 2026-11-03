@@ -1,4 +1,5 @@
 import 'package:bhumi_manthan/models/propertiy_details_model.dart';
+import 'package:bhumi_manthan/views/screens/bottom_tab_screens/chat_screen/chat_screen_controller.dart';
 
 import '../../../../utils/app_imports.dart';
 
@@ -52,7 +53,10 @@ class UserToAgentChatScreenController extends GetxController {
       '/properties/detail/${Get.arguments['id']}',
     );
 
-    if (!res.success) return;
+    if (!res.success) {
+      hasError(true);
+      return;
+    }
     data.value = PropertyDetailsModel.fromJson(res.data['data']['property']);
     _setChatData();
   }
@@ -139,23 +143,35 @@ class UserToAgentChatScreenController extends GetxController {
       );
 
       batch.set(messageRef, message.toMap());
-
+      final shouldRefreshHistory = messages.isEmpty;
       // Update the conversation's latest-message information.
       batch.set(_chatRef, {
         'last_message': text,
         'last_message_at': FieldValue.serverTimestamp(),
         'last_message_sender_id': currentUserId,
         if (messages.isEmpty) ...{
-          'listing_data': {
-            'property_id': data.value!.id.toString(),
-            'property_name': data.value!.title,
-            'agent_name': data.value!.creator.name,
+          'users': [user!.id.toString(), data.value!.creator.id.toString()],
+          'other_user': {
+            'id': data.value!.creator.id.toString(),
+            'name': data.value!.creator.name,
             'role': data.value!.creator.role,
+          },
+          'user': {
+            'id': user!.id.toString(),
+            'name': user!.name,
+            'role': user!.role,
+          },
+          'property': {
+            'id': data.value!.id.toString(),
+            'title': data.value!.title,
           },
         },
       }, SetOptions(merge: true));
 
       await batch.commit();
+      if (shouldRefreshHistory) {
+        // findController<ChatScreenController>()?.refreshData();
+      }
     } catch (e) {
       debugPrint('Send message error: $e');
       AppToast.error('Please try again, Message not sent');

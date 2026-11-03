@@ -62,7 +62,7 @@ class _CompareScreenState extends State<CompareScreen>
     // );
 
     return Scaffold(
-      appBar: CustomAppbar(title: 'Compare'),
+      appBar: CustomAppbar(title: 'Compare', showLeading: false),
       body: Obx(
         () => AppRefreshIndicator(
           onRefresh: _con.refreshData,
