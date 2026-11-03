@@ -42,7 +42,7 @@ class _AllBlogsScreenState extends State<AllBlogsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(scrollController: sc, title: 'Luxury Properties'),
+      appBar: CustomAppbar(scrollController: sc, title: 'News & Insights'),
       body: Obx(
         () => AppRefreshIndicator(
           onRefresh: refreshData,

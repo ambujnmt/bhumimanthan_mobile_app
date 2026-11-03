@@ -24,22 +24,29 @@ class _FavoritesScreenState extends State<FavoritesScreen>
     return Scaffold(
       appBar: CustomAppbar(
         scrollController: sc,
-        title: 'My Account',
+        title: 'Favorites',
         showLeading: false,
       ),
       body: Obx(
-        () => _con.isLoading.value
-            ? AppLoader.widget()
-            : _con.favorites.isEmpty
-            ? _emptyState()
-            : ListView.separated(
-                controller: sc,
-                padding: EdgeInsets.all(AppDimentions.defaultScreenPadding),
-                itemCount: _con.favorites.length,
-                separatorBuilder: (_, _) => const SizedBox(height: 16),
-                itemBuilder: (context, index) =>
-                    _favoriteCard(_con.favorites[index]),
-              ),
+        () => AppRefreshIndicator(
+          onRefresh: _con.refreshData,
+          child: _con.isLoading.value
+              ? AppLoader.widget()
+              : _con.favorites.isEmpty
+              ? ListView(
+                  children: [
+                    SizedBox(height: Get.height * .5, child: _emptyState()),
+                  ],
+                )
+              : ListView.separated(
+                  controller: sc,
+                  padding: EdgeInsets.all(AppDimentions.defaultScreenPadding),
+                  itemCount: _con.favorites.length,
+                  separatorBuilder: (_, _) => const SizedBox(height: 16),
+                  itemBuilder: (context, index) =>
+                      _favoriteCard(_con.favorites[index]),
+                ),
+        ),
       ),
     );
   }
