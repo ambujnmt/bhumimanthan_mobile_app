@@ -13,7 +13,7 @@ class LuxuryPerperties extends StatelessWidget {
       onViewAll: () => Get.toNamed(AppRoutes.allLuxuryPropertiesScreen),
       content: Obx(
         () => _con.luxuryItems.isEmpty
-            ? noDataAvailable(isScrollable: false, height: 80)
+            ? NoDataAvailable(isScrollable: false, height: 80)
             : SizedBox(
                 height: 330,
                 child: ListView.separated(

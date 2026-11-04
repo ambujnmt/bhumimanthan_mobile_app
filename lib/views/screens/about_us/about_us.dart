@@ -42,7 +42,7 @@ class _AboutUsState extends State<AboutUs> {
             : data.value == null
             ? AppRefreshIndicator(
                 onRefresh: refreshData,
-                child: errorLoadingData(),
+                child: ApiErrorWidget(),
               )
             : SingleChildScrollView(
                 padding: EdgeInsets.all(AppDimentions.screenPaddingXS),

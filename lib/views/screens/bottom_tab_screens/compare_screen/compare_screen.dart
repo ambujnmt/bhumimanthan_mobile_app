@@ -69,7 +69,7 @@ class _CompareScreenState extends State<CompareScreen>
           child: _con.isLoading.value
               ? AppLoader.widget()
               : _con.tabs.isEmpty
-              ? noDataAvailable()
+              ? NoDataAvailable()
               : ListView.separated(
                   padding: EdgeInsets.all(AppDimentions.defaultScreenPadding),
                   itemCount: _con.tabs.length,

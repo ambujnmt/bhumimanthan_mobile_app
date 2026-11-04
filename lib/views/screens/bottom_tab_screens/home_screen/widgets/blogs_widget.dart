@@ -12,7 +12,7 @@ class BlogsWidget extends StatelessWidget {
       onViewAll: () => Get.toNamed(AppRoutes.allBlogsScreen),
       content: Obx(
         () => _con.blogs.isEmpty
-            ? noDataAvailable(isScrollable: false, height: 80)
+            ? NoDataAvailable(isScrollable: false, height: 80)
             : SizedBox(
                 height: 285,
                 child: ListView.separated(

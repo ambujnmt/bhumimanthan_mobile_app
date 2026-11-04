@@ -37,7 +37,7 @@ class _BlogDetailsScreenState extends State<BlogDetailsScreen> {
                 () => _con.data.value == null
                     ? AppRefreshIndicator(
                         onRefresh: _con.refreshData,
-                        child: errorLoadingData(),
+                        child: ApiErrorWidget(),
                       )
                     : ListView(
                         controller: sc,

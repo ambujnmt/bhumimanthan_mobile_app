@@ -41,8 +41,8 @@ class FeaturedPropertyCard extends StatelessWidget {
                   child: Wrap(
                     spacing: 6,
                     children: [
-                      // if (property.isFeatured)
-                      _badge(label, Colors.orange.shade700),
+                      if ((property.badge ?? '').isNotEmpty)
+                        _badge(property.badge ?? '', Colors.orange.shade700),
                       // if (property.isLuxury) _badge('LUXURY', Colors.black87),
                     ],
                   ),

@@ -24,7 +24,7 @@ class _PropertiesCompareScreenState extends State<PropertiesCompareScreen> {
             : _con.items.isEmpty
             ? AppRefreshIndicator(
                 onRefresh: _con.refreshData,
-                child: errorLoadingData(),
+                child: ApiErrorWidget(),
               )
             : PropertyCompareWidget(properties: _con.items),
       ),

@@ -50,7 +50,7 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                 () => _con.data.value == null
                     ? AppRefreshIndicator(
                         onRefresh: _con.refreshData,
-                        child: errorLoadingData(),
+                        child: ApiErrorWidget(),
                       )
                     : ListView(
                         controller: sc,

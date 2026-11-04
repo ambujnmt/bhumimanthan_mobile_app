@@ -50,7 +50,7 @@ class _AllProjectsState extends State<AllProjects> {
           child: isLoading.value
               ? AppLoader.widget()
               : items.isEmpty
-              ? noDataAvailable()
+              ? NoDataAvailable()
               : ListView.separated(
                   controller: sc,
                   padding: EdgeInsets.fromLTRB(

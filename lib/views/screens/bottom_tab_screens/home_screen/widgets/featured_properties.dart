@@ -13,7 +13,7 @@ class FeaturedProperties extends StatelessWidget {
       onViewAll: () => Get.toNamed(AppRoutes.allFeaturedPropertiesScreen),
       content: Obx(
         () => _con.featuredItems.isEmpty
-            ? noDataAvailable(isScrollable: false, height: 80)
+            ? NoDataAvailable(isScrollable: false, height: 80)
             : SizedBox(
                 height: 160,
                 child: ListView.separated(

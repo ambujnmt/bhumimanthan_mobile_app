@@ -20,7 +20,7 @@ class _SearchScreenState extends State<SearchScreen> {
         () => _con.isLoading.value
             ? AppLoader.widget()
             : _con.jsonData == null
-            ? errorLoadingData()
+            ? ApiErrorWidget()
             : Column(
                 children: [
                   SizedBox(height: Get.mediaQuery.padding.top),

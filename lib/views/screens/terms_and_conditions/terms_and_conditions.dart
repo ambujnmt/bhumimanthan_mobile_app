@@ -43,7 +43,7 @@ class _TermsAndConditionsState extends State<TermsAndConditions> {
             : data.value == null
             ? AppRefreshIndicator(
                 onRefresh: refreshData,
-                child: errorLoadingData(),
+                child: ApiErrorWidget(),
               )
             : SingleChildScrollView(
                 padding: EdgeInsets.all(AppDimentions.screenPaddingXS),

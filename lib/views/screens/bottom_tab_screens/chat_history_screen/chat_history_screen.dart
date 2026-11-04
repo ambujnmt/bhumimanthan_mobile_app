@@ -26,7 +26,7 @@ class _ChatHistoryScreenState extends State<ChatHistoryScreen>
             : _con.hasError.value
             ? AppRefreshIndicator(
                 onRefresh: _con.refreshData,
-                child: errorLoadingData(),
+                child: ApiErrorWidget(),
               )
             : ListView.separated(
                 padding: EdgeInsets.all(AppDimentions.defaultScreenPadding),

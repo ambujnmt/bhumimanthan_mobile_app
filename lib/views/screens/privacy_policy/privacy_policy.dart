@@ -42,7 +42,7 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
             : data.value == null
             ? AppRefreshIndicator(
                 onRefresh: refreshData,
-                child: errorLoadingData(),
+                child: ApiErrorWidget(),
               )
             : SingleChildScrollView(
                 padding: EdgeInsets.all(AppDimentions.screenPaddingXS),

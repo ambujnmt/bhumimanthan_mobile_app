@@ -50,7 +50,7 @@ class _AllLuxuryPropertiesScreenState extends State<AllLuxuryPropertiesScreen> {
           child: isLoading.value
               ? AppLoader.widget()
               : items.isEmpty
-              ? noDataAvailable()
+              ? NoDataAvailable()
               : ListView.separated(
                   controller: sc,
                   padding: EdgeInsets.fromLTRB(

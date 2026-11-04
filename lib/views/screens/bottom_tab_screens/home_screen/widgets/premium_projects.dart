@@ -12,7 +12,7 @@ class PremiumProjects extends StatelessWidget {
       onViewAll: () => Get.toNamed(AppRoutes.allProjects),
       content: Obx(
         () => _con.projects.isEmpty
-            ? noDataAvailable(isScrollable: false, height: 80)
+            ? NoDataAvailable(isScrollable: false, height: 80)
             : SizedBox(
                 height: 300,
                 child: ListView.separated(

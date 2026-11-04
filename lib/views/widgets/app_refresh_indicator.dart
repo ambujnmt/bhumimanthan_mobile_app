@@ -26,43 +26,185 @@ class AppRefreshIndicator extends StatelessWidget {
   }
 }
 
-Widget noDataAvailable({
-  String? message,
-  double? height,
-  bool isScrollable = true,
-}) {
-  return ListView(
-    shrinkWrap: !isScrollable,
-    padding: EdgeInsets.zero,
-    physics: !isScrollable ? const NeverScrollableScrollPhysics() : null,
-    children: [
-      SizedBox(
-        height: height ?? Get.height * .7,
-        child: Center(
-          child: CustomText.kText((message ?? 'No data found.').tr),
+class NoDataAvailable extends StatelessWidget {
+  final String? title;
+  final String? message;
+  final double? height;
+  final bool isScrollable;
+  final IconData icon;
+  final String? buttonText;
+  final VoidCallback? onPressed;
+
+  const NoDataAvailable({
+    super.key,
+    this.title,
+    this.message,
+    this.height,
+    this.isScrollable = true,
+    this.icon = Icons.inbox_outlined,
+    this.buttonText,
+    this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final primaryColor = Theme.of(context).primaryColor;
+
+    return ListView(
+      shrinkWrap: !isScrollable,
+      padding: EdgeInsets.zero,
+      physics: !isScrollable ? const NeverScrollableScrollPhysics() : null,
+      children: [
+        SizedBox(
+          height: height ?? Get.height * .7,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    height: 100,
+                    width: 100,
+                    decoration: BoxDecoration(
+                      color: primaryColor.withValues(alpha: .08),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      icon,
+                      size: 46,
+                      color: primaryColor.withValues(alpha: .7),
+                    ),
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  CustomText.kText(
+                    (title ?? 'Nothing here yet').tr,
+                    size: 18,
+                    weight: FontWeight.w700,
+                    align: TextAlign.center,
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  CustomText.kText(
+                    (message ?? 'No data found.').tr,
+                    size: 14,
+                    color: Colors.grey.shade600,
+                    align: TextAlign.center,
+                    lines: 3,
+                  ),
+
+                  if (buttonText != null && onPressed != null) ...[
+                    const SizedBox(height: 22),
+                    ElevatedButton(
+                      onPressed: onPressed,
+                      child: Text(buttonText!.tr),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ),
         ),
-      ),
-    ],
-  );
+      ],
+    );
+  }
 }
 
-Widget errorLoadingData({
-  String? message,
-  double? height,
-  bool isScrollable = true,
-  ScrollController? sc,
-}) {
-  return ListView(
-    controller: sc,
-    shrinkWrap: !isScrollable,
-    physics: !isScrollable ? const NeverScrollableScrollPhysics() : null,
-    children: [
-      SizedBox(
-        height: height ?? Get.height * .7,
-        child: Center(
-          child: CustomText.kText(message ?? 'Something went wrong.'),
+class ApiErrorWidget extends StatelessWidget {
+  final String? title;
+  final String? message;
+  final double? height;
+  final bool isScrollable;
+  final VoidCallback? onRetry;
+
+  const ApiErrorWidget({
+    super.key,
+    this.title,
+    this.message,
+    this.height,
+    this.isScrollable = true,
+    this.onRetry,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final primaryColor = Theme.of(context).primaryColor;
+
+    return ListView(
+      shrinkWrap: !isScrollable,
+      padding: EdgeInsets.zero,
+      physics: !isScrollable ? const NeverScrollableScrollPhysics() : null,
+      children: [
+        SizedBox(
+          height: height ?? Get.height * .7,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    height: 100,
+                    width: 100,
+                    decoration: BoxDecoration(
+                      color: Colors.red.withValues(alpha: .08),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.cloud_off_rounded,
+                      size: 46,
+                      color: Colors.redAccent,
+                    ),
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  CustomText.kText(
+                    (title ?? 'Something went wrong').tr,
+                    size: 18,
+                    weight: FontWeight.w700,
+                    align: TextAlign.center,
+                  ),
+
+                  const SizedBox(height: 10),
+
+                  CustomText.kText(
+                    (message ?? 'Unable to load data. Please try again.').tr,
+                    size: 14,
+                    color: Colors.grey.shade600,
+                    align: TextAlign.center,
+                    lines: 3,
+                  ),
+
+                  if (onRetry != null) ...[
+                    const SizedBox(height: 22),
+                    ElevatedButton.icon(
+                      onPressed: onRetry,
+                      icon: const Icon(Icons.refresh_rounded, size: 18),
+                      label: Text('Try Again'.tr),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: primaryColor,
+                        foregroundColor: Colors.white,
+                        elevation: 0,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 12,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ),
         ),
-      ),
-    ],
-  );
+      ],
+    );
+  }
 }

@@ -12,7 +12,7 @@ class PopularCitiesWidget extends StatelessWidget {
       // onViewAll: () {},
       content: Obx(
         () => _con.cities.isEmpty
-            ? noDataAvailable(isScrollable: false, height: 80)
+            ? NoDataAvailable(isScrollable: false, height: 80)
             : SizedBox(
                 height: 95,
                 width: Get.width,
@@ -27,30 +27,36 @@ class PopularCitiesWidget extends StatelessWidget {
                     final item = _con.cities[index];
                     return SizedBox(
                       width: 75,
-                      child: Column(
-                        children: [
-                          AppContainer(
-                            width: 65,
-                            height: 65,
-                            shape: BoxShape.circle,
-                            padding: EdgeInsets.zero,
-                            clip: Clip.hardEdge,
-                            borderColor: AppColors.hint1,
-                            child: AppNetworkImage(
-                              imgUrl: item.image,
-                              fit: BoxFit.cover,
+                      child: InkWell(
+                        onTap: () => Get.toNamed(
+                          AppRoutes.allPropertiesInCity,
+                          arguments: {'data': item},
+                        ),
+                        child: Column(
+                          children: [
+                            AppContainer(
+                              width: 65,
+                              height: 65,
+                              shape: BoxShape.circle,
+                              padding: EdgeInsets.zero,
+                              clip: Clip.hardEdge,
+                              borderColor: AppColors.hint1,
+                              child: AppNetworkImage(
+                                imgUrl: item.image,
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                          ),
-                          Spacer(flex: 10),
-                          CustomText.kText(
-                            item.name,
-                            size: 13,
-                            lines: 1,
-                            weight: FontWeight.bold,
-                            color: AppColors.subtitle,
-                          ),
-                          Spacer(flex: 1),
-                        ],
+                            Spacer(flex: 10),
+                            CustomText.kText(
+                              item.name,
+                              size: 13,
+                              lines: 1,
+                              weight: FontWeight.bold,
+                              color: AppColors.subtitle,
+                            ),
+                            Spacer(flex: 1),
+                          ],
+                        ),
                       ),
                     );
                   },
