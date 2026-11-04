@@ -79,11 +79,49 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   heightSpace17,
-                                  CustomText.kText(
-                                    _con.data.value!.configuration,
-                                    size: 12,
-                                    weight: FontWeight.bold,
-                                    color: AppColors.primary,
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: CustomText.kText(
+                                          _con.data.value!.configuration,
+                                          size: 12,
+                                          weight: FontWeight.bold,
+                                          color: AppColors.primary,
+                                        ),
+                                      ),
+                                      widthSpace3,
+                                      GestureDetector(
+                                        onTap: () => copyToClipboard(
+                                          _con.data.value?.propertyId,
+                                        ),
+                                        child: AppContainer(
+                                          borderRadius:
+                                              AppDimentions.boxRadiusXXS,
+                                          padding: EdgeInsets.symmetric(
+                                            vertical:
+                                                AppDimentions.screenPaddingXXS,
+                                            horizontal:
+                                                AppDimentions.screenPaddingXS,
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              CustomText.kText(
+                                                _con.data.value!.propertyId,
+                                                size: 13,
+                                                weight: FontWeight.bold,
+                                                color: AppColors.secondary,
+                                              ),
+                                              widthSpace5,
+                                              Icon(
+                                                Icons.copy,
+                                                size: 16,
+                                                color: AppColors.secondary,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                   heightSpace5,
                                   CustomText.kText(

@@ -94,12 +94,11 @@ class SearchScreenController extends GetxController {
   }
 
   Future<void> _getLocalities() async {
+    final city = selectedTags.firstWhereOrNull((t) => t.type == 'city');
+    if (city == null) return;
     final res = await _api.get(
       '/search/city-localities',
-      queries: {
-        'city': selectedTags.firstWhere((t) => t.type == 'city').title,
-        'type': selectedTab.value!.key,
-      },
+      queries: {'city': city.title, 'type': selectedTab.value!.key},
     );
     if (!res.success) return;
     localities.value = (res.data['data']['localities'] as List)
@@ -139,6 +138,7 @@ class SearchScreenController extends GetxController {
 
   void addTag(SearchTag tag) {
     selectedTags.insert(0, tag);
+
     if (selectedTags.length == 1) {
       localities.clear();
       _getLocalities();

@@ -1,27 +1,21 @@
 import 'package:bhumi_manthan/models/propertiy_details_model.dart';
 
 import '../../../utils/app_imports.dart';
-import '../../widgets/app_dropdown.dart';
 
 class PropertyEnquiryScreenController extends GetxController {
   late final PropertyDetailsModel property;
 
   final isLoading = false.obs;
 
-  final selectedBudget = Rxn<CustomDropdownItem>();
-  final selectedInterest = Rxn<CustomDropdownItem>();
-
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
   final emailController = TextEditingController();
-  final moreController = TextEditingController();
+
+  final consent = false.obs;
 
   final nameError = ''.obs;
   final phoneError = ''.obs;
   final emailError = ''.obs;
-  final typeError = ''.obs;
-  final budgetError = ''.obs;
-  final moreError = ''.obs;
 
   Future<void> onSend() async {
     if (!_validateForm()) return;
@@ -34,9 +28,7 @@ class PropertyEnquiryScreenController extends GetxController {
         "name": nameController.text,
         "phone": phoneController.text,
         "email": emailController.text,
-        "interested_in": selectedInterest.value?.value,
-        "budget": selectedBudget.value?.value,
-        "message": moreController.text,
+        'subscribe': consent.value,
       },
       showErrorToast: true,
     );
@@ -77,30 +69,6 @@ class PropertyEnquiryScreenController extends GetxController {
       isValid = false;
     } else {
       emailError.value = '';
-    }
-
-    // Interested property type
-    if (selectedInterest.value == null) {
-      typeError.value = 'Please select a property type';
-      isValid = false;
-    } else {
-      typeError.value = '';
-    }
-
-    // Budget
-    if (selectedBudget.value == null) {
-      budgetError.value = 'Please select your budget';
-      isValid = false;
-    } else {
-      budgetError.value = '';
-    }
-
-    // Message
-    if (moreController.text.trim().isEmpty) {
-      moreError.value = 'Please enter your enquiry message';
-      isValid = false;
-    } else {
-      moreError.value = '';
     }
 
     return isValid;

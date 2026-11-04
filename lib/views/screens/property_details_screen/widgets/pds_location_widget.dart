@@ -4,15 +4,10 @@ import '../../../../utils/app_imports.dart';
 import '../../../widgets/app_fade_animated_switcher.dart';
 import '../property_details_screen_controller.dart';
 
-class PdsLocationWidget extends StatefulWidget {
-  const PdsLocationWidget({super.key, required this.con});
+class PdsLocationWidget extends StatelessWidget {
+  PdsLocationWidget({super.key, required this.con});
   final PropertyDetailsScreenController con;
 
-  @override
-  State<PdsLocationWidget> createState() => _PdsLocationWidgetState();
-}
-
-class _PdsLocationWidgetState extends State<PdsLocationWidget> {
   final isMapTileLoaded = false.obs;
 
   @override
@@ -39,8 +34,8 @@ class _PdsLocationWidgetState extends State<PdsLocationWidget> {
                       GoogleMap(
                         initialCameraPosition: CameraPosition(
                           target: LatLng(
-                            double.parse(widget.con.data.value!.latitude),
-                            double.parse(widget.con.data.value!.longitude),
+                            double.parse(con.data.value!.latitude),
+                            double.parse(con.data.value!.longitude),
                           ),
                           zoom: 14,
                         ),
@@ -74,12 +69,31 @@ class _PdsLocationWidgetState extends State<PdsLocationWidget> {
               ),
             ),
             heightSpace15,
-            Row(
-              children: [
-                _customColumn('Rapid Metro', '2.1 km'),
-                _customColumn('Heritage School', '1.4 km'),
-                _customColumn('Artemis Hospital', '4.8 km'),
-              ],
+            SizedBox(
+              width: Get.width,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  spacing: 15,
+                  children: [
+                    if (con.data.value?.rapidMetroDistance != null)
+                      _customColumn(
+                        'Rapid Metro',
+                        '${con.data.value!.rapidMetroDistance} km',
+                      ),
+                    if (con.data.value?.schoolDistance != null)
+                      _customColumn(
+                        'School',
+                        '${con.data.value?.schoolDistance} km',
+                      ),
+                    if (con.data.value?.hospitalDistance != null)
+                      _customColumn(
+                        'Hospital',
+                        '${con.data.value?.hospitalDistance} km',
+                      ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
@@ -88,13 +102,11 @@ class _PdsLocationWidgetState extends State<PdsLocationWidget> {
   }
 }
 
-Expanded _customColumn(String title, String val) {
-  return Expanded(
-    child: Column(
-      children: [
-        CustomText.kText(val, size: 16, weight: FontWeight.bold),
-        CustomText.kText(title, color: AppColors.subtitle),
-      ],
-    ),
+Column _customColumn(String title, String val) {
+  return Column(
+    children: [
+      CustomText.kText(val, size: 16, weight: FontWeight.bold),
+      CustomText.kText(title, color: AppColors.subtitle),
+    ],
   );
 }

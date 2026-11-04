@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 import '../utils/app_imports.dart';
@@ -130,5 +131,18 @@ String timeAgo(String? date) {
     return timeago.format(publishedDate);
   } catch (_) {
     return 'Publication date unavailable';
+  }
+}
+
+Future<void> copyToClipboard(dynamic text, {String? message}) async {
+  if (text == null) {
+    AppToast.error('Can\'t copy');
+    return;
+  }
+  try {
+    await Clipboard.setData(ClipboardData(text: text.toString()));
+    AppToast.success(message ?? 'Copied to clipboard.');
+  } catch (e) {
+    AppToast.error('Can\'t copy');
   }
 }

@@ -77,16 +77,16 @@ class _HomeScreenState extends State<HomeScreen>
                                   ),
                                 ),
                         ),
-                        widthSpace10,
-                        AppContainer(
-                          width: 37,
-                          height: 37,
-                          shape: BoxShape.circle,
-                          padding: EdgeInsets.all(
-                            AppDimentions.screenPaddingXS,
-                          ),
-                          child: Image.asset(Images.alertIcon),
-                        ),
+                        // widthSpace10,
+                        // AppContainer(
+                        //   width: 37,
+                        //   height: 37,
+                        //   shape: BoxShape.circle,
+                        //   padding: EdgeInsets.all(
+                        //     AppDimentions.screenPaddingXS,
+                        //   ),
+                        //   child: Image.asset(Images.alertIcon),
+                        // ),
                       ],
                     ),
                   ),

@@ -21,18 +21,14 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
       body: Obx(
         () => _con.isLoading.value
             ? AppLoader.widget()
-            : Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      controller: sc,
-                      padding: const EdgeInsets.all(16),
-                      itemCount: _con.items.length,
-                      itemBuilder: (context, index) =>
-                          SrsItemsWidget(item: _con.items[index]),
-                    ),
-                  ),
-                ],
+            : _con.items.isEmpty
+            ? NoDataAvailable(title: 'No results found')
+            : ListView.builder(
+                controller: sc,
+                padding: const EdgeInsets.all(16),
+                itemCount: _con.items.length,
+                itemBuilder: (context, index) =>
+                    SrsItemsWidget(item: _con.items[index]),
               ),
       ),
     );
