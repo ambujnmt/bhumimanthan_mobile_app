@@ -32,7 +32,7 @@ class _FavoritesScreenState extends State<FavoritesScreen>
           onRefresh: _con.refreshData,
           child: _con.isLoading.value
               ? AppLoader.widget()
-              : _con.favorites.isEmpty
+              : _con.items.isEmpty
               ? ListView(
                   children: [
                     SizedBox(height: Get.height * .5, child: _emptyState()),
@@ -41,10 +41,10 @@ class _FavoritesScreenState extends State<FavoritesScreen>
               : ListView.separated(
                   controller: sc,
                   padding: EdgeInsets.all(AppDimentions.defaultScreenPadding),
-                  itemCount: _con.favorites.length,
+                  itemCount: _con.items.length,
                   separatorBuilder: (_, _) => const SizedBox(height: 16),
                   itemBuilder: (context, index) =>
-                      _favoriteCard(_con.favorites[index]),
+                      _favoriteCard(_con.items[index]),
                 ),
         ),
       ),

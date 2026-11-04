@@ -8,6 +8,7 @@ import 'package:bhumi_manthan/views/screens/auth_screens/welcome_screen/welcome_
 import 'package:bhumi_manthan/views/screens/blog_details_screen/blog_details_screen.dart';
 import 'package:bhumi_manthan/views/screens/chat_screens/user_to_agent_chat_screen/user_to_agent_chat_screen.dart';
 import 'package:bhumi_manthan/views/screens/contact_us/contact_us.dart';
+import 'package:bhumi_manthan/views/screens/notifications_screen/notifications_screen.dart';
 import 'package:bhumi_manthan/views/screens/privacy_policy/privacy_policy.dart';
 import 'package:bhumi_manthan/views/screens/project_details_screen/project_details_screen.dart';
 import 'package:bhumi_manthan/views/screens/property_compare_screen/properties_compare_screen.dart';
@@ -100,6 +101,10 @@ class AppPages {
       page: () => UserToAgentChatScreen(),
     ),
     GetPage(name: AppRoutes.allProjects, page: () => AllProjects()),
+    GetPage(
+      name: AppRoutes.notificationsScreen,
+      page: () => NotificationsScreen(),
+    ),
     GetPage(
       name: AppRoutes.allPropertiesInCity,
       page: () => AllPropertiesInCity(),

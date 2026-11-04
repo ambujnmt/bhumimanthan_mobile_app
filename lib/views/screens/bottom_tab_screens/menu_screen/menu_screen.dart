@@ -39,16 +39,16 @@ class _MenuScreenState extends State<MenuScreen>
                 subtitle: 'Manage your personal information',
                 onTap: () => _navigate(AppRoutes.editProfileScreen),
               ),
-              _MenuItem(
-                icon: Icons.home_work_outlined,
-                title: 'My Properties',
-                subtitle: 'View your saved or listed properties',
-                onTap: () => _navigate('/my-properties'),
-              ),
+              // _MenuItem(
+              //   icon: Icons.home_work_outlined,
+              //   title: 'My Properties',
+              //   subtitle: 'View your saved or listed properties',
+              //   onTap: () => _navigate('/my-properties'),
+              // ),
               _MenuItem(
                 icon: Icons.notifications_none_rounded,
                 title: 'Notifications',
-                onTap: () => _navigate('/notifications'),
+                onTap: () => _navigate(AppRoutes.notificationsScreen),
               ),
             ]),
 
