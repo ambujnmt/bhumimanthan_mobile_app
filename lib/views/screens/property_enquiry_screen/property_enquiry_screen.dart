@@ -1,6 +1,5 @@
 import 'package:bhumi_manthan/utils/app_imports.dart';
 import 'package:bhumi_manthan/views/screens/property_enquiry_screen/property_enquiry_screen_controller.dart';
-import 'package:bhumi_manthan/views/widgets/app_dropdown.dart';
 
 import 'widgets/pes_checkboz.dart';
 
@@ -13,22 +12,6 @@ class PropertyEnquiryScreen extends StatefulWidget {
 
 class _PropertyEnquiryScreenState extends State<PropertyEnquiryScreen> {
   final _con = Get.put(PropertyEnquiryScreenController());
-
-  final List<CustomDropdownItem<String>> _interests = [
-    CustomDropdownItem(value: 'residential', title: 'Residential Plots'),
-    CustomDropdownItem(value: 'commercial', title: 'Commercial Plots'),
-    CustomDropdownItem(value: 'apartment', title: 'Apartments'),
-    CustomDropdownItem(value: 'villa', title: 'Villas'),
-    CustomDropdownItem(value: 'farmhouse', title: 'Farm House'),
-  ];
-
-  final List<CustomDropdownItem<String>> _budgets = [
-    CustomDropdownItem(value: 'below-25', title: 'Below 25 Lac'),
-    CustomDropdownItem(value: '25-50', title: '25 Lac - 50 Lac'),
-    CustomDropdownItem(value: '50-1cr', title: '50 Lac - 1 Cr'),
-    CustomDropdownItem(value: '1-2cr', title: '1 Cr - 2 Cr'),
-    CustomDropdownItem(value: 'above-2cr', title: 'Above 2 Cr'),
-  ];
 
   final sc = ScrollController();
 
@@ -70,6 +53,13 @@ class _PropertyEnquiryScreenState extends State<PropertyEnquiryScreen> {
                 'Your Details',
                 style: theme.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.w700,
+                ),
+              ),
+              Text(
+                'Your details will be used to respond to your property enquiry.',
+                textAlign: TextAlign.center,
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
                 ),
               ),
               const SizedBox(height: 16),
@@ -143,14 +133,6 @@ class _PropertyEnquiryScreenState extends State<PropertyEnquiryScreen> {
                 text: 'Send Enquiry',
                 onTap: () => _con.onSend(),
                 showLoader: _con.isLoading,
-              ),
-              const SizedBox(height: 12),
-              Text(
-                'Your details will be used to respond to your property enquiry.',
-                textAlign: TextAlign.center,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
               ),
               heightSpace100,
             ],
