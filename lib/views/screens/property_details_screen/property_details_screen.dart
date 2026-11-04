@@ -248,6 +248,14 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                           PdsBhkAndType(con: _con),
                           heightSpace10,
                           PdsLocationWidget(con: _con),
+                          // AppContainer(
+                          //   height: 200,
+                          //   child: AppNetworkImage(
+                          //     imgUrl:
+                          //         'https://maps.googleapis.com/maps/api/staticmap?center=${_con.data.value!.latitude},${_con.data.value!.longitude}&zoom=15&key=AIzaSyAXkpxO--oleAJ1_jRL18Q1QqZn7iIwnG0',
+                          //     fit: BoxFit.cover,
+                          //   ),
+                          // ),
                           heightSpace17,
                           PdsSellerWidget(con: _con),
                           heightSpace17,
