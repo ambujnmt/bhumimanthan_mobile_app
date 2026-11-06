@@ -1,4 +1,4 @@
-import 'package:bhumi_manthan/models/propertiy_details_model.dart';
+import 'package:bhumi_manthan/models/fav_property_model.dart';
 
 import '../../../../utils/app_imports.dart';
 import 'favorites_screen_controller.dart';
@@ -42,7 +42,7 @@ class _FavoritesScreenState extends State<FavoritesScreen>
                   controller: sc,
                   padding: EdgeInsets.all(AppDimentions.defaultScreenPadding),
                   itemCount: _con.items.length,
-                  separatorBuilder: (_, _) => const SizedBox(height: 16),
+                  separatorBuilder: (_, _) => heightSpace10,
                   itemBuilder: (context, index) =>
                       _favoriteCard(_con.items[index]),
                 ),
@@ -51,7 +51,7 @@ class _FavoritesScreenState extends State<FavoritesScreen>
     );
   }
 
-  Widget _favoriteCard(PropertyDetailsModel property) {
+  Widget _favoriteCard(FavPropertyModel property) {
     return InkWell(
       onTap: () {},
       borderRadius: BorderRadius.circular(18),
@@ -99,18 +99,10 @@ class _FavoritesScreenState extends State<FavoritesScreen>
                 Positioned(
                   top: 10,
                   right: 10,
-                  child: Material(
-                    color: Colors.white,
-                    shape: const CircleBorder(),
-                    child: IconButton(
-                      onPressed: () => _con.removeFavorite(property),
-                      icon: const Icon(
-                        Icons.favorite,
-                        color: Colors.red,
-                        size: 21,
-                      ),
-                      tooltip: 'Remove from favorites',
-                    ),
+                  child: CustomCircleIconButton(
+                    size: 32,
+                    icon: Icon(Icons.delete_outline, color: red),
+                    onTap: () => _con.removeFavorite(property),
                   ),
                 ),
               ],
@@ -148,14 +140,14 @@ class _FavoritesScreenState extends State<FavoritesScreen>
                       ),
                     ],
                   ),
-                  const SizedBox(height: 14),
+                  heightSpace10,
                   CustomText.kText(
-                    _formatPrice(property.price),
+                    formatPrice(property.price),
                     size: 20,
                     weight: FontWeight.w800,
                     color: Colors.blue.shade800,
                   ),
-                  const SizedBox(height: 14),
+                  heightSpace10,
                   Divider(color: Colors.grey.shade200, height: 1),
                   const SizedBox(height: 12),
                   Wrap(
@@ -235,21 +227,5 @@ class _FavoritesScreenState extends State<FavoritesScreen>
         ),
       ),
     );
-  }
-
-  String _formatPrice(String? price) {
-    final amount = double.tryParse(price ?? '');
-
-    if (amount == null) return 'Price on request';
-
-    if (amount >= 10000000) {
-      return '₹${(amount / 10000000).toStringAsFixed(2)} Cr';
-    }
-
-    if (amount >= 100000) {
-      return '₹${(amount / 100000).toStringAsFixed(2)} Lac';
-    }
-
-    return '₹${amount.toStringAsFixed(0)}';
   }
 }

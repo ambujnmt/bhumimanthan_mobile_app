@@ -7,6 +7,7 @@ class FavController {
     final res = await _api.post(
       '/wishlist/add',
       payload: {"property_id": id.toString()},
+      skipLocation: true,
     );
     return res.success;
   }

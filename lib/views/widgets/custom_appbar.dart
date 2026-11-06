@@ -214,15 +214,21 @@ class _CustomAppbar1State extends State<CustomAppbar1> {
 class CustomCircleIconButton extends StatelessWidget {
   final VoidCallback? onTap;
   final Widget? icon;
-  const CustomCircleIconButton({super.key, this.icon, this.onTap});
+  final double size;
+  const CustomCircleIconButton({
+    super.key,
+    this.icon,
+    this.onTap,
+    this.size = 42,
+  });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
       child: AppContainer(
-        height: 42,
-        width: 42,
+        height: size,
+        width: size,
         borderColor: grey.shade400,
         color: fromHex('e8eaee'),
         shape: BoxShape.circle,

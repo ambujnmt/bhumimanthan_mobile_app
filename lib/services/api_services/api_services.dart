@@ -35,11 +35,14 @@ class ApiServices {
     final Uri? uri,
     final bool showErrorToast = false,
     final http.Client? client,
+    final bool skipLocation = false,
   }) async {
     try {
       debugPrint('payload: ${payload.toString()}');
 
-      final location = LocationController.currentLocation.value;
+      final location = skipLocation
+          ? null
+          : LocationController.currentLocation.value;
 
       final finalUri =
           uri ??

@@ -1,4 +1,6 @@
-import '../../../../models/propertiy_details_model.dart';
+import 'package:bhumi_manthan/controllers/fav_controller.dart';
+import 'package:bhumi_manthan/models/fav_property_model.dart';
+
 import '../../../../utils/app_imports.dart';
 
 class FavoritesScreenController extends GetxController {
@@ -7,7 +9,7 @@ class FavoritesScreenController extends GetxController {
   final perPage = '12';
   final pageNumber = 1;
 
-  final items = <PropertyDetailsModel>[].obs;
+  final items = <FavPropertyModel>[].obs;
 
   Future<void> _getData() async {
     final res = await ApiServices().get(
@@ -18,13 +20,19 @@ class FavoritesScreenController extends GetxController {
     if (!res.success) return;
 
     items.value = (res.data['data']['properties'] as List)
-        .map((json) => PropertyDetailsModel.fromJson(json))
+        .map((json) => FavPropertyModel.fromJson(json))
         .toList();
   }
 
-  void removeFavorite(PropertyDetailsModel property) {
-    items.removeWhere((item) => item.id == property.id);
-    AppToast.success('Removed from favorites');
+  Future<void> removeFavorite(FavPropertyModel property) async {
+    final index = items.indexWhere((item) => item.id == property.id);
+    items.removeAt(index);
+    final success = await FavController.remove(property.id);
+    if (!success) {
+      items.insert(index, property);
+      return;
+    }
+    // AppToast.error('Removed from favorites');
   }
 
   Future<void> refreshData() async {
