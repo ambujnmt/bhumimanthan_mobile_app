@@ -14,7 +14,7 @@ class ChatHistoryScreenController extends GetxController {
 
   final user = UserController.user.value;
 
-  final scrollController = ScrollController();
+  final totalCount = 0.obs;
 
   final RxList<ChatHistoryModel> chatHistory = <ChatHistoryModel>[].obs;
 
@@ -57,7 +57,6 @@ class ChatHistoryScreenController extends GetxController {
             chats.sort((a, b) => b.lastMessageAt.compareTo(a.lastMessageAt));
             chatHistory.assignAll(chats);
             isLoading.value = false;
-
             debugPrint('Total chats: ${chats.length}');
           },
           onError: (error) {
@@ -67,11 +66,5 @@ class ChatHistoryScreenController extends GetxController {
             debugPrint('Listen chat history error: $error');
           },
         );
-  }
-
-  @override
-  void onClose() {
-    scrollController.dispose();
-    super.onClose();
   }
 }
