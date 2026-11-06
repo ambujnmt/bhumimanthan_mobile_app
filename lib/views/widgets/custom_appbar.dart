@@ -70,19 +70,11 @@ class _CustomAppbarState extends State<CustomAppbar> {
       surfaceTintColor: AppColors.backgroundColor,
       elevation: 0,
       leading: widget.showLeading
-          ? InkWell(
-              onTap: Get.back,
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: AppContainer(
-                  height: 42,
-                  width: 42,
-                  borderColor: grey.shade400,
-                  color: fromHex('e8eaee'),
-                  shape: BoxShape.circle,
-                  padding: EdgeInsets.zero,
-                  child: Icon(Icons.arrow_back, color: AppColors.secondary),
-                ),
+          ? Align(
+              alignment: Alignment.centerRight,
+              child: CustomCircleIconButton(
+                onTap: Get.back,
+                icon: Icon(Icons.arrow_back, color: AppColors.secondary),
               ),
             )
           : null,
@@ -111,6 +103,7 @@ class CustomAppbar1 extends StatefulWidget implements PreferredSizeWidget {
   final String? title;
   final bool showLeading;
   final bool error;
+  final List<Widget>? actions;
 
   const CustomAppbar1({
     super.key,
@@ -118,6 +111,7 @@ class CustomAppbar1 extends StatefulWidget implements PreferredSizeWidget {
     this.title,
     this.showLeading = true,
     this.error = false,
+    this.actions,
   });
 
   @override
@@ -183,19 +177,11 @@ class _CustomAppbar1State extends State<CustomAppbar1> {
       surfaceTintColor: transparent,
       elevation: 0,
       leading: widget.showLeading
-          ? InkWell(
-              onTap: Get.back,
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: AppContainer(
-                  height: 42,
-                  width: 42,
-                  borderColor: grey.shade400,
-                  color: fromHex('e8eaee'),
-                  shape: BoxShape.circle,
-                  padding: EdgeInsets.zero,
-                  child: Icon(Icons.arrow_back, color: AppColors.secondary),
-                ),
+          ? Align(
+              alignment: Alignment.centerRight,
+              child: CustomCircleIconButton(
+                onTap: Get.back,
+                icon: Icon(Icons.arrow_back, color: AppColors.secondary),
               ),
             )
           : null,
@@ -219,6 +205,30 @@ class _CustomAppbar1State extends State<CustomAppbar1> {
             scrollProgress,
           ),
         ),
+      ),
+      actions: widget.actions,
+    );
+  }
+}
+
+class CustomCircleIconButton extends StatelessWidget {
+  final VoidCallback? onTap;
+  final Widget? icon;
+  const CustomCircleIconButton({super.key, this.icon, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: AppContainer(
+        height: 42,
+        width: 42,
+        borderColor: grey.shade400,
+        color: fromHex('e8eaee'),
+        shape: BoxShape.circle,
+        padding: EdgeInsets.all(AppDimentions.screenPaddingXXS),
+        alignment: Alignment.center,
+        child: icon ?? Icon(Icons.question_mark, color: AppColors.secondary),
       ),
     );
   }

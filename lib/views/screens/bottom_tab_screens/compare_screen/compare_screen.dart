@@ -116,7 +116,7 @@ class _ComparedTabCardState extends State<ComparedTabCard> {
       widget.comparedTab.properties.removeAt(index);
     });
 
-    final success = await CompareController.removeCompare(id);
+    final success = await CompareController.remove(id);
     isdeleting = false;
     if (success) {
       if (widget.comparedTab.properties.isEmpty) {

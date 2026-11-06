@@ -28,4 +28,5 @@ class Images {
   static const mapPinIcon = 'assets/icons/map-pin.png';
   static const settingsIcon = 'assets/icons/settings.png';
   static const compareIcon = 'assets/icons/compare-icon.png';
+  static const heartFilled = 'assets/icons/heart-filled.png';
 }

@@ -1,4 +1,5 @@
 import 'package:bhumi_manthan/controllers/compare_controller.dart';
+import 'package:bhumi_manthan/controllers/fav_controller.dart';
 import 'package:bhumi_manthan/models/propertiy_details_model.dart';
 import 'package:bhumi_manthan/utils/app_imports.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/compare_screen/compare_screen_controller.dart';
@@ -9,8 +10,10 @@ import '../../../models/similar_properties_model.dart';
 class PropertyDetailsScreenController extends GetxController {
   final idOrSlug = (Get.arguments['id']).toString();
   final isLoading = true.obs;
-
   final _api = ApiServices();
+
+  final addedToCompare = false.obs;
+  final addedToFav = false.obs;
 
   final data = Rxn<PropertyDetailsModel>();
 
@@ -26,17 +29,21 @@ class PropertyDetailsScreenController extends GetxController {
     addedToCompare.value = data.value!.isCompared;
   }
 
-  final addingToCompare = false.obs;
+  void toggleCompare() {
+    if (addedToCompare.value) {
+      _removeCompare();
+    } else {
+      _addToCompare();
+    }
+  }
 
-  final addedToCompare = false.obs;
-
-  Future<void> addToCompare() async {
-    addingToCompare(true);
-    final success = await CompareController.addToCompare(data.value!.id);
-    addingToCompare(false);
-    if (!success) return;
-
+  Future<void> _addToCompare() async {
     addedToCompare(true);
+    final success = await CompareController.add(data.value!.id);
+    if (!success) {
+      addedToCompare(false);
+      return;
+    }
 
     AppToast.success(
       'Added successfully.',
@@ -50,17 +57,40 @@ class PropertyDetailsScreenController extends GetxController {
     findController<CompareScreenController>()?.refreshData();
   }
 
-  Future<void> removeCompare() async {
-    addingToCompare(true);
-    final success = await CompareController.removeCompare(data.value!.id);
-
-    addingToCompare(false);
-
-    if (!success) return;
-
+  Future<void> _removeCompare() async {
     addedToCompare(false);
+    final success = await CompareController.remove(data.value!.id);
+
+    if (!success) {
+      addedToCompare(true);
+      return;
+    }
+
     AppToast.error('Removed successfully.');
     findController<CompareScreenController>()?.refreshData();
+  }
+
+  void toggleFav() {
+    if (addedToFav.value) {
+      removeFromFav();
+    } else {
+      addToFav();
+    }
+  }
+
+  Future<void> addToFav() async {
+    addedToFav(true);
+    final success = await FavController.add(data.value!.id);
+    if (success) return;
+    addedToFav(false);
+  }
+
+  Future<void> removeFromFav() async {
+    addedToFav(false);
+    final success = await FavController.remove(data.value!.id);
+
+    if (success) return;
+    addedToFav(true);
   }
 
   Future<void> refreshData() async {

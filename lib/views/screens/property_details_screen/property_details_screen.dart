@@ -45,6 +45,28 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                 title: _con.data.value == null
                     ? 'Details'
                     : _con.data.value!.title,
+
+                actions: [
+                  CustomCircleIconButton(
+                    onTap: () => _con.toggleFav(),
+                    icon: Obx(
+                      () => _con.addedToFav.value
+                          ? Image.asset(
+                              Images.heartFilled,
+                              height: 22,
+                              width: 22,
+                              color: red,
+                            )
+                          : Image.asset(
+                              Images.heartIcon,
+                              height: 22,
+                              width: 22,
+                              color: black,
+                            ),
+                    ),
+                  ),
+                  widthSpace12,
+                ],
               ),
               body: Obx(
                 () => _con.data.value == null
@@ -235,37 +257,31 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                                       Expanded(
                                         flex: 6,
                                         child: Obx(
-                                          () => _con.addedToCompare.value
-                                              ? CustomButton(
-                                                  showLoader:
-                                                      _con.addingToCompare,
-                                                  text: 'Remove Compare',
-                                                  textColor:
-                                                      AppColors.secondary,
-                                                  loaderColor:
-                                                      AppColors.secondary,
-                                                  color: transparent,
-                                                  border: Border.all(
-                                                    color: AppColors.secondary,
-                                                  ),
-                                                  onTap: () =>
-                                                      _con.removeCompare(),
-                                                )
-                                              : CustomButton(
-                                                  showLoader:
-                                                      _con.addingToCompare,
-                                                  text: 'Add to Compare',
-                                                  textColor:
-                                                      AppColors.secondary,
-                                                  loaderColor:
-                                                      AppColors.secondary,
-                                                  color: transparent,
-                                                  border: Border.all(
-                                                    color: AppColors.secondary,
-                                                  ),
-                                                  onTap: () =>
-                                                      _con.addToCompare(),
-                                                ),
+                                          () => CustomButton(
+                                            text: _con.addedToCompare.value
+                                                ? 'Remove Compare'
+                                                : 'Add to Compare',
+                                            textColor: AppColors.secondary,
+                                            loaderColor: AppColors.secondary,
+                                            color: transparent,
+                                            border: Border.all(
+                                              color: AppColors.secondary,
+                                            ),
+                                            onTap: () => _con.toggleCompare(),
+                                          ),
+                                          // : CustomButton(
+                                          //     text: 'Add to Compare',
+                                          //     textColor:
+                                          //         AppColors.secondary,
+                                          //     loaderColor:
+                                          //         AppColors.secondary,
+                                          //     color: transparent,
+                                          //     border: Border.all(
+                                          //       color: AppColors.secondary,
+                                          //     ),
+                                          //     onTap: () =>
+                                          //         _con.addToCompare(),
+                                          //   ),
                                         ),
                                       ),
                                     ],
