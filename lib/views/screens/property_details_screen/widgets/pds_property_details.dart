@@ -9,44 +9,41 @@ class PdsPropertyDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return SectionWidget(
       title: 'Property Details',
-      content: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: AppDimentions.defaultScreenPadding,
-        ),
-        child: Column(
-          children: [
-            _customRow(
-              title: 'Property Type',
-              val: con.data.value!.propertyType,
-            ),
-            Divider(color: AppColors.hint, height: 35),
-            _customRow(
-              title: 'Floor',
-              val:
-                  int.tryParse(con.data.value!.floor)?.ordinal ??
-                  con.data.value!.floor,
-            ),
-            Divider(color: AppColors.hint, height: 35),
-            _customRow(title: 'Furnishing', val: con.data.value!.furnishing),
+      padding: EdgeInsets.zero,
+      content: Column(
+        children: [
+          _customRow(title: 'Property Type', val: con.data.value!.propertyType),
+          Divider(color: AppColors.hint, height: 35),
+          _customRow(
+            title: 'Floor',
+            val:
+                int.tryParse(con.data.value!.floor)?.ordinal ??
+                con.data.value!.floor,
+          ),
+          Divider(color: AppColors.hint, height: 35),
+          _customRow(title: 'Furnishing', val: con.data.value!.furnishing),
+          if (con.data.value?.ownership != null) ...[
             Divider(color: AppColors.hint, height: 35),
             _customRow(
               title: 'Ownership',
               val: con.data.value?.ownership ?? 'N/A',
             ),
-            Divider(color: AppColors.hint, height: 35),
-            _customRow(title: 'Project', val: con.data.value!.project),
-            Divider(color: AppColors.hint, height: 35),
-            _customRow(title: 'Facing', val: con.data.value!.facing),
+          ],
+          Divider(color: AppColors.hint, height: 35),
+          _customRow(title: 'Project', val: con.data.value!.project),
+          Divider(color: AppColors.hint, height: 35),
+          _customRow(title: 'Facing', val: con.data.value!.facing),
+          if (con.data.value?.ageOfProperty != null) ...[
             Divider(color: AppColors.hint, height: 35),
             _customRow(
               title: 'Age of Property',
               val: con.data.value!.ageOfProperty ?? 'N/A',
             ),
-            Divider(color: AppColors.hint, height: 35),
-            _customRow(title: 'Balconies', val: con.data.value!.balconies),
-            Divider(color: AppColors.hint, height: 35),
           ],
-        ),
+          Divider(color: AppColors.hint, height: 35),
+          _customRow(title: 'Balconies', val: con.data.value!.balconies),
+          Divider(color: AppColors.hint, height: 35),
+        ],
       ),
     );
   }
@@ -61,7 +58,7 @@ Row _customRow({required String title, required String val}) {
         child: CustomText.kText(
           val,
           size: 16,
-          weight: FontWeight.w900,
+          weight: FontWeight.w700,
           align: TextAlign.right,
         ),
       ),

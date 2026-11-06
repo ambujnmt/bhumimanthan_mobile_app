@@ -10,22 +10,18 @@ class PdsBhkAndType extends StatelessWidget {
     return SectionWidget(
       title: con.data.value!.configuration,
       titleContentSpacing: 10,
-      content: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: AppDimentions.defaultScreenPadding,
-        ),
-        child: SizedBox(
-          width: Get.width,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomText.kText(
-                'Area: ${formatNumber(con.data.value!.superArea)} Sq.Ft.',
-                size: 16,
-                color: AppColors.subtitle,
-              ),
-            ],
-          ),
+      padding: EdgeInsets.zero,
+      content: SizedBox(
+        width: Get.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CustomText.kText(
+              'Area: ${formatNumber(con.data.value!.superArea)} Sq.Ft.',
+              size: 16,
+              color: AppColors.subtitle,
+            ),
+          ],
         ),
       ),
     );

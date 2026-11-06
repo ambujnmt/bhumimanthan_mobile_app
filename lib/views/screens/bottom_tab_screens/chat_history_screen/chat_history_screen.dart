@@ -54,26 +54,29 @@ Widget _chatHistoryTile({
       arguments: {'id': chat.property.id},
     ),
     child: AppContainer(
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomText.kText(
+          Row(
+            children: [
+              Expanded(
+                child: CustomText.kText(
                   chat.property.title,
                   size: 12,
                   weight: FontWeight.w600,
                   color: AppColors.primary,
                 ),
-                heightSpace3,
-                CustomText.kText(otherUser.name, size: 15),
-                CustomText.kText(chat.lastMessage, size: 12),
-              ],
-            ),
+              ),
+              widthSpace3,
+              CustomText.kText(
+                formatDateTime(chat.lastMessageAt.toString()),
+                size: 12,
+              ),
+            ],
           ),
-          widthSpace5,
-          const Icon(Icons.chevron_right, color: grey),
+          heightSpace3,
+          CustomText.kText(otherUser.name, size: 15),
+          CustomText.kText(chat.lastMessage, size: 12),
         ],
       ),
     ),

@@ -14,89 +14,85 @@ class PdsLocationWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SectionWidget(
       title: 'Location & Map',
-      content: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: AppDimentions.defaultScreenPadding,
-        ),
-        child: Column(
-          children: [
-            AppContainer(
-              height: 190,
-              clip: Clip.hardEdge,
-              padding: EdgeInsets.zero,
-              borderColor: grey[300]!,
-              child: IgnorePointer(
-                ignoring: true,
-                child: Obx(
-                  () => Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      GoogleMap(
-                        initialCameraPosition: CameraPosition(
-                          target: LatLng(
-                            double.parse(con.data.value!.latitude),
-                            double.parse(con.data.value!.longitude),
-                          ),
-                          zoom: 14,
-                        ),
-                        onCameraIdle: () => isMapTileLoaded(true),
-                        compassEnabled: false,
-                        rotateGesturesEnabled: false,
-                        zoomControlsEnabled: false,
-                        zoomGesturesEnabled: false,
-                        myLocationButtonEnabled: false,
-                      ),
-                      AppFadeAnimatedSwitcher(
-                        child: isMapTileLoaded.value
-                            ? SizedBox.shrink()
-                            : Container(
-                                height: Get.height,
-                                width: Get.width,
-                                color: white,
-                              ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 35.0),
-                        child: Icon(
-                          Icons.location_pin,
-                          size: 42,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            heightSpace15,
-            SizedBox(
-              width: Get.width,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  spacing: 15,
+      padding: EdgeInsets.zero,
+      content: Column(
+        children: [
+          AppContainer(
+            height: 190,
+            clip: Clip.hardEdge,
+            padding: EdgeInsets.zero,
+            borderColor: grey[300]!,
+            child: IgnorePointer(
+              ignoring: true,
+              child: Obx(
+                () => Stack(
+                  alignment: Alignment.center,
                   children: [
-                    if (con.data.value?.rapidMetroDistance != null)
-                      _customColumn(
-                        'Rapid Metro',
-                        '${con.data.value!.rapidMetroDistance} km',
+                    GoogleMap(
+                      initialCameraPosition: CameraPosition(
+                        target: LatLng(
+                          double.parse(con.data.value!.latitude),
+                          double.parse(con.data.value!.longitude),
+                        ),
+                        zoom: 14,
                       ),
-                    if (con.data.value?.schoolDistance != null)
-                      _customColumn(
-                        'School',
-                        '${con.data.value?.schoolDistance} km',
+                      onCameraIdle: () => isMapTileLoaded(true),
+                      compassEnabled: false,
+                      rotateGesturesEnabled: false,
+                      zoomControlsEnabled: false,
+                      zoomGesturesEnabled: false,
+                      myLocationButtonEnabled: false,
+                    ),
+                    AppFadeAnimatedSwitcher(
+                      child: isMapTileLoaded.value
+                          ? SizedBox.shrink()
+                          : Container(
+                              height: Get.height,
+                              width: Get.width,
+                              color: white,
+                            ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 35.0),
+                      child: Icon(
+                        Icons.location_pin,
+                        size: 42,
+                        color: Colors.red,
                       ),
-                    if (con.data.value?.hospitalDistance != null)
-                      _customColumn(
-                        'Hospital',
-                        '${con.data.value?.hospitalDistance} km',
-                      ),
+                    ),
                   ],
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+          heightSpace15,
+          SizedBox(
+            width: Get.width,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                spacing: 15,
+                children: [
+                  if (con.data.value?.rapidMetroDistance != null)
+                    _customColumn(
+                      'Rapid Metro',
+                      '${con.data.value!.rapidMetroDistance} km',
+                    ),
+                  if (con.data.value?.schoolDistance != null)
+                    _customColumn(
+                      'School',
+                      '${con.data.value?.schoolDistance} km',
+                    ),
+                  if (con.data.value?.hospitalDistance != null)
+                    _customColumn(
+                      'Hospital',
+                      '${con.data.value?.hospitalDistance} km',
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

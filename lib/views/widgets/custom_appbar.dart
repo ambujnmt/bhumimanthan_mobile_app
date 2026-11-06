@@ -219,12 +219,13 @@ class CustomCircleIconButton extends StatelessWidget {
     super.key,
     this.icon,
     this.onTap,
-    this.size = 42,
+    this.size = 40,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      customBorder: const CircleBorder(),
       onTap: onTap,
       child: AppContainer(
         height: size,

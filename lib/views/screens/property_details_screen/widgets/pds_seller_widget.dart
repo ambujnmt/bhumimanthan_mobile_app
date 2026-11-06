@@ -9,69 +9,65 @@ class PdsSellerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SectionWidget(
       title: 'Seller/Agent Information',
-      content: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: AppDimentions.defaultScreenPadding,
-        ),
-        child: Column(
-          children: [
-            AppContainer(
-              color: fromHex('f3f7fc'),
-              child: Row(
-                children: [
-                  AppContainer(
-                    height: 64,
-                    width: 64,
-                    clip: Clip.hardEdge,
-                    padding: EdgeInsets.zero,
-                    shape: BoxShape.circle,
-                    child: con.data.value!.agentImage == null
-                        ? Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Image.asset(Images.userIcon),
-                          )
-                        : AppNetworkImage(
-                            imgUrl: con.data.value!.agentImage,
+      padding: EdgeInsets.zero,
+      content: Column(
+        children: [
+          AppContainer(
+            color: fromHex('f3f7fc'),
+            child: Row(
+              children: [
+                AppContainer(
+                  height: 64,
+                  width: 64,
+                  clip: Clip.hardEdge,
+                  padding: EdgeInsets.zero,
+                  shape: BoxShape.circle,
+                  child: con.data.value!.agentImage == null
+                      ? Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Image.asset(Images.userIcon),
+                        )
+                      : AppNetworkImage(
+                          imgUrl: con.data.value!.agentImage,
 
-                            fit: BoxFit.cover,
-                          ),
-                  ),
-                  widthSpace10,
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomText.kText(
-                          con.data.value!.agentName,
-                          size: 18,
-                          weight: FontWeight.bold,
+                          fit: BoxFit.cover,
                         ),
-                        CustomText.kText(
-                          '${con.data.value!.agentVerified ? ' Certified Property Consultant' : 'Not verified'} · ${con.data.value!.agentExperience} of experience',
-                          size: 14,
-                          color: AppColors.subtitle,
-                        ),
-                      ],
-                    ),
+                ),
+                widthSpace10,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText.kText(
+                        con.data.value!.agentName,
+                        size: 18,
+                        weight: FontWeight.bold,
+                      ),
+                      CustomText.kText(
+                        '${con.data.value!.agentVerified ? ' Certified Property Consultant' : 'Not verified'} · ${con.data.value!.agentExperience} of experience',
+                        size: 14,
+                        color: AppColors.subtitle,
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            heightSpace15,
-            // AppTextfield(hintText: 'Your name'),
-            // AppTextfield(
-            //   hintText: 'Your mobile number',
-            //   inputType: TextInputType.phone,
-            // ),
-            CustomButton(
-              text: 'Chat with Seller/Agent',
-              onTap: () => Get.toNamed(
-                AppRoutes.userToAgentChatScreen,
-                arguments: {'id': con.data.value!.id},
-              ),
+          ),
+          heightSpace15,
+          // AppTextfield(hintText: 'Your name'),
+          // AppTextfield(
+          //   hintText: 'Your mobile number',
+          //   inputType: TextInputType.phone,
+          // ),
+          CustomButton(
+            text: 'Chat with Seller/Agent',
+            onTap: () => Get.toNamed(
+              AppRoutes.userToAgentChatScreen,
+              arguments: {'id': con.data.value!.id},
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

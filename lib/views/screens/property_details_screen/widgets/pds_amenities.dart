@@ -8,12 +8,8 @@ class PdsAmenities extends StatelessWidget {
     return SectionWidget(
       title: 'Amenities',
       onViewAll: () => Get.to(() => AllAmennitiesScreen()),
-      content: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: AppDimentions.defaultScreenPadding,
-        ),
-        child: amenitiesGrid(amenities, maxToShow: 4),
-      ),
+      padding: EdgeInsets.zero,
+      content: amenitiesGrid(amenities, maxToShow: 4),
     );
   }
 }
@@ -43,6 +39,7 @@ class _AllAmennitiesScreenState extends State<AllAmennitiesScreen> {
 Widget amenitiesGrid(List<Map<String, dynamic>> amenities, {int? maxToShow}) {
   return GridView.builder(
     shrinkWrap: true,
+    padding: EdgeInsets.zero,
     physics: const NeverScrollableScrollPhysics(),
     itemCount: maxToShow != null
         ? amenities.length.clamp(0, maxToShow)

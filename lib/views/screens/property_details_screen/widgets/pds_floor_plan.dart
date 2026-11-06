@@ -9,20 +9,16 @@ class PdsFloorPlan extends StatelessWidget {
   Widget build(BuildContext context) {
     return SectionWidget(
       title: 'Floor Plan',
-      content: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: AppDimentions.defaultScreenPadding,
+      padding: EdgeInsets.zero,
+      content: InkWell(
+        onTap: () => Get.toNamed(
+          AppRoutes.imageViewScreen,
+          arguments: con.data.value!.floorPlanImage,
         ),
-        child: InkWell(
-          onTap: () => Get.toNamed(
-            AppRoutes.imageViewScreen,
-            arguments: con.data.value!.floorPlanImage,
-          ),
-          child: AppNetworkImage(
-            imgUrl: con.data.value!.floorPlanImage,
-            height: 250,
-            width: Get.width,
-          ),
+        child: AppNetworkImage(
+          imgUrl: con.data.value!.floorPlanImage,
+          height: 250,
+          width: Get.width,
         ),
       ),
     );

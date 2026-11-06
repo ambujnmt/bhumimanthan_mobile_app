@@ -33,10 +33,11 @@ class _FavoritesScreenState extends State<FavoritesScreen>
           child: _con.isLoading.value
               ? AppLoader.widget()
               : _con.items.isEmpty
-              ? ListView(
-                  children: [
-                    SizedBox(height: Get.height * .5, child: _emptyState()),
-                  ],
+              ? NoDataAvailable(
+                  title: 'No Favorites Yet',
+                  message:
+                      'Save properties you love by tapping the heart icon. '
+                      'They will appear here for easy access.',
                 )
               : ListView.separated(
                   controller: sc,
@@ -53,7 +54,10 @@ class _FavoritesScreenState extends State<FavoritesScreen>
 
   Widget _favoriteCard(FavPropertyModel property) {
     return InkWell(
-      onTap: () {},
+      onTap: () => Get.toNamed(
+        AppRoutes.propertyDetailsScreen,
+        arguments: {'id': property.id},
+      ),
       borderRadius: BorderRadius.circular(18),
       child: Container(
         decoration: BoxDecoration(
@@ -108,7 +112,7 @@ class _FavoritesScreenState extends State<FavoritesScreen>
               ],
             ),
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(AppDimentions.screenPaddingS),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -145,7 +149,7 @@ class _FavoritesScreenState extends State<FavoritesScreen>
                     formatPrice(property.price),
                     size: 20,
                     weight: FontWeight.w800,
-                    color: Colors.blue.shade800,
+                    color: AppColors.primary,
                   ),
                   heightSpace10,
                   Divider(color: Colors.grey.shade200, height: 1),
@@ -185,47 +189,6 @@ class _FavoritesScreenState extends State<FavoritesScreen>
         const SizedBox(width: 5),
         CustomText.kText(value, size: 11, color: Colors.grey.shade700),
       ],
-    );
-  }
-
-  Widget _emptyState() {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                color: Colors.red.shade50,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                Icons.favorite_border_rounded,
-                size: 48,
-                color: Colors.red.shade300,
-              ),
-            ),
-            const SizedBox(height: 24),
-            CustomText.kText(
-              'No Favorites Yet',
-              size: 20,
-              weight: FontWeight.w700,
-            ),
-            const SizedBox(height: 10),
-            CustomText.kText(
-              'Save properties you love by tapping the heart icon. '
-              'They will appear here for easy access.',
-              size: 13,
-              color: Colors.grey.shade600,
-              align: TextAlign.center,
-              lines: 3,
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
