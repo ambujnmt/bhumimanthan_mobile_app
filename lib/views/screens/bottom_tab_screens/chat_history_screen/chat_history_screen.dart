@@ -1,5 +1,6 @@
 import 'package:bhumi_manthan/utils/app_imports.dart';
 
+import '../../../../zz_main_screen/main_screen.dart';
 import 'chat_history_screen_controller.dart';
 import 'model/chat_history_model.dart';
 
@@ -47,6 +48,7 @@ Widget _chatHistoryTile({
   required String currentUserId,
 }) {
   final otherUser = chat.user.id == currentUserId ? chat.otherUser : chat.user;
+  final chatIconCon = Get.find<ChatIconController>();
 
   return InkWell(
     onTap: () => Get.toNamed(
@@ -60,11 +62,17 @@ Widget _chatHistoryTile({
           Row(
             children: [
               Expanded(
-                child: CustomText.kText(
-                  chat.property.title,
-                  size: 12,
-                  weight: FontWeight.w600,
-                  color: AppColors.primary,
+                child: GestureDetector(
+                  onTap: () => Get.toNamed(
+                    AppRoutes.propertyDetailsScreen,
+                    arguments: {'id': chat.property.id},
+                  ),
+                  child: CustomText.kText(
+                    chat.property.title,
+                    size: 12,
+                    weight: FontWeight.w600,
+                    color: AppColors.primary,
+                  ),
                 ),
               ),
               widthSpace3,
@@ -76,7 +84,28 @@ Widget _chatHistoryTile({
           ),
           heightSpace3,
           CustomText.kText(otherUser.name, size: 15),
-          CustomText.kText(chat.lastMessage, size: 12),
+          Obx(() {
+            final count = chatIconCon.unreadChatIds.where((i) => i == chat.id);
+            return Row(
+              children: [
+                Expanded(child: CustomText.kText(chat.lastMessage, size: 12)),
+                if (count.isNotEmpty) ...[
+                  widthSpace3,
+                  AppContainer(
+                    padding: EdgeInsets.all(AppDimentions.screenPaddingXS * .8),
+                    color: AppColors.primary,
+                    shape: BoxShape.circle,
+                    child: CustomText.kText(
+                      count.length.toString(),
+                      size: 12,
+                      weight: FontWeight.w600,
+                      color: white,
+                    ),
+                  ),
+                ],
+              ],
+            );
+          }),
         ],
       ),
     ),

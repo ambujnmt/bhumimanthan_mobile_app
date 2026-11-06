@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/chat_history_screen/chat_history_screen.dart';
-import 'package:bhumi_manthan/views/screens/bottom_tab_screens/chat_history_screen/chat_history_screen_controller.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/favorites_screen/favorites_screen.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/menu_screen/menu_screen.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/compare_screen/compare_screen.dart';
@@ -135,6 +134,31 @@ class ChatWithBadge extends StatefulWidget {
 }
 
 class _ChatWithBadgeState extends State<ChatWithBadge> {
+  final _con = Get.put(ChatIconController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      final showLabel = _con.unreadChatIds.isNotEmpty;
+      return Badge(
+        isLabelVisible: showLabel,
+        backgroundColor: red,
+        label: CustomText.kText(
+          _con.unreadChatIds.length.toString(),
+          color: white,
+        ),
+        child: Image.asset(
+          height: 22,
+          width: 22,
+          Images.chatIcon,
+          color: widget.isActive ? AppColors.primary : AppColors.subtitle,
+        ),
+      );
+    });
+  }
+}
+
+class ChatIconController extends GetxController {
   final user = UserController.user.value;
 
   final RxBool isLoading = true.obs;
@@ -144,47 +168,37 @@ class _ChatWithBadgeState extends State<ChatWithBadge> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   StreamSubscription<QuerySnapshot<Map<String, dynamic>>>?
-  _chatHistorySubscription;
+  _unreadMessagesSubscription;
 
-  void _listenToChatHistory() {
-    // Cancel any previous listener
-    _chatHistorySubscription?.cancel();
+  final unreadChatIds = <String>[].obs;
 
-    isLoading.value = true;
+  void listenUnreadMessages() {
+    _unreadMessagesSubscription?.cancel();
 
-    _chatHistorySubscription = _firestore
-        .collection(collectionName)
-        .where('users', arrayContains: user!.id.toString())
-        // .orderBy('last_message_at', descending: true)
+    _unreadMessagesSubscription = _firestore
+        .collectionGroup('messages')
+        .where('isSeen', isEqualTo: false)
         .snapshots()
-        .listen(
-          (snapshot) {
-            // final chats = snapshot.docs
-            //     .map((doc) => ChatHistoryModel.fromDocument(doc))
-            //     .toList();
-            // chats.sort((a, b) => b.lastMessageAt.compareTo(a.lastMessageAt));
-            // chatHistory.assignAll(chats);
-            // isLoading.value = false;
-            // debugPrint('Total chats: ${chats.length}');
-          },
-          onError: (error) {
-            isLoading.value = false;
-            debugPrint('Listen chat history error: $error');
-          },
-        );
+        .listen((snapshot) {
+          final currentUserId = user!.id.toString();
+
+          final unreadMessages = snapshot.docs.where((doc) {
+            return doc.data()['sender_id'].toString() != currentUserId;
+          }).toList();
+
+          // Get unique chat IDs
+          final unreadChatIdsList = unreadMessages
+              .map((doc) => doc.reference.parent.parent!.id)
+              .toList();
+
+          unreadChatIds.assignAll(unreadChatIdsList);
+        });
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Badge(
-      backgroundColor: red,
-      label: CustomText.kText('0', color: white),
-      child: Image.asset(
-        height: 22,
-        width: 22,
-        Images.chatIcon,
-        color: widget.isActive ? AppColors.primary : AppColors.subtitle,
-      ),
-    );
+  void onInit() {
+    listenUnreadMessages();
+
+    super.onInit();
   }
 }
