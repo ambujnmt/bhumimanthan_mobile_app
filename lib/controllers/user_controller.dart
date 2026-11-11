@@ -21,6 +21,11 @@ class UserController {
 
   static Future<bool> getUser() async {
     final res = await _api.get('/profile');
+    if (res.code == 401) {
+      Get.offAllNamed(AppRoutes.loginScreen);
+      AppToast.error('Unauthorized');
+      return false;
+    }
     if (!res.success) return false;
     await UserStorage.setUserData(res.data['data']['user']);
     refreshUser();

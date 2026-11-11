@@ -1,4 +1,5 @@
 import 'package:bhumi_manthan/utils/app_imports.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../../zz_main_screen/main_screen.dart';
 import 'chat_history_screen_controller.dart';
@@ -21,23 +22,38 @@ class _ChatHistoryScreenState extends State<ChatHistoryScreen>
     super.build(context);
     return Scaffold(
       appBar: CustomAppbar(title: 'Chat History', showLeading: false),
-      body: Obx(
-        () => _con.isLoading.value
-            ? AppLoader.widget()
-            : _con.hasError.value
-            ? AppRefreshIndicator(
-                onRefresh: _con.refreshData,
-                child: ApiErrorWidget(),
-              )
-            : ListView.separated(
-                padding: EdgeInsets.all(AppDimentions.defaultScreenPadding),
-                itemCount: _con.chatHistory.length,
-                itemBuilder: (context, index) => _chatHistoryTile(
-                  chat: _con.chatHistory[index],
-                  currentUserId: _con.user!.id.toString(),
-                ),
-                separatorBuilder: (context, index) => heightSpace10,
-              ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection(_con.collectionName)
+            .where('users', arrayContains: _con.currentUserId)
+            .orderBy('last_message_at', descending: true)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return ApiErrorWidget();
+          }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return AppLoader.widget();
+          }
+
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return NoDataAvailable();
+          }
+
+          final chats = snapshot.data!.docs
+              .map((doc) => ChatHistoryModel.fromDocument(doc))
+              .toList();
+
+          return ListView.separated(
+            padding: EdgeInsets.all(AppDimentions.defaultScreenPadding),
+            itemCount: chats.length,
+            itemBuilder: (context, index) => _chatHistoryTile(
+              chat: chats[index],
+              currentUserId: _con.currentUserId!,
+            ),
+            separatorBuilder: (context, index) => heightSpace10,
+          );
+        },
       ),
     );
   }

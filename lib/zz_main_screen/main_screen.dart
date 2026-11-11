@@ -159,16 +159,16 @@ class _ChatWithBadgeState extends State<ChatWithBadge> {
 }
 
 class ChatIconController extends GetxController {
-  final user = UserController.user.value;
+  final currentUserId = UserController.user.value?.id.toString();
 
   final RxBool isLoading = true.obs;
-
-  final collectionName = 'chats';
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   StreamSubscription<QuerySnapshot<Map<String, dynamic>>>?
   _unreadMessagesSubscription;
+
+  final collectionName = 'chats';
 
   final unreadChatIds = <String>[].obs;
 
@@ -176,23 +176,10 @@ class ChatIconController extends GetxController {
     _unreadMessagesSubscription?.cancel();
 
     _unreadMessagesSubscription = _firestore
-        .collectionGroup('messages')
-        .where('isSeen', isEqualTo: false)
+        .collection(collectionName)
+        .where('users', arrayContains: currentUserId)
         .snapshots()
-        .listen((snapshot) {
-          final currentUserId = user!.id.toString();
-
-          final unreadMessages = snapshot.docs.where((doc) {
-            return doc.data()['sender_id'].toString() != currentUserId;
-          }).toList();
-
-          // Get unique chat IDs
-          final unreadChatIdsList = unreadMessages
-              .map((doc) => doc.reference.parent.parent!.id)
-              .toList();
-
-          unreadChatIds.assignAll(unreadChatIdsList);
-        });
+        .listen((snapshot) {});
   }
 
   @override

@@ -32,9 +32,7 @@ class ChatHistoryModel {
     );
   }
 
-  factory ChatHistoryModel.fromDocument(
-    DocumentSnapshot<Map<String, dynamic>> doc,
-  ) {
+  factory ChatHistoryModel.fromDocument(dynamic doc) {
     return ChatHistoryModel.fromMap(doc.id, doc.data() ?? {});
   }
 }
