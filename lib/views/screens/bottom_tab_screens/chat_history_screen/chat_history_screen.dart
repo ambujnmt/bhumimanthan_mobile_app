@@ -32,6 +32,7 @@ class _ChatHistoryScreenState extends State<ChatHistoryScreen>
           if (snapshot.hasError) {
             return ApiErrorWidget();
           }
+
           if (snapshot.connectionState == ConnectionState.waiting) {
             return AppLoader.widget();
           }

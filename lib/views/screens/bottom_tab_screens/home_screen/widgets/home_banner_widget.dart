@@ -69,7 +69,7 @@ class _HomeBannerSliderState extends State<HomeBannerSlider> {
                     aspectRatio: 16 / 7,
                     viewportFraction: 1,
                     autoPlay: _con.banners.length > 1,
-                    autoPlayInterval: const Duration(seconds: 4),
+                    autoPlayInterval: const Duration(seconds: 5),
                     autoPlayAnimationDuration: const Duration(
                       milliseconds: 600,
                     ),

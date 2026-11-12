@@ -9,8 +9,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'model/user_to_agent_chat_model.dart';
 
 class UserToAgentChatScreenController extends GetxController {
+  String? propertyId;
+
   final data = Rxn<PropertyDetailsModel>();
-  final isLoadingData = true.obs;
+
+  final disableTyping = true.obs;
+
+  final isLoading = true.obs;
 
   final collectionName = 'chats';
 
@@ -28,9 +33,7 @@ class UserToAgentChatScreenController extends GetxController {
 
   final RxList<UserToAgentChatModel> messages = <UserToAgentChatModel>[].obs;
 
-  final RxBool isLoading = true.obs;
   final RxBool isSending = false.obs;
-  final RxBool hasError = false.obs;
 
   StreamSubscription<QuerySnapshot<Map<String, dynamic>>>?
   _messagesSubscription;
@@ -40,7 +43,7 @@ class UserToAgentChatScreenController extends GetxController {
   DocumentReference<Map<String, dynamic>> get _chatRef =>
       _firestore.collection(collectionName).doc(chatId);
 
-  CollectionReference<Map<String, dynamic>> get _messagesRef =>
+  CollectionReference<Map<String, dynamic>> get messagesRef =>
       _chatRef.collection('messages');
 
   void _setChatData() {
@@ -48,77 +51,34 @@ class UserToAgentChatScreenController extends GetxController {
   }
 
   Future<void> _getData() async {
-    final res = await ApiServices().get(
-      '/properties/detail/${Get.arguments['id']}',
-    );
+    final res = await ApiServices().get('/properties/detail/$propertyId');
 
-    if (!res.success) {
-      hasError(true);
-      return;
-    }
+    if (!res.success) return;
+
     data.value = PropertyDetailsModel.fromJson(res.data['data']['property']);
     _setChatData();
   }
 
   Future<void> refreshData() async {
-    isLoadingData(true);
-    final args = Get.arguments as Map<String, dynamic>;
+    isLoading(true);
+    await _getData();
+    isLoading(false);
+  }
 
-    data.value = args['data'] as PropertyDetailsModel?;
-    if (data.value == null) {
-      await _getData();
-    } else {
-      _setChatData();
-    }
-    isLoadingData(false);
-    listenToMessages();
+  void setDisableTyping(bool val) {
+    WidgetsBinding.instance.addPostFrameCallback((_) => disableTyping(val));
   }
 
   @override
   void onInit() {
     super.onInit();
+    propertyId = Get.arguments['id']?.toString();
     currentUserId = user!.id.toString();
     refreshData();
   }
 
   String _getChatId() {
     return 'chat_${data.value!.id}_${user?.id}_${data.value!.creator.id}';
-  }
-
-  // Listen to the latest 50 messages in real time.
-  void listenToMessages() {
-    _messagesSubscription?.cancel();
-
-    isLoading.value = true;
-    hasError.value = false;
-
-    _messagesSubscription = _messagesRef
-        .orderBy('created_at', descending: true)
-        .limit(50)
-        .snapshots()
-        .listen(
-          (snapshot) {
-            if (_isDisposed) return;
-
-            messages.assignAll(
-              snapshot.docs.map(UserToAgentChatModel.fromDocument),
-            );
-
-            isLoading.value = false;
-            hasError.value = false;
-
-            // Mark incoming messages as seen.
-            markMessagesAsSeen(snapshot.docs);
-          },
-          onError: (Object error) {
-            if (_isDisposed) return;
-
-            isLoading.value = false;
-            hasError.value = true;
-
-            debugPrint('Firestore message listener error: $error');
-          },
-        );
   }
 
   // Send a text message.
@@ -132,7 +92,7 @@ class UserToAgentChatScreenController extends GetxController {
 
     try {
       final batch = _firestore.batch();
-      final messageRef = _messagesRef.doc();
+      final messageRef = messagesRef.doc();
 
       final message = UserToAgentChatModel(
         id: messageRef.id,
@@ -211,7 +171,7 @@ class UserToAgentChatScreenController extends GetxController {
   // Retry after a stream error.
   void retryLoading() {
     if (_isDisposed) return;
-    listenToMessages();
+    // listenToMessages();
   }
 
   @override

@@ -15,9 +15,7 @@ class UserToAgentChatModel {
     this.createdAt,
   });
 
-  factory UserToAgentChatModel.fromDocument(
-    DocumentSnapshot<Map<String, dynamic>> doc,
-  ) {
+  factory UserToAgentChatModel.fromDocument(dynamic doc) {
     final data = doc.data() ?? {};
 
     return UserToAgentChatModel(

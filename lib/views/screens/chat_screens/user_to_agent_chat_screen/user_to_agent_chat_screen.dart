@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../../../../utils/app_imports.dart';
 import 'model/user_to_agent_chat_model.dart';
 import 'user_to_agent_chat_screen_controller.dart';
@@ -14,10 +16,15 @@ class _UserToAgentChatScreenState extends State<UserToAgentChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () => controller.isLoadingData.value
+      () => controller.isLoading.value || controller.data.value == null
           ? Scaffold(
               appBar: CustomAppbar(title: 'Chat'),
-              body: AppLoader.widget(),
+              body: AppRefreshIndicator(
+                onRefresh: controller.refreshData,
+                child: controller.isLoading.value
+                    ? AppLoader.widget()
+                    : ApiErrorWidget(),
+              ),
             )
           : Scaffold(
               appBar: CustomAppbar(
@@ -25,81 +32,69 @@ class _UserToAgentChatScreenState extends State<UserToAgentChatScreen> {
               ),
               body: Column(
                 children: [
-                  Expanded(child: _buildMessages()),
+                  Expanded(
+                    child: StreamBuilder<QuerySnapshot>(
+                      stream: controller.messagesRef
+                          .orderBy('created_at', descending: true)
+                          .limit(50)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          controller.setDisableTyping(true);
+                          return ApiErrorWidget();
+                        }
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          controller.setDisableTyping(true);
+                          return AppLoader.widget();
+                        }
+
+                        controller.setDisableTyping(false);
+
+                        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                          return NoDataAvailable(
+                            title: 'No messages yet',
+                            message: 'Send a message to start chatting.',
+                            icon: Icons.chat_bubble_outline,
+                          );
+                        }
+                        List messages = [];
+                        messages.assignAll(
+                          snapshot.data!.docs.map(
+                            UserToAgentChatModel.fromDocument,
+                          ),
+                        );
+                        return ListView.builder(
+                          controller: controller.scrollController,
+                          reverse: true,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 16,
+                          ),
+                          itemCount: messages.length,
+                          itemBuilder: (context, index) {
+                            final message = messages[index];
+
+                            final isMine =
+                                message.senderId == controller.currentUserId;
+
+                            return _MessageBubble(
+                              message: message,
+                              isMine: isMine,
+                              time: formatDateTime(
+                                message.createdAt.toString(),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
                   _buildMessageInput(context),
                 ],
               ),
             ),
     );
-  }
-
-  Widget _buildMessages() {
-    return Obx(() {
-      if (controller.isLoading.value) {
-        return const Center(child: CircularProgressIndicator());
-      }
-
-      if (controller.hasError.value) {
-        return Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(
-                Icons.cloud_off_outlined,
-                size: 42,
-                color: Colors.grey,
-              ),
-              const SizedBox(height: 12),
-              const Text('Unable to load messages'),
-              const SizedBox(height: 12),
-              ElevatedButton(
-                onPressed: controller.retryLoading,
-                child: const Text('Try again'),
-              ),
-            ],
-          ),
-        );
-      }
-
-      if (controller.messages.isEmpty) {
-        return const Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.chat_bubble_outline, size: 48, color: Colors.grey),
-              SizedBox(height: 12),
-              Text(
-                'No messages yet',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-              ),
-              SizedBox(height: 4),
-              Text(
-                'Send a message to start chatting.',
-                style: TextStyle(color: Colors.grey),
-              ),
-            ],
-          ),
-        );
-      }
-
-      return ListView.builder(
-        controller: controller.scrollController,
-        reverse: true,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        itemCount: controller.messages.length,
-        itemBuilder: (context, index) {
-          final message = controller.messages[index];
-
-          final isMine = message.senderId == controller.currentUserId;
-
-          return _MessageBubble(
-            message: message,
-            isMine: isMine,
-            time: formatDateTime(message.createdAt.toString()),
-          );
-        },
-      );
-    });
   }
 
   Widget _buildMessageInput(BuildContext context) {
@@ -109,72 +104,81 @@ class _UserToAgentChatScreenState extends State<UserToAgentChatScreen> {
         color: Theme.of(context).scaffoldBackgroundColor,
         border: Border(top: BorderSide(color: Colors.grey.shade200)),
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Expanded(
-            child: TextField(
-              controller: controller.messageController,
-              textCapitalization: TextCapitalization.sentences,
-              keyboardType: TextInputType.multiline,
-              textInputAction: TextInputAction.newline,
-              style: CustomText.kTextStyle(),
-              minLines: 1,
-              maxLines: 5,
-              decoration: InputDecoration(
-                hintText: 'Type a message...',
-                filled: true,
-                fillColor: Colors.grey.shade200,
-                contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 18,
-                  vertical: 12,
-                ),
-                hintStyle: CustomText.kTextStyle(color: grey),
+      child: Obx(
+        () => IgnorePointer(
+          ignoring: controller.disableTyping.value,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: controller.messageController,
+                  textCapitalization: TextCapitalization.sentences,
+                  keyboardType: TextInputType.multiline,
+                  textInputAction: TextInputAction.newline,
+                  style: CustomText.kTextStyle(),
+                  minLines: 1,
+                  maxLines: 5,
+                  decoration: InputDecoration(
+                    hintText: 'Type a message...',
+                    filled: true,
+                    fillColor: Colors.grey.shade200,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 18,
+                      vertical: 12,
+                    ),
+                    hintStyle: CustomText.kTextStyle(color: grey),
 
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(AppDimentions.boxRadiusS),
-                  borderSide: BorderSide.none,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        AppDimentions.boxRadiusS,
+                      ),
+                      borderSide: BorderSide.none,
+                    ),
+                    // enabledBorder: OutlineInputBorder(
+                    //   borderRadius: BorderRadius.circular(AppDimentions.boxRadiusS),
+                    //   borderSide: BorderSide.none,
+                    // ),
+                    // focusedBorder: OutlineInputBorder(
+                    //   borderRadius: BorderRadius.circular(AppDimentions.boxRadiusS),
+                    //   borderSide: BorderSide(
+                    //     color: Theme.of(context).colorScheme.primary,
+                    //   ),
+                    // ),
+                  ),
                 ),
-                // enabledBorder: OutlineInputBorder(
-                //   borderRadius: BorderRadius.circular(AppDimentions.boxRadiusS),
-                //   borderSide: BorderSide.none,
-                // ),
-                // focusedBorder: OutlineInputBorder(
-                //   borderRadius: BorderRadius.circular(AppDimentions.boxRadiusS),
-                //   borderSide: BorderSide(
-                //     color: Theme.of(context).colorScheme.primary,
-                //   ),
-                // ),
               ),
-            ),
+              const SizedBox(width: 8),
+              Obx(() {
+                return SizedBox(
+                  height: 48,
+                  width: 48,
+                  child: IconButton.filled(
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll(
+                        AppColors.primary,
+                      ),
+                    ),
+                    tooltip: 'Send message',
+                    onPressed: controller.isSending.value
+                        ? null
+                        : controller.sendMessage,
+                    icon: controller.isSending.value
+                        ? const SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: white,
+                            ),
+                          )
+                        : const Icon(Icons.send_rounded),
+                  ),
+                );
+              }),
+            ],
           ),
-          const SizedBox(width: 8),
-          Obx(() {
-            return SizedBox(
-              height: 48,
-              width: 48,
-              child: IconButton.filled(
-                style: ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(AppColors.primary),
-                ),
-                tooltip: 'Send message',
-                onPressed: controller.isSending.value
-                    ? null
-                    : controller.sendMessage,
-                icon: controller.isSending.value
-                    ? const SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color: white,
-                        ),
-                      )
-                    : const Icon(Icons.send_rounded),
-              ),
-            );
-          }),
-        ],
+        ),
       ),
     );
   }
