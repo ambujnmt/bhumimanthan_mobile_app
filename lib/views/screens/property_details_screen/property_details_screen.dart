@@ -274,7 +274,7 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                             //   height: 200,
                             //   child: AppNetworkImage(
                             //     imgUrl:
-                            //         'https://maps.googleapis.com/maps/api/staticmap?center=${_con.data.value!.latitude},${_con.data.value!.longitude}&zoom=15&key=AIzaSyAXkpxO--oleAJ1_jRL18Q1QqZn7iIwnG0',
+                            //         'https://maps.googleapis.com/maps/api/staticmap?center=${_con.data.value!.latitude},${_con.data.value!.longitude}&zoom=15&key=',
                             //     fit: BoxFit.cover,
                             //   ),
                             // ),

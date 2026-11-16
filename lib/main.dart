@@ -1,4 +1,5 @@
 import 'package:bhumi_manthan/app_routes/app_pages.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'utils/app_imports.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -9,6 +10,7 @@ void main() async {
   await Future.wait([
     Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
     SharedPrefs.init(),
+    dotenv.load(fileName: ".env"),
   ]);
   runApp(const MyApp());
 }
