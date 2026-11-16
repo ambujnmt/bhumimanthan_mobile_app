@@ -132,41 +132,42 @@ class _HomeScreenState extends State<HomeScreen>
                             ),
                           ),
                           HomeBannerSlider(),
-                          SectionWidget(
-                            title: 'Categories',
-                            content: Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: AppDimentions.defaultScreenPadding,
-                              ),
-                              child: Row(
-                                spacing: 10,
-                                children: categories
-                                    .map(
-                                      (c) => Expanded(
-                                        child: AppContainer(
-                                          hideShadow: false,
-                                          borderColor: transparent,
-                                          child: Column(
-                                            children: [
-                                              Image.asset(
-                                                height: 25,
-                                                width: 25,
-                                                c.icon,
+                          if (_con.categories.isNotEmpty)
+                            SectionWidget(
+                              title: 'Categories',
+                              content: Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal:
+                                      AppDimentions.defaultScreenPadding,
+                                ),
+                                child: SizedBox(
+                                  width: Get.width,
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      spacing: 10,
+                                      children: _con.categories
+                                          .map(
+                                            (c) => AppContainer(
+                                              borderColor: grey.shade400,
+                                              padding: EdgeInsets.symmetric(
+                                                vertical: AppDimentions
+                                                    .screenPaddingXS,
+                                                horizontal: AppDimentions
+                                                    .screenPaddingS,
                                               ),
-                                              heightSpace7,
-                                              CustomText.kText(
-                                                c.title,
-                                                size: 14,
+                                              child: CustomText.kText(
+                                                c.name,
+                                                weight: FontWeight.w600,
                                               ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    )
-                                    .toList(),
+                                            ),
+                                          )
+                                          .toList(),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
                           heightSpace20,
                           FeaturedProperties(),
                           heightSpace20,

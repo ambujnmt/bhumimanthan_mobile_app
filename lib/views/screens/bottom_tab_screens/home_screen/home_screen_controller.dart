@@ -1,4 +1,5 @@
 import 'package:bhumi_manthan/models/blog_model.dart';
+import 'package:bhumi_manthan/models/category_model.dart';
 import 'package:bhumi_manthan/models/city_model.dart';
 import 'package:bhumi_manthan/models/featured_property_model.dart';
 import 'package:bhumi_manthan/models/home_banner.dart';
@@ -11,6 +12,7 @@ class HomeScreenController extends GetxController {
 
   final location = LocationController.currentLocation;
 
+  final categories = <CategoryModel>[].obs;
   final featuredItems = <FeaturedProperty>[].obs;
   final projects = <ProjectsModel>[].obs;
   final cities = <CityModel>[].obs;
@@ -23,6 +25,14 @@ class HomeScreenController extends GetxController {
     if (!res.success) return;
     banners.value = (res.data['data']['banners'] as List)
         .map((json) => HomeBanner.fromJson(json))
+        .toList();
+  }
+
+  Future<void> _getCategories() async {
+    final res = await _api.get('/property-categories');
+    if (!res.success) return;
+    categories.value = (res.data['data']['categories'] as List)
+        .map((json) => CategoryModel.fromJson(json))
         .toList();
   }
 
@@ -73,6 +83,7 @@ class HomeScreenController extends GetxController {
     isLoading(true);
     await Future.wait([
       _getBanners(),
+      _getCategories(),
       _getFeatured(),
       _getProjects(),
       _getCities(),

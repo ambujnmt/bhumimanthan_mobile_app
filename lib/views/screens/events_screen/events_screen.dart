@@ -1,7 +1,16 @@
-import 'package:flutter/material.dart';
+import 'package:bhumi_manthan/utils/app_imports.dart';
 
-class EventsScreen extends StatelessWidget {
+import 'events_screen_controller.dart';
+
+class EventsScreen extends StatefulWidget {
   const EventsScreen({super.key});
+
+  @override
+  State<EventsScreen> createState() => _EventsScreenState();
+}
+
+class _EventsScreenState extends State<EventsScreen> {
+  final _con = Get.put(EventsScreenController());
 
   final List<Map<String, dynamic>> events = const [
     {
@@ -33,23 +42,29 @@ class EventsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Events')),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          const Text(
-            'Upcoming Events',
-            style: TextStyle(fontSize: 21, fontWeight: FontWeight.w700),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            'Stay updated with our latest events and workshops.',
-            style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
-          ),
-          const SizedBox(height: 20),
+      appBar: CustomAppbar(title: 'Events'),
+      body: Obx(
+        () => _con.isLoading.value
+            ? AppLoader.widget()
+            : _con.data.value == null
+            ? ApiErrorWidget()
+            : ListView(
+                padding: const EdgeInsets.all(16),
+                children: [
+                  const Text(
+                    'Upcoming Events',
+                    style: TextStyle(fontSize: 21, fontWeight: FontWeight.w700),
+                  ),
+                  const SizedBox(height: 6),
+                  Text(
+                    'Stay updated with our latest events and workshops.',
+                    style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
+                  ),
+                  const SizedBox(height: 20),
 
-          ...events.map((event) => _eventCard(context, event)),
-        ],
+                  ...events.map((event) => _eventCard(context, event)),
+                ],
+              ),
       ),
     );
   }
