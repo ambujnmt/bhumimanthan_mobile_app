@@ -28,4 +28,5 @@ abstract class AppRoutes {
   static final allProjects = '/all-projects';
   static final allPropertiesInCity = '/all-properties-in-city';
   static final notificationsScreen = '/notifications';
+  static final eventsScreen = '/events';
 }
