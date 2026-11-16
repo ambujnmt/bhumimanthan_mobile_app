@@ -148,17 +148,23 @@ class _HomeScreenState extends State<HomeScreen>
                                       spacing: 10,
                                       children: _con.categories
                                           .map(
-                                            (c) => AppContainer(
-                                              borderColor: grey.shade400,
-                                              padding: EdgeInsets.symmetric(
-                                                vertical: AppDimentions
-                                                    .screenPaddingXS,
-                                                horizontal: AppDimentions
-                                                    .screenPaddingS,
+                                            (c) => InkWell(
+                                              onTap: () => Get.toNamed(
+                                                AppRoutes.categoryDetails,
+                                                arguments: {'data': c},
                                               ),
-                                              child: CustomText.kText(
-                                                c.name,
-                                                weight: FontWeight.w600,
+                                              child: AppContainer(
+                                                borderColor: grey.shade300,
+                                                padding: EdgeInsets.symmetric(
+                                                  vertical: AppDimentions
+                                                      .screenPaddingXS,
+                                                  horizontal: AppDimentions
+                                                      .screenPaddingS,
+                                                ),
+                                                child: CustomText.kText(
+                                                  c.name,
+                                                  weight: FontWeight.w600,
+                                                ),
                                               ),
                                             ),
                                           )

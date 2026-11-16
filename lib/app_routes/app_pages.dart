@@ -6,6 +6,7 @@ import 'package:bhumi_manthan/views/screens/auth_screens/forget_password_screen/
 import 'package:bhumi_manthan/views/screens/auth_screens/login_screen/login_screen.dart';
 import 'package:bhumi_manthan/views/screens/auth_screens/welcome_screen/welcome_screen.dart';
 import 'package:bhumi_manthan/views/screens/blog_details_screen/blog_details_screen.dart';
+import 'package:bhumi_manthan/views/screens/category_details/category_details.dart';
 import 'package:bhumi_manthan/views/screens/chat_screens/user_to_agent_chat_screen/user_to_agent_chat_screen.dart';
 import 'package:bhumi_manthan/views/screens/contact_us/contact_us.dart';
 import 'package:bhumi_manthan/views/screens/events_screen/events_screen.dart';
@@ -111,5 +112,6 @@ class AppPages {
       page: () => AllPropertiesInCity(),
     ),
     GetPage(name: AppRoutes.eventsScreen, page: () => EventsScreen()),
+    GetPage(name: AppRoutes.categoryDetails, page: () => CategoryDetails()),
   ];
 }

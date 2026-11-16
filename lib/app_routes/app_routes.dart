@@ -29,4 +29,5 @@ abstract class AppRoutes {
   static final allPropertiesInCity = '/all-properties-in-city';
   static final notificationsScreen = '/notifications';
   static final eventsScreen = '/events';
+  static const categoryDetails = '/category-details';
 }
