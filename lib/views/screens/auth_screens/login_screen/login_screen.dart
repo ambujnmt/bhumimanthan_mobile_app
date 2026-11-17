@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           SizedBox(height: Get.mediaQuery.padding.top + 80),
           CustomText.kText(
-            'Welcome Back!',
+            'Welcome!',
             size: 30,
             weight: FontWeight.w800,
             family: CustomFonts.outfit,
@@ -61,7 +61,11 @@ class _LoginScreenState extends State<LoginScreen> {
               CustomText.kText('Don’t have an Account? '),
               InkWell(
                 onTap: () => Get.toNamed(AppRoutes.registerScreen),
-                child: CustomText.kText('Sign up', color: AppColors.primary),
+                child: CustomText.kText(
+                  'Sign up',
+                  color: AppColors.primary,
+                  weight: FontWeight.w700,
+                ),
               ),
             ],
           ),
@@ -76,18 +80,20 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
           ),
           heightSpace20,
-          InkWell(
-            onTap: () => Get.toNamed(AppRoutes.mainScreen),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (Platform.isAndroid)
-                  Image.asset(height: 70, width: 70, Images.googleIcon),
-                widthSpace10,
-                if (Platform.isIOS)
-                  Image.asset(height: 70, width: 70, Images.appleIcon),
-              ],
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (Platform.isAndroid)
+                GestureDetector(
+                  onTap: () => _con.signInWithGoogle(),
+                  child: Image.asset(height: 70, width: 70, Images.googleIcon),
+                )
+              else
+                GestureDetector(
+                  onTap: () => AppToast.warning('Coming soon!'),
+                  child: Image.asset(height: 70, width: 70, Images.appleIcon),
+                ),
+            ],
           ),
           heightSpace40,
         ],

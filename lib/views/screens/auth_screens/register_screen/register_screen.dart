@@ -94,21 +94,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               fontWeight: FontWeight.w600,
                             ),
                             recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                // Open Terms & Conditions
-                              },
+                              ..onTap = () =>
+                                  Get.toNamed(AppRoutes.termsAndConditions),
                           ),
                           const TextSpan(text: ' and '),
                           TextSpan(
-                            text: 'Privacy Policy',
+                            text: 'Privacy Policy.',
                             style: const TextStyle(
                               color: Colors.blue,
                               fontWeight: FontWeight.w600,
                             ),
                             recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                // Open Privacy Policy
-                              },
+                              ..onTap = () =>
+                                  Get.toNamed(AppRoutes.privacyPolicy),
                           ),
                         ],
                       ),
@@ -127,7 +125,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
               CustomText.kText('Already have an Account? '),
               InkWell(
                 onTap: Get.back,
-                child: CustomText.kText('Login', color: AppColors.primary),
+                child: CustomText.kText(
+                  'Login',
+                  color: AppColors.primary,
+                  weight: FontWeight.w700,
+                ),
               ),
             ],
           ),

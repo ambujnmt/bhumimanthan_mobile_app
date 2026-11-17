@@ -1,4 +1,5 @@
 import 'package:bhumi_manthan/controllers/auth_controller.dart';
+import 'package:bhumi_manthan/services/google_auth_service.dart';
 import 'package:bhumi_manthan/shared_prefs/storage/auth_prefs.dart';
 import 'package:bhumi_manthan/utils/app_imports.dart';
 
@@ -49,6 +50,16 @@ class LoginScreenController extends GetxController {
     if (!isValid) return false;
 
     return true;
+  }
+
+  Future<void> signInWithGoogle() async {
+    final ga = GoogleAuthService();
+    AppLoader.show();
+    await ga.initialize();
+    AppLoader.close();
+    final idToken = await ga.signIn();
+    // debugPrint('id token: $idToken');
+    if (idToken == null) return;
   }
 
   @override
