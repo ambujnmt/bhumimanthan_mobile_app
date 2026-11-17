@@ -80,20 +80,20 @@ class _LoginScreenState extends State<LoginScreen> {
             ],
           ),
           heightSpace20,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              if (Platform.isAndroid)
-                GestureDetector(
-                  onTap: () => _con.signInWithGoogle(),
-                  child: Image.asset(height: 70, width: 70, Images.googleIcon),
-                )
-              else
-                GestureDetector(
-                  onTap: () => AppToast.warning('Coming soon!'),
-                  child: Image.asset(height: 70, width: 70, Images.appleIcon),
-                ),
-            ],
+          Center(
+            child: Platform.isAndroid
+                ? GestureDetector(
+                    onTap: () => _con.signInWithGoogle(),
+                    child: Image.asset(
+                      height: 70,
+                      width: 70,
+                      Images.googleIcon,
+                    ),
+                  )
+                : GestureDetector(
+                    onTap: () => AppToast.warning('Coming soon!'),
+                    child: Image.asset(height: 70, width: 70, Images.appleIcon),
+                  ),
           ),
           heightSpace40,
         ],
