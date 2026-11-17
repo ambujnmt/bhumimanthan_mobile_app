@@ -1,5 +1,7 @@
 import 'package:bhumi_manthan/utils/app_imports.dart';
 
+import '../../../models/featured_property_model.dart';
+import '../all_featured_properties_screen/widgets/afs_card_widget.dart';
 import 'category_details_controller.dart';
 
 class CategoryDetails extends StatefulWidget {
@@ -60,13 +62,16 @@ class SubCatTabScreen extends StatefulWidget {
 class _SubCatTabScreenState extends State<SubCatTabScreen>
     with AutomaticKeepAliveClientMixin {
   final isLoading = true.obs;
+  final sc = ScrollController();
 
-  final data = Rxn<String>();
+  final items = <FeaturedProperty>[].obs;
 
   Future<void> _getData() async {
-    final res = await ApiServices().get('endPoint');
-    // if (!res.success) return;
-    data('');
+    final res = await ApiServices().get('/properties/featured');
+    if (!res.success) return;
+    items.value = (res.data['data']['properties'] as List)
+        .map((json) => FeaturedProperty.fromJson(json))
+        .toList();
   }
 
   Future<void> refreshData() async {
@@ -92,9 +97,28 @@ class _SubCatTabScreenState extends State<SubCatTabScreen>
         onRefresh: refreshData,
         child: isLoading.value
             ? AppLoader.widget()
-            : data.value == null
-            ? ApiErrorWidget()
-            : ListView(children: []),
+            : items.isEmpty
+            ? NoDataAvailable()
+            : Scrollbar(
+                controller: sc,
+                interactive: true,
+                radius: Radius.circular(AppDimentions.defaultBoxRadius),
+                child: ListView.separated(
+                  controller: sc,
+                  padding: EdgeInsets.fromLTRB(
+                    AppDimentions.defaultScreenPadding,
+                    AppDimentions.defaultScreenPadding,
+                    AppDimentions.defaultScreenPadding,
+                    100,
+                  ),
+                  itemCount: items.length,
+                  itemBuilder: (context, index) => FeaturedPropertyCard(
+                    label: 'FEATURED',
+                    property: items[index],
+                  ),
+                  separatorBuilder: (context, index) => heightSpace10,
+                ),
+              ),
       ),
     );
   }
