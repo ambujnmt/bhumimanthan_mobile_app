@@ -114,23 +114,32 @@ class _HomeScreenState extends State<HomeScreen>
                         padding: EdgeInsets.zero,
                         children: [
                           heightSpace10,
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: AppDimentions.defaultScreenPadding,
-                            ),
-                            child: AppTextfield(
-                              readOnly: true,
-                              hintText:
-                                  'Search apartments, societies, builders...',
-                              prefixIcon: Image.asset(
-                                Images.searchIcon,
-                                height: 20,
-                                width: 20,
+                          InkWell(
+                            onTap: () => Get.toNamed(AppRoutes.searchScreen),
+                            child: AppContainer(
+                              height: 53,
+                              borderColor: grey.shade300,
+                              borderRadius: AppDimentions.boxRadiusL,
+                              margin: EdgeInsets.symmetric(
+                                horizontal: AppDimentions.defaultScreenPadding,
                               ),
-                              onTap: () => Get.toNamed(AppRoutes.searchScreen),
-                              bottomPad: 20,
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    Images.searchIcon,
+                                    height: 20,
+                                    width: 20,
+                                  ),
+                                  widthSpace10,
+                                  CustomText.kText(
+                                    'Search apartments, societies, builders...',
+                                    color: grey.shade500,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
+                          heightSpace15,
                           HomeBannerSlider(),
                           if (_con.categories.isNotEmpty)
                             SectionWidget(

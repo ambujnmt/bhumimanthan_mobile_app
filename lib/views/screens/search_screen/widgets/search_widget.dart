@@ -25,7 +25,7 @@ class _SearchWidgetState extends State<SearchWidget> {
           child: Column(
             children: [
               SizedBox(
-                height: 55,
+                height: 50,
                 child: TextField(
                   maxLines: 1,
                   controller: _con.textController,
