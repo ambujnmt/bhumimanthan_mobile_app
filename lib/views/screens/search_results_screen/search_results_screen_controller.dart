@@ -7,13 +7,12 @@ class SearchResultsScreenController extends GetxController {
   final _api = ApiServices();
 
   final isLoading = true.obs;
-  final isLoadingMore = false.obs;
 
   final items = <SearchPropertyModel>[].obs;
 
   final isLastPage = false.obs;
-
-  final _perPage = 12;
+  final isLoadingMore = false.obs;
+  final _perPage = '12';
   int _currentPage = 1;
 
   Future<bool> _getData() async {
@@ -21,7 +20,7 @@ class SearchResultsScreenController extends GetxController {
       '/search/properties',
       queries: {
         ...queries,
-        ...{'page': _currentPage.toString(), 'per_page': _perPage.toString()},
+        ...{'page': _currentPage.toString(), 'per_page': _perPage},
       },
     );
     if (!res.success) return false;

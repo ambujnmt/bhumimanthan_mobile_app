@@ -20,16 +20,45 @@ class _AllFeaturedPropertiesScreenState
   final isLoading = true.obs;
   final featuredItems = <FeaturedProperty>[].obs;
 
-  Future<void> _getData() async {
+  Future<bool> _getData() async {
     final res = await _api.get(
       '/properties/featured',
       queries: {'featured': '1'},
     );
-    if (!res.success) return;
-    featuredItems.value = (res.data['data']['properties'] as List)
-        .map((json) => FeaturedProperty.fromJson(json))
-        .toList();
+    if (!res.success) return false;
+    featuredItems.addAll(
+      (res.data['data']['properties'] as List)
+          .map((json) => FeaturedProperty.fromJson(json))
+          .toList(),
+    );
+    // final lastPage = res.data['data']['pagination']['last_page'];
+    // isLastPage.value = _currentPage >= lastPage;
+    return true;
   }
+
+  // final isLastPage = false.obs;
+  // final isLoadingMore = false.obs;
+  // final _perPage = '12';
+  // int _currentPage = 1;
+
+  // Future<void> loadMore() async {
+  //   if (isLoadingMore.value) {
+  //     debugPrint('skip more loading, wait for running loader');
+  //     return;
+  //   }
+
+  //   if (isLastPage.value) {
+  //     debugPrint('skip more loading, reached last page');
+  //     return;
+  //   }
+
+  //   _currentPage++;
+  //   isLoadingMore(true);
+  //   final success = await _getData();
+  //   isLoadingMore(false);
+  //   if (success) return;
+  //   _currentPage--;
+  // }
 
   Future<void> refreshData() async {
     isLoading(true);
