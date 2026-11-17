@@ -12,21 +12,10 @@ class SrsItemsWidget extends StatelessWidget {
         AppRoutes.propertyDetailsScreen,
         arguments: {'id': item.id},
       ),
-      child: Container(
-        margin: const EdgeInsets.only(bottom: 20),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: Colors.grey.shade200),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        clipBehavior: Clip.antiAlias,
+      child: AppContainer(
+        borderColor: grey.shade200,
+        padding: EdgeInsets.zero,
+        clip: Clip.antiAlias,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -42,19 +31,20 @@ class SrsItemsWidget extends StatelessWidget {
                 Positioned(
                   top: 12,
                   right: 12,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 7,
+                  child: AppContainer(
+                    color: black.withValues(alpha: .55),
+                    borderColor: grey.shade400,
+                    borderRadius: AppDimentions.boxRadiusXXS,
+                    padding: EdgeInsets.symmetric(
+                      vertical: AppDimentions.screenPaddingXXS,
+                      horizontal: AppDimentions.screenPaddingXS,
                     ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
+
                     child: CustomText.kText(
-                      '${formatNumber(item.superArea)} Sq. Ft.',
+                      '${formatNumber(item.superArea)} Sq.Ft.',
                       weight: FontWeight.w600,
                       size: 12,
+                      color: white,
                     ),
                   ),
                 ),
@@ -63,7 +53,10 @@ class SrsItemsWidget extends StatelessWidget {
 
             // Property details
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppDimentions.screenPaddingS,
+                vertical: 5,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -98,9 +91,7 @@ class SrsItemsWidget extends StatelessWidget {
                     ],
                   ),
 
-                  const SizedBox(height: 16),
-                  Divider(color: Colors.grey.shade200, height: 0),
-                  const SizedBox(height: 8),
+                  Divider(color: Colors.grey.shade200, height: 15),
 
                   Row(
                     children: [
@@ -149,36 +140,7 @@ class SrsItemsWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  heightSpace10,
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CustomButton(
-                          height: 42,
-                          text: 'View',
-                          textColor: AppColors.primary,
-                          color: transparent,
-                          border: Border.all(
-                            color: AppColors.primary,
-                            width: 1.5,
-                          ),
-                        ),
-                      ),
-                      widthSpace10,
-                      Expanded(
-                        child: CustomButton(
-                          height: 42,
-                          text: 'Compare',
-                          textColor: AppColors.secondary,
-                          color: transparent,
-                          border: Border.all(
-                            color: AppColors.secondary,
-                            width: 1.5,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                  heightSpace2,
                 ],
               ),
             ),

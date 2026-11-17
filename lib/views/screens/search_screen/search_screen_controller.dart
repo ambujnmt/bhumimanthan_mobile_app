@@ -227,6 +227,7 @@ class SearchScreenController extends GetxController {
 
   void startListening() {
     everAll([
+      selectedTab,
       showFilters,
       minBudget,
       maxBudget,

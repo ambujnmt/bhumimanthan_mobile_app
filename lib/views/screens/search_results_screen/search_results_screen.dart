@@ -23,12 +23,15 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
             ? AppLoader.widget()
             : _con.items.isEmpty
             ? NoDataAvailable(title: 'No results found')
-            : ListView.builder(
+            : ListView.separated(
                 controller: sc,
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(
+                  AppDimentions.defaultScreenPadding,
+                ),
                 itemCount: _con.items.length,
                 itemBuilder: (context, index) =>
                     SrsItemsWidget(item: _con.items[index]),
+                separatorBuilder: (context, index) => heightSpace10,
               ),
       ),
     );
