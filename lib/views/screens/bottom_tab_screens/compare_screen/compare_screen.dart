@@ -12,7 +12,9 @@ class CompareScreen extends StatefulWidget {
 
 class _CompareScreenState extends State<CompareScreen>
     with AutomaticKeepAliveClientMixin {
+  bool showLeading = (Get.arguments?['showLeading'] as bool?) ?? false;
   final _con = Get.put(CompareScreenController());
+
   @override
   bool get wantKeepAlive => true;
   @override
@@ -62,7 +64,7 @@ class _CompareScreenState extends State<CompareScreen>
     // );
 
     return Scaffold(
-      appBar: CustomAppbar(title: 'Compare', showLeading: false),
+      appBar: CustomAppbar(title: 'Compare', showLeading: showLeading),
       body: Obx(
         () => AppRefreshIndicator(
           onRefresh: _con.refreshData,

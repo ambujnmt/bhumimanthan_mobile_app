@@ -69,6 +69,7 @@ class _CustomAppbarState extends State<CustomAppbar> {
       backgroundColor: AppColors.backgroundColor,
       surfaceTintColor: AppColors.backgroundColor,
       elevation: 0,
+      automaticallyImplyLeading: false,
       leading: widget.showLeading
           ? Align(
               alignment: Alignment.centerRight,

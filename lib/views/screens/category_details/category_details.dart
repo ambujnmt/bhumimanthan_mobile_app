@@ -17,28 +17,11 @@ class _CategoryDetailsState extends State<CategoryDetails> {
       appBar: CustomAppbar(title: _con.category?.name ?? 'Details'),
       body: Column(
         children: [
-          // SizedBox(
-          //   width: Get.width,
-          //   child: SingleChildScrollView(
-          //     scrollDirection: Axis.horizontal,
-          //     padding: EdgeInsets.symmetric(
-          //       horizontal: AppDimentions.defaultScreenPadding,
-          //       vertical: 5,
-          //     ),
-          //     child: Row(
-          //       spacing: 10,
-          //       children:
-          //           _con.category?.children
-          //               .map((item) => Tab(text: item.name))
-          //               .toList() ??
-          //           [],
-          //     ),
-          //   ),
-          // ),
           TabBar(
             isScrollable: true,
             tabAlignment: TabAlignment.start,
             controller: _con.tabController,
+            indicatorColor: AppColors.primary,
             // indicatorSize: TabBarIndicatorSize.tab,
             labelStyle: CustomText.kTextStyle(
               size: 16,
@@ -52,16 +35,66 @@ class _CategoryDetailsState extends State<CategoryDetails> {
                     .toList() ??
                 [],
           ),
-          heightSpace10,
           Expanded(
             child: TabBarView(
               controller: _con.tabController,
               children: _con.category!.children
-                  .map((sc) => SizedBox(child: Center(child: Text(sc.name))))
+                  .map((sc) => SubCatTabScreen(subcatId: sc.id))
                   .toList(),
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class SubCatTabScreen extends StatefulWidget {
+  final int subcatId;
+  const SubCatTabScreen({super.key, required this.subcatId});
+
+  @override
+  State<SubCatTabScreen> createState() => _SubCatTabScreenState();
+}
+
+class _SubCatTabScreenState extends State<SubCatTabScreen>
+    with AutomaticKeepAliveClientMixin {
+  final isLoading = true.obs;
+
+  final data = Rxn<String>();
+
+  Future<void> _getData() async {
+    final res = await ApiServices().get('endPoint');
+    // if (!res.success) return;
+    data('');
+  }
+
+  Future<void> refreshData() async {
+    isLoading(true);
+    await _getData();
+    isLoading(false);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    refreshData();
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return Obx(
+      () => AppRefreshIndicator(
+        onRefresh: refreshData,
+        child: isLoading.value
+            ? AppLoader.widget()
+            : data.value == null
+            ? ApiErrorWidget()
+            : ListView(children: []),
       ),
     );
   }

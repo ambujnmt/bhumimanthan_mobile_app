@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:bhumi_manthan/utils/app_imports.dart';
+import 'package:flutter/services.dart';
 
 class MainScreenController extends GetxController {
   final pageController = PageController();
@@ -33,4 +36,17 @@ class MainScreenController extends GetxController {
     {'title': 'Compare', 'icon': Images.compareIcon},
     {'title': 'Menu', 'icon': Images.menuIcon},
   ];
+
+  Timer? timer;
+  void onBackPressed() {
+    if (timer != null) {
+      SystemNavigator.pop();
+      return;
+    }
+    AppToast.show('Press back again to get exit.');
+    timer = Timer(Duration(seconds: 2), () {
+      timer?.cancel();
+      timer = null;
+    });
+  }
 }

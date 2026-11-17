@@ -23,96 +23,105 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      child: Scaffold(
-        key: _con.scaffoldKey,
-        endDrawer: Drawer(
-          backgroundColor: AppColors.backgroundColor,
-          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-          child: Column(
-            children: [
-              Expanded(
-                child: ListView(
-                  children: [
-                    ListTile(
-                      title: Text('Logout'),
-                      onTap: () {
-                        Get.back();
-                        UserController.logout();
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Padding(
-                  padding: EdgeInsets.all(AppDimentions.screenPaddingS),
-                  child: TextButton.icon(
-                    onPressed: _con.closeDrawer,
-                    label: CustomText.kText('Close', color: AppColors.subtitle),
-                    icon: Icon(Icons.close, color: AppColors.subtitle),
+    return PopScope(
+      canPop: _con.timer != null,
+      onPopInvokedWithResult: (didPop, result) => _con.onBackPressed(),
+      child: SafeArea(
+        top: false,
+        child: Scaffold(
+          key: _con.scaffoldKey,
+          endDrawer: Drawer(
+            backgroundColor: AppColors.backgroundColor,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.zero,
+            ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: ListView(
+                    children: [
+                      ListTile(
+                        title: Text('Logout'),
+                        onTap: () {
+                          Get.back();
+                          UserController.logout();
+                        },
+                      ),
+                    ],
                   ),
                 ),
-              ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Padding(
+                    padding: EdgeInsets.all(AppDimentions.screenPaddingS),
+                    child: TextButton.icon(
+                      onPressed: _con.closeDrawer,
+                      label: CustomText.kText(
+                        'Close',
+                        color: AppColors.subtitle,
+                      ),
+                      icon: Icon(Icons.close, color: AppColors.subtitle),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          body: PageView(
+            controller: _con.pageController,
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+              HomeScreen(),
+              SearchScreen(),
+              FavoritesScreen(),
+              ChatHistoryScreen(),
+              CompareScreen(),
+              MenuScreen(),
             ],
           ),
-        ),
-        body: PageView(
-          controller: _con.pageController,
-          physics: NeverScrollableScrollPhysics(),
-          children: [
-            HomeScreen(),
-            SearchScreen(),
-            FavoritesScreen(),
-            ChatHistoryScreen(),
-            CompareScreen(),
-            MenuScreen(),
-          ],
-        ),
-        bottomNavigationBar: IntrinsicHeight(
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border(top: BorderSide(color: grey[300]!, width: 1.5)),
-            ),
-            child: Row(
-              children: List.generate(
-                _con.tabs.length,
-                (i) => Expanded(
-                  child: InkWell(
-                    onTap: () => _con.setCurrentIndex(i),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: AppDimentions.screenPaddingS,
+          bottomNavigationBar: IntrinsicHeight(
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border(top: BorderSide(color: grey[300]!, width: 1.5)),
+              ),
+              child: Row(
+                children: List.generate(
+                  _con.tabs.length,
+                  (i) => Expanded(
+                    child: InkWell(
+                      onTap: () => _con.setCurrentIndex(i),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: AppDimentions.screenPaddingS,
+                        ),
+                        child: Obx(() {
+                          final e = _con.tabs[i];
+                          final isActive = i == _con.currentIndex.value;
+                          return Column(
+                            children: [
+                              e['title'] == 'Chat'
+                                  ? ChatWithBadge(isActive: isActive)
+                                  : Image.asset(
+                                      height: 22,
+                                      width: 22,
+                                      e['icon']!,
+                                      color: isActive
+                                          ? AppColors.primary
+                                          : AppColors.subtitle,
+                                    ),
+                              heightSpace5,
+                              CustomText.kText(
+                                e['title']!,
+                                size: 11,
+                                lines: 1,
+                                color: isActive
+                                    ? AppColors.primary
+                                    : AppColors.subtitle,
+                              ),
+                            ],
+                          );
+                        }),
                       ),
-                      child: Obx(() {
-                        final e = _con.tabs[i];
-                        final isActive = i == _con.currentIndex.value;
-                        return Column(
-                          children: [
-                            e['title'] == 'Chat'
-                                ? ChatWithBadge(isActive: isActive)
-                                : Image.asset(
-                                    height: 22,
-                                    width: 22,
-                                    e['icon']!,
-                                    color: isActive
-                                        ? AppColors.primary
-                                        : AppColors.subtitle,
-                                  ),
-                            heightSpace5,
-                            CustomText.kText(
-                              e['title']!,
-                              size: 11,
-                              lines: 1,
-                              color: isActive
-                                  ? AppColors.primary
-                                  : AppColors.subtitle,
-                            ),
-                          ],
-                        );
-                      }),
                     ),
                   ),
                 ),

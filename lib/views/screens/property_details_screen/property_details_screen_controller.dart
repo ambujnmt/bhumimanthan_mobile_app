@@ -50,9 +50,10 @@ class PropertyDetailsScreenController extends GetxController {
       'Added successfully.',
       actionLabel: 'Go to compare',
       onActionTap: () {
-        final mc = Get.find<MainScreenController>();
-        mc.setCurrentIndex(4);
-        Get.until((k) => k.settings.name == AppRoutes.mainScreen);
+        // final mc = Get.find<MainScreenController>();
+        // mc.setCurrentIndex(4);
+        // Get.until((k) => k.settings.name == AppRoutes.mainScreen);
+        Get.toNamed(AppRoutes.compareScreen, arguments: {'showLeading': true});
       },
     );
     findController<CompareScreenController>()?.refreshData();
