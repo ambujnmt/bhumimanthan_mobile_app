@@ -134,6 +134,7 @@ class _HomeScreenState extends State<HomeScreen>
                                   CustomText.kText(
                                     'Search apartments, societies, builders...',
                                     color: grey.shade500,
+                                    weight: FontWeight.w600,
                                   ),
                                 ],
                               ),
