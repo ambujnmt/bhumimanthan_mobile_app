@@ -1,5 +1,6 @@
 import '../../../../models/featured_property_model.dart';
 import '../../../../utils/app_imports.dart';
+import '../../bottom_tab_screens/home_screen/widgets/distance_widget.dart';
 
 class FeaturedPropertyCard extends StatelessWidget {
   final String label;
@@ -48,48 +49,30 @@ class FeaturedPropertyCard extends StatelessWidget {
                   ),
                 ),
 
-                Positioned(
-                  top: 10,
-                  right: 10,
-                  child: Material(
-                    color: Colors.white,
-                    shape: const CircleBorder(),
-                    child: InkWell(
-                      customBorder: const CircleBorder(),
-                      onTap: onFavoriteTap,
-                      child: const Padding(
-                        padding: EdgeInsets.all(9),
-                        child: Icon(
-                          Icons.favorite_border,
-                          size: 20,
-                          color: Colors.redAccent,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
+                // Positioned(
+                //   top: 10,
+                //   right: 10,
+                //   child: Material(
+                //     color: Colors.white,
+                //     shape: const CircleBorder(),
+                //     child: InkWell(
+                //       customBorder: const CircleBorder(),
+                //       onTap: onFavoriteTap,
+                //       child: const Padding(
+                //         padding: EdgeInsets.all(9),
+                //         child: Icon(
+                //           Icons.favorite_border,
+                //           size: 20,
+                //           color: Colors.redAccent,
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 Positioned(
                   bottom: 10,
                   left: 12,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 5,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.black54,
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Text(
-                      property.status,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
+                  child: distanceWidget(property.distanceKm.toString()),
                 ),
               ],
             ),

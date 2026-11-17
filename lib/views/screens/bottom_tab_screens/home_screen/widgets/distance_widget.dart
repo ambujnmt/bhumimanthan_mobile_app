@@ -2,7 +2,7 @@ import 'package:bhumi_manthan/utils/app_imports.dart';
 
 Widget distanceWidget(String distance) {
   return AppContainer(
-    borderColor: grey.shade700,
+    borderColor: grey.shade500,
     borderRadius: AppDimentions.boxRadiusXXS,
     color: black.withValues(alpha: .55),
     padding: EdgeInsets.symmetric(
@@ -11,9 +11,14 @@ Widget distanceWidget(String distance) {
     ),
     child: Row(
       children: [
-        Icon(Icons.location_on_outlined, size: 12, color: white),
+        Icon(Icons.location_on_outlined, size: 15, color: white),
         widthSpace2,
-        CustomText.kText('$distance Km', size: 12, color: white),
+        CustomText.kText(
+          '$distance Km',
+          size: 12,
+          color: white,
+          weight: FontWeight.w600,
+        ),
       ],
     ),
   );

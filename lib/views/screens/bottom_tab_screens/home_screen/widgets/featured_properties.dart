@@ -49,9 +49,7 @@ class FeaturedProperties extends StatelessWidget {
                                   Positioned(
                                     bottom: 10,
                                     right: 10,
-                                    child: distanceWidget(
-                                      item.distanceKm.toStringAsFixed(0),
-                                    ),
+                                    child: distanceWidget('${item.distanceKm}'),
                                   ),
                                 ],
                               ),
