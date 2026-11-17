@@ -4,7 +4,6 @@ import 'package:bhumi_manthan/models/propertiy_details_model.dart';
 import 'package:bhumi_manthan/utils/app_imports.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/compare_screen/compare_screen_controller.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/favorites_screen/favorites_screen_controller.dart';
-import 'package:bhumi_manthan/zz_main_screen/main_screen_controller.dart';
 
 import '../../../models/similar_properties_model.dart';
 

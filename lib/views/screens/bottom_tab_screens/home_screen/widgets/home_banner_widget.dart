@@ -1,4 +1,4 @@
-import 'package:dots_indicator/dots_indicator.dart';
+// import 'package:dots_indicator/dots_indicator.dart';
 
 import '../../../../../utils/app_imports.dart';
 import '../home_screen_controller.dart';
@@ -64,6 +64,7 @@ class _HomeBannerSliderState extends State<HomeBannerSlider> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 CarouselSlider.builder(
+                  // carouselController: controller,
                   itemCount: _con.banners.length,
                   options: CarouselOptions(
                     aspectRatio: 16 / 7,
@@ -89,22 +90,64 @@ class _HomeBannerSliderState extends State<HomeBannerSlider> {
                       ),
                       child: AppNetworkImage(
                         imgUrl: banner.image,
-                        // imgUrl:
-                        //     'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=80',
                         fit: BoxFit.cover,
                       ),
                     );
                   },
                 ),
-                heightSpace7,
-                Obx(
-                  () => DotsIndicator(
-                    dotsCount: _con.banners.length,
-                    position: _currentIndex.value.toDouble(),
-                    decorator: DotsDecorator(
-                      color: AppColors.secondary,
-                      activeColor: AppColors.primary,
-                    ),
+                heightSpace10,
+
+                // Obx(
+                //   () => DotsIndicator(
+                //     dotsCount: _con.banners.length,
+                //     position: _currentIndex.value.toDouble(),
+                //     decorator: DotsDecorator(
+                //       color: AppColors.secondary,
+                //       activeColor: AppColors.primary,
+                //     ),
+                //   ),
+                // ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppDimentions.defaultScreenPadding,
+                  ),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      final itemWidth =
+                          constraints.maxWidth / _con.banners.length;
+
+                      return Obx(
+                        () => Container(
+                          height: 4,
+                          width: constraints.maxWidth,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade300,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: AnimatedAlign(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.easeInOut,
+                            alignment: Alignment(
+                              _con.banners.length <= 1
+                                  ? 0
+                                  : -1 +
+                                        (2 *
+                                            _currentIndex.value /
+                                            (_con.banners.length - 1)),
+                              0,
+                            ),
+                            child: Container(
+                              width: itemWidth,
+                              height: 4,
+                              decoration: BoxDecoration(
+                                color: AppColors.secondary,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
                 heightSpace10,

@@ -178,7 +178,7 @@ class SearchScreenController extends GetxController {
             .toList();
   }
 
-  Future<void> _refreshPCOunt() async {
+  Future<void> _refreshPCount() async {
     if (!showFilters.value || jsonData == null) return;
 
     pCount.value = await _getPropertyCount(getQueryParams());
@@ -233,7 +233,7 @@ class SearchScreenController extends GetxController {
       selectedType,
       selectedBed,
       selectedFurnishing,
-    ], (_) => _refreshPCOunt());
+    ], (_) => _refreshPCount());
   }
 
   @override
