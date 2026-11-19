@@ -13,54 +13,82 @@ class PopularCitiesWidget extends StatelessWidget {
       content: Obx(
         () => _con.cities.isEmpty
             ? NoDataAvailable(isScrollable: false, height: 80)
-            : SizedBox(
-                height: 95,
-                width: Get.width,
-                child: ListView.separated(
-                  itemCount: _con.cities.length,
-                  scrollDirection: Axis.horizontal,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: AppDimentions.defaultScreenPadding,
-                    vertical: 2,
-                  ),
-                  itemBuilder: (context, index) {
-                    final item = _con.cities[index];
-                    return SizedBox(
-                      width: 75,
-                      child: InkWell(
-                        onTap: () => Get.toNamed(
-                          AppRoutes.allPropertiesInCity,
-                          arguments: {'data': item},
-                        ),
-                        child: Column(
-                          children: [
-                            AppContainer(
-                              width: 65,
-                              height: 65,
-                              shape: BoxShape.circle,
-                              padding: EdgeInsets.zero,
-                              clip: Clip.hardEdge,
-                              borderColor: AppColors.hint1,
-                              child: AppNetworkImage(
-                                imgUrl: item.image,
-                                fit: BoxFit.cover,
-                              ),
+            : SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppDimentions.defaultScreenPadding,
+                  vertical: 2,
+                ),
+                child: Row(
+                  spacing: 12,
+                  children: _con.cities
+                      .map(
+                        (item) => InkWell(
+                          onTap: () => Get.toNamed(
+                            AppRoutes.allPropertiesInCity,
+                            arguments: {'data': item},
+                          ),
+                          child: AppContainer(
+                            borderRadius: AppDimentions.boxRadiusL,
+                            padding: EdgeInsets.zero,
+                            height: 110,
+                            width: 100,
+                            clip: Clip.antiAlias,
+                            child: Stack(
+                              fit: StackFit.expand,
+                              children: [
+                                AppNetworkImage(
+                                  imgUrl: item.image,
+                                  fit: BoxFit.cover,
+                                ),
+                                DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [
+                                        Colors.transparent,
+                                        Colors.black.withValues(alpha: 0.8),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  left: 10,
+                                  right: 10,
+                                  bottom: 13,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      CustomText.kText(
+                                        item.propertiesCount > 99
+                                            ? '99+'
+                                            : item.propertiesCount.toString(),
+                                        color: Colors.white70,
+                                        size: 11,
+                                      ),
+                                      CustomText.kText(
+                                        'Properties',
+                                        color: Colors.white70,
+                                        size: 11,
+                                      ),
+                                      CustomText.kText(
+                                        item.name,
+                                        color: Colors.white,
+                                        weight: FontWeight.w700,
+                                        lines: 1,
+                                        size: 13,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
-                            Spacer(flex: 10),
-                            CustomText.kText(
-                              item.name,
-                              size: 13,
-                              lines: 1,
-                              weight: FontWeight.bold,
-                              color: AppColors.subtitle,
-                            ),
-                            Spacer(flex: 1),
-                          ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) => widthSpace15,
+                      )
+                      .toList(),
                 ),
               ),
       ),

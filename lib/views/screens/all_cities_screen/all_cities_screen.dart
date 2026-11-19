@@ -127,7 +127,7 @@ class _AllCitiesScreenState extends State<AllCitiesScreen> {
                                             ),
                                             const SizedBox(height: 4),
                                             Text(
-                                              '${city.propertiesCount} Properties',
+                                              '${city.propertiesCount > 99 ? '99+' : city.propertiesCount} Properties',
                                               style: const TextStyle(
                                                 color: Colors.white70,
                                                 fontSize: 11,
