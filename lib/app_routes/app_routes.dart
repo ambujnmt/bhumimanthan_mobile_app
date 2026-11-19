@@ -31,4 +31,5 @@ abstract class AppRoutes {
   static final eventsScreen = '/events';
   static const categoryDetails = '/category-details';
   static const compareScreen = '/compare';
+  static const allCitiesScreen = '/all-cities';
 }

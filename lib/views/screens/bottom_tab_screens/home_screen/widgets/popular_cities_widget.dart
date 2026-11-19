@@ -9,7 +9,7 @@ class PopularCitiesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SectionWidget(
       title: 'Popular Cities',
-      // onViewAll: () {},
+      onViewAll: () => Get.toNamed(AppRoutes.allCitiesScreen),
       content: Obx(
         () => _con.cities.isEmpty
             ? NoDataAvailable(isScrollable: false, height: 80)

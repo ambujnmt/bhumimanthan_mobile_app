@@ -1,5 +1,6 @@
 import 'package:bhumi_manthan/views/screens/about_us/about_us.dart';
 import 'package:bhumi_manthan/views/screens/all_blogs_screen/all_blogs_screen.dart';
+import 'package:bhumi_manthan/views/screens/all_cities_screen/all_cities_screen.dart';
 import 'package:bhumi_manthan/views/screens/all_luxury_properties_screen/all_luxury_properties_screen.dart';
 import 'package:bhumi_manthan/views/screens/all_properties_in_city/all_properties_in_city.dart';
 import 'package:bhumi_manthan/views/screens/auth_screens/forget_password_screen/forget_password_screen.dart';
@@ -115,5 +116,6 @@ class AppPages {
     GetPage(name: AppRoutes.eventsScreen, page: () => EventsScreen()),
     GetPage(name: AppRoutes.categoryDetails, page: () => CategoryDetails()),
     GetPage(name: AppRoutes.compareScreen, page: () => CompareScreen()),
+    GetPage(name: AppRoutes.allCitiesScreen, page: () => AllCitiesScreen()),
   ];
 }

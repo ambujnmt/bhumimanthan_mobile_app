@@ -55,7 +55,7 @@ class HomeScreenController extends GetxController {
   Future<void> _getCities() async {
     final res = await _api.get(
       '/cities',
-      queries: {'popular': '1', 'limit': '100'},
+      queries: {'popular': '1', 'limit': '50'},
     );
     if (!res.success) return;
     cities.value = (res.data['data']['cities'] as List)
