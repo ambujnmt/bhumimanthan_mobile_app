@@ -6,6 +6,7 @@ import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widge
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/luxury_perperties.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/popular_cities_widget.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/home_screen/widgets/premium_projects.dart';
+import 'widgets/home_broker_seller_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -194,6 +195,8 @@ class _HomeScreenState extends State<HomeScreen>
                           LuxuryPerperties(),
                           heightSpace20,
                           BlogsWidget(),
+                          heightSpace20,
+                          HomeBrokerSellerSlider(items: _brokerSellerList),
                           heightSpace100,
                         ],
                       ),
@@ -218,3 +221,54 @@ class CateModel {
   final String icon;
   CateModel({required this.title, required this.icon});
 }
+
+final List<BrokerSeller> _brokerSellerList = [
+  BrokerSeller(
+    name: 'Rahul Sharma',
+    image: 'https://i.pravatar.cc/150?img=12',
+    location: 'Dwarka, New Delhi',
+    rating: 4.8,
+    reviews: 124,
+    isVerified: true,
+  ),
+  BrokerSeller(
+    name: 'Priya Verma',
+    image: 'https://i.pravatar.cc/150?img=47',
+    location: 'Rohini, Delhi',
+    rating: 4.9,
+    reviews: 86,
+    isVerified: true,
+  ),
+  BrokerSeller(
+    name: 'Amit Kapoor',
+    image: 'https://i.pravatar.cc/150?img=13',
+    location: 'Gurugram, Haryana',
+    rating: 4.6,
+    reviews: 92,
+    isVerified: false,
+  ),
+  BrokerSeller(
+    name: 'Neha Gupta',
+    image: 'https://i.pravatar.cc/150?img=44',
+    location: 'Pitampura, Delhi',
+    rating: 4.7,
+    reviews: 67,
+    isVerified: true,
+  ),
+  BrokerSeller(
+    name: 'Vikram Singh',
+    image: 'https://i.pravatar.cc/150?img=14',
+    location: 'Noida, Uttar Pradesh',
+    rating: 4.5,
+    reviews: 53,
+    isVerified: true,
+  ),
+  BrokerSeller(
+    name: 'Anjali Mehta',
+    image: 'https://i.pravatar.cc/150?img=49',
+    location: 'Janakpuri, Delhi',
+    rating: 4.9,
+    reviews: 108,
+    isVerified: true,
+  ),
+];
