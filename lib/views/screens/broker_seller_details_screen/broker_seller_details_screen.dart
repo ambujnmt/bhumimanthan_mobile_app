@@ -31,6 +31,7 @@ class _BrokerSellerDetailsScreenState extends State<BrokerSellerDetailsScreen> {
   Widget _profileHeader() {
     return Column(
       children: [
+        heightSpace10,
         const CircleAvatar(
           radius: 48,
           backgroundImage: NetworkImage('https://i.pravatar.cc/200?img=12'),
@@ -61,6 +62,14 @@ class _BrokerSellerDetailsScreenState extends State<BrokerSellerDetailsScreen> {
             SizedBox(width: 4),
             CustomText.kText('Dwarka, Delhi', color: Colors.blueGrey),
           ],
+        ),
+        Padding(
+          padding: const EdgeInsets.all(AppDimentions.defaultScreenPadding),
+          child: CustomButton(
+            width: 230,
+            text: '9876567890',
+            leftIcon: Icons.call,
+          ),
         ),
       ],
     );
@@ -100,10 +109,7 @@ class _BrokerSellerDetailsScreenState extends State<BrokerSellerDetailsScreen> {
       children: [
         Icon(icon, color: iconColor ?? Colors.blueGrey, size: 23),
         const SizedBox(height: 7),
-        Text(
-          title,
-          style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
-        ),
+        Text(title, style: TextStyle(fontSize: 13, color: grey.shade700)),
         const SizedBox(height: 4),
         Text(
           value,
