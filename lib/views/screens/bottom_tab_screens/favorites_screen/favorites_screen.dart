@@ -83,30 +83,42 @@ class _FavoritesScreenState extends State<FavoritesScreen>
                 ),
                 Positioned(
                   top: 12,
-                  left: 12,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.95),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: CustomText.kText(
-                      property.listingType,
-                      size: 11,
-                      weight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 10,
-                  right: 10,
-                  child: CustomCircleIconButton(
-                    size: 32,
-                    icon: Icon(Icons.delete_outline, color: red),
-                    onTap: () => _con.removeFavorite(property),
+                  left: AppDimentions.defaultScreenPadding,
+                  right: AppDimentions.defaultScreenPadding,
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.95),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: CustomText.kText(
+                          property.listingType,
+                          size: 11,
+                          weight: FontWeight.w700,
+                        ),
+                      ),
+                      Spacer(),
+                      InkWell(
+                        onTap: () => _con.removeFavorite(property),
+                        child: AppContainer(
+                          borderRadius: AppDimentions.boxRadiusXS,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: AppDimentions.screenPaddingXS,
+                            vertical: AppDimentions.screenPaddingXXS,
+                          ),
+                          child: CustomText.kText(
+                            'Remove',
+                            color: red,
+                            size: 13,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
