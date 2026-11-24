@@ -1,7 +1,6 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../utils/app_imports.dart';
-import '../../../widgets/app_fade_animated_switcher.dart';
 import '../property_details_screen_controller.dart';
 
 class PdsLocationWidget extends StatelessWidget {

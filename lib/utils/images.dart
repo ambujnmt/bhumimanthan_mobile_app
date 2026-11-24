@@ -29,4 +29,5 @@ class Images {
   static const settingsIcon = 'assets/icons/settings.png';
   static const compareIcon = 'assets/icons/compare-icon.png';
   static const heartFilled = 'assets/icons/heart-filled.png';
+  static const calendarIcon = 'assets/icons/calendar.png';
 }

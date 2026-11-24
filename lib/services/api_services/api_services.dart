@@ -38,7 +38,7 @@ class ApiServices {
     final bool skipLocation = false,
   }) async {
     try {
-      debugPrint('payload: ${payload.toString()}');
+      debugPrint('payload: $payload');
 
       final location = skipLocation
           ? null

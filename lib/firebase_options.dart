@@ -56,14 +56,13 @@ class DefaultFirebaseOptions {
     projectId: 'marriage-app-dc11e',
     storageBucket: 'marriage-app-dc11e.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyC8OAjWJpQsZ8F84YFU0FesHJuFnL4l7Ao',
     appId: '1:897078098090:ios:657fcf78a0a8294805f8d3',
     messagingSenderId: '897078098090',
     projectId: 'marriage-app-dc11e',
     storageBucket: 'marriage-app-dc11e.firebasestorage.app',
-    androidClientId: '897078098090-85l92hpeukv8meb72770cl86c1q4jk5j.apps.googleusercontent.com',
+    androidClientId: '897078098090-2iniab9s9gbaq6lr4ahmkm3eol7gmrip.apps.googleusercontent.com',
     iosClientId: '897078098090-6cing1gddbcs3e7ntud5n5hn7c92u2no.apps.googleusercontent.com',
     iosBundleId: 'com.example.bhumiManthan',
   );

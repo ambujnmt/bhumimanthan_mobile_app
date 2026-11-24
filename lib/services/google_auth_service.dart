@@ -1,42 +1,46 @@
+import 'package:bhumi_manthan/helpers/app_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 class GoogleAuthService {
-  final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
-
-  final String webClientId =
-      '897078098090-6di38p5ebn67ff8sjkljki9rc87vjst3.apps.googleusercontent.com';
-
-  Future<void> initialize() async {
-    await GoogleSignIn.instance.initialize(serverClientId: webClientId);
-  }
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<String?> signIn() async {
     try {
-      final account = await _googleSignIn.authenticate();
+      await GoogleSignIn.instance.initialize();
 
-      final idToken = account.authentication.idToken;
+      final googleUser = await GoogleSignIn.instance.authenticate();
 
-      if (idToken == null) {
-        debugPrint('Google ID token is not available');
-        return null;
-      }
+      final googleAuth = googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken,
+      );
+
+      AppLoader.show();
+      final userCredential = await _auth.signInWithCredential(credential);
+      if (userCredential.user == null) return null;
+
+      final idToken = await userCredential.user!.getIdToken();
+      await AppLoader.close();
 
       return idToken;
-    } on GoogleSignInException catch (e) {
-      if (e.code == GoogleSignInExceptionCode.canceled) {
-        debugPrint('Google Sign-In cancelled by user');
-      } else {
-        debugPrint('Google Sign-In error: ${e.code} - ${e.description}');
-      }
-      return null;
     } catch (e) {
-      debugPrint('Unexpected Google Sign-In error: $e');
+      debugPrint('Google Login Error: $e');
       return null;
     }
   }
 
   Future<void> signOut() async {
-    await _googleSignIn.signOut();
+    try {
+      await _auth.signOut();
+      await GoogleSignIn.instance.signOut();
+
+      debugPrint('Google Logout Successful');
+    } catch (e) {
+      debugPrint('Google Logout Error: $e');
+    }
   }
 }

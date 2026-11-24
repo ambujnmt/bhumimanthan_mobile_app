@@ -53,13 +53,14 @@ class LoginScreenController extends GetxController {
   }
 
   Future<void> signInWithGoogle() async {
-    final ga = GoogleAuthService();
-    AppLoader.show();
-    await ga.initialize();
-    AppLoader.close();
-    final idToken = await ga.signIn();
-    // debugPrint('id token: $idToken');
-    if (idToken == null) return;
+    final idToken = await GoogleAuthService().signIn();
+    // emailController.text = idToken ?? '';
+    debugPrint('id token:$idToken');
+    if (idToken == null) {
+      AppToast.error('Something went wrong.');
+      return;
+    }
+    AuthController.loginWithIdToken(idToken);
   }
 
   @override

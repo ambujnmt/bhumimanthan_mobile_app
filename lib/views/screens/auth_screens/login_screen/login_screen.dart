@@ -37,6 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
             inputType: TextInputType.emailAddress,
             controller: _con.emailController,
             errorText: _con.emailError,
+            maxLines: 1,
           ),
           AppTextfield(
             useObscure: true,
@@ -44,6 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
             hintText: 'Password',
             controller: _con.passController,
             errorText: _con.passError,
+            maxLines: 1,
           ),
           Align(
             alignment: Alignment.centerRight,

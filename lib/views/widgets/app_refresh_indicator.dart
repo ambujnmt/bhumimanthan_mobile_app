@@ -1,5 +1,4 @@
 import '../../utils/app_imports.dart';
-import 'app_fade_animated_switcher.dart';
 
 class AppRefreshIndicator extends StatelessWidget {
   final RefreshCallback onRefresh;

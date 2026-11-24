@@ -1,6 +1,5 @@
 import 'package:bhumi_manthan/utils/app_imports.dart';
 import 'package:bhumi_manthan/views/screens/search_results_screen/widgets/srs_items_widget.dart';
-import 'package:bhumi_manthan/views/widgets/app_fade_animated_switcher.dart';
 
 import 'search_results_screen_controller.dart';
 

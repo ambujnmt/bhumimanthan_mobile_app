@@ -32,7 +32,7 @@ class MainScreenController extends GetxController {
     {'title': 'Home', 'icon': Images.homeIcon},
     {'title': 'Search', 'icon': Images.searchIcon},
     {'title': 'Favorites', 'icon': Images.heartIcon},
-    {'title': 'Chat', 'icon': Images.chatIcon},
+    {'title': 'Events', 'icon': Images.calendarIcon},
     {'title': 'Compare', 'icon': Images.compareIcon},
     {'title': 'Menu', 'icon': Images.menuIcon},
   ];

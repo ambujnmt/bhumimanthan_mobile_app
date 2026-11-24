@@ -64,7 +64,10 @@ String formatDate(DateTime dateTime) {
   return DateFormat('MMM dd, yyyy').format(dateTime);
 }
 
-String formatDateTime(String value) {
+String formatDateTime(String? value) {
+  if (value == null) {
+    return '';
+  }
   try {
     final parsedDate = DateTime.parse(value);
 

@@ -74,4 +74,25 @@ class AuthController {
         ) ??
         false;
   }
+
+  static Future<void> loginWithIdToken(String idToken) async {
+    AppLoader.show();
+    final res = await ApiServices().post(
+      '/auth/firebase-login',
+      payload: {'id_token': idToken, 'role': 'customer'},
+    );
+    if (!res.success) {
+      AppLoader.close();
+      return;
+    }
+    await UserStorage.setToken(res.data['data']['token']);
+    final success = await UserController.getUser();
+    await AppLoader.close();
+    if (success) {
+      UserController.init();
+      return;
+    }
+    UserStorage.clearUserToken();
+    UserStorage.clearUserData();
+  }
 }

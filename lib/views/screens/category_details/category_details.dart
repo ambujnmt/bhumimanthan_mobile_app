@@ -1,4 +1,5 @@
 import 'package:bhumi_manthan/utils/app_imports.dart';
+import 'package:bhumi_manthan/views/screens/events_screen/events_screen.dart';
 
 import '../../../models/featured_property_model.dart';
 import '../all_featured_properties_screen/widgets/afs_card_widget.dart';
@@ -19,18 +20,8 @@ class _CategoryDetailsState extends State<CategoryDetails> {
       appBar: CustomAppbar(title: _con.category?.name ?? 'Details'),
       body: Column(
         children: [
-          TabBar(
-            isScrollable: true,
-            tabAlignment: TabAlignment.start,
+          CustomTab(
             controller: _con.tabController,
-            indicatorColor: AppColors.primary,
-            // indicatorSize: TabBarIndicatorSize.tab,
-            labelStyle: CustomText.kTextStyle(
-              size: 16,
-              weight: FontWeight.w600,
-              color: AppColors.primary,
-            ),
-            unselectedLabelStyle: CustomText.kTextStyle(size: 16),
             tabs:
                 _con.category?.children
                     .map((item) => Tab(text: item.name))

@@ -1,6 +1,5 @@
 import 'package:bhumi_manthan/utils/app_imports.dart';
 import 'package:bhumi_manthan/views/screens/all_cities_screen/all_cities_screen_controller.dart';
-import 'package:bhumi_manthan/views/widgets/app_fade_animated_switcher.dart';
 
 class AllCitiesScreen extends StatefulWidget {
   const AllCitiesScreen({super.key});

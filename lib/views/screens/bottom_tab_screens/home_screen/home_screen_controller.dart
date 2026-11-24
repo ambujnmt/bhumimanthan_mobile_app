@@ -37,7 +37,10 @@ class HomeScreenController extends GetxController {
   }
 
   Future<void> _getFeatured() async {
-    final res = await _api.get('/properties/featured', queries: {'limit': '5'});
+    final res = await _api.get(
+      '/properties/featured',
+      queries: {'limit': '15'},
+    );
     if (!res.success) return;
     featuredItems.value = (res.data['data']['properties'] as List)
         .map((json) => FeaturedProperty.fromJson(json))
@@ -45,7 +48,7 @@ class HomeScreenController extends GetxController {
   }
 
   Future<void> _getProjects() async {
-    final res = await _api.get('/projects', queries: {'limit': '5'});
+    final res = await _api.get('/projects', queries: {'limit': '15'});
     if (!res.success) return;
     projects.value = (res.data['data']['projects'] as List)
         .map((json) => ProjectsModel.fromJson(json))
@@ -64,7 +67,7 @@ class HomeScreenController extends GetxController {
   }
 
   Future<void> _getLuxury() async {
-    final res = await _api.get('/properties/luxury', queries: {'limit': '5'});
+    final res = await _api.get('/properties/luxury', queries: {'limit': '15'});
     if (!res.success) return;
     luxuryItems.value = (res.data['data']['properties'] as List)
         .map((json) => FeaturedProperty.fromJson(json))
@@ -72,7 +75,7 @@ class HomeScreenController extends GetxController {
   }
 
   Future<void> _getBlogs() async {
-    final res = await _api.get('/blogs', queries: {'limit': '5'});
+    final res = await _api.get('/blogs', queries: {'limit': '15'});
     if (!res.success) return;
     blogs.value = (res.data['data']['blogs'] as List)
         .map((json) => BlogModel.fromJson(json))
