@@ -20,9 +20,10 @@ class PropertiesCompareScreenController extends GetxController {
     );
     if (!res.success) return;
 
-    items.value = (res.data['data']['properties'] as List)
-        .map((json) => CompareProperty.fromJson(json))
-        .toList();
+    items.value = JsonParser.parseList(
+      res.data['data']['properties'],
+      (json) => CompareProperty.fromJson(json),
+    );
   }
 
   Future<void> refreshData() async {

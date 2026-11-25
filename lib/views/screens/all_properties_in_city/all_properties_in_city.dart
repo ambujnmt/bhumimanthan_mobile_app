@@ -25,9 +25,10 @@ class _AllPropertiesInCityState extends State<AllPropertiesInCity> {
   Future<void> _getData() async {
     final res = await _api.get('/cities/${city.id}');
     if (!res.success) return;
-    items.value = (res.data['data']['properties'] as List)
-        .map((json) => FeaturedProperty.fromJson(json))
-        .toList();
+    items.value = JsonParser.parseList(
+      res.data['data']['properties'],
+      (json) => FeaturedProperty.fromJson(json),
+    );
   }
 
   Future<void> refreshData() async {

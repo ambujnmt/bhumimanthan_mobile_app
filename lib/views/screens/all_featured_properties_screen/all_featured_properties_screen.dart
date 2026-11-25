@@ -27,9 +27,10 @@ class _AllFeaturedPropertiesScreenState
     );
     if (!res.success) return false;
     featuredItems.addAll(
-      (res.data['data']['properties'] as List)
-          .map((json) => FeaturedProperty.fromJson(json))
-          .toList(),
+      JsonParser.parseList<FeaturedProperty>(
+        res.data['data']['properties'],
+        (json) => FeaturedProperty.fromJson(json),
+      ),
     );
     // final lastPage = res.data['data']['pagination']['last_page'];
     // isLastPage.value = _currentPage >= lastPage;

@@ -53,8 +53,12 @@ class NotificationServices {
 
     debugPrint('Notification tapped, payload: $payload');
 
-    final json = jsonDecode(payload);
-    final data = FcmDataModel.fromJson(json);
+    final body = jsonDecode(payload);
+    final data = JsonParser.tryParse<FcmDataModel>(
+      body,
+      (json) => FcmDataModel.fromJson(json),
+    );
+    if (data == null) return;
     notificationTapRoute(route: data.route, referenceId: data.referenceId);
   }
 }

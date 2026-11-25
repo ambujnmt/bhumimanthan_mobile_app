@@ -22,10 +22,14 @@ class LocationController {
     );
     if (!res.success) return false;
 
-    final ipd = IpDetailsModel.fromJson(res.data['data']);
+    final ipd = JsonParser.tryParse(
+      res.data['data'],
+      (json) => IpDetailsModel.fromJson(json),
+    );
     // final ipd = IpDetailsModel.fromJson(res.data);
 
-    if ([ipd.latitude, ipd.longitude, ipd.city].any((r) => r == null)) {
+    if (ipd == null ||
+        [ipd.latitude, ipd.longitude, ipd.city].any((r) => r == null)) {
       return false;
     }
 
@@ -53,7 +57,10 @@ class _LocationStorage {
       final str = SharedPrefs.getString(_storageKey);
       if (str == null) return null;
 
-      return SavedLocation.fromJson(jsonDecode(str));
+      return JsonParser.tryParse(
+        jsonDecode(str),
+        (json) => SavedLocation.fromJson(json),
+      );
     } catch (e) {
       return null;
     }

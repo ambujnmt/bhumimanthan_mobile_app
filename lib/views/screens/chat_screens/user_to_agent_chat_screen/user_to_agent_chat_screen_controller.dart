@@ -55,7 +55,10 @@ class UserToAgentChatScreenController extends GetxController {
 
     if (!res.success) return;
 
-    data.value = PropertyDetailsModel.fromJson(res.data['data']['property']);
+    data.value = JsonParser.tryParse(
+      res.data['data']['property'],
+      (json) => PropertyDetailsModel.fromJson(json),
+    );
     _setChatData();
   }
 

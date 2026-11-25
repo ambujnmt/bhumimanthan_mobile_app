@@ -13,7 +13,11 @@ class BlogDetailsScreenController extends GetxController {
   Future<void> _getData() async {
     final res = await _api.get('/blogs/detail/$idOrSlug');
     if (!res.success) return;
-    data.value = BlogModel.fromJson(res.data['data']['blog']);
+
+    data.value = JsonParser.tryParse(
+      res.data['data']['blog'],
+      (json) => BlogModel.fromJson(json),
+    );
   }
 
   Future<void> refreshData() async {

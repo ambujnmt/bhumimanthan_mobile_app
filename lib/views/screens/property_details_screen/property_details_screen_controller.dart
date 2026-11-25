@@ -22,10 +22,16 @@ class PropertyDetailsScreenController extends GetxController {
   Future<void> _getData() async {
     final res = await _api.get('/properties/detail/$idOrSlug');
     if (!res.success) return;
-    data.value = PropertyDetailsModel.fromJson(res.data['data']['property']);
-    similarItems = (res.data['data']['similar_properties'] as List)
-        .map((json) => SimilarPropertyModel.fromJson(json))
-        .toList();
+    data.value = JsonParser.tryParse(
+      res.data['data']['property'],
+      (j) => PropertyDetailsModel.fromJson(j),
+    );
+
+    similarItems = JsonParser.parseList(
+      res.data['data']['similar_properties'],
+      (json) => SimilarPropertyModel.fromJson(json),
+    );
+
     addedToCompare.value = data.value!.isCompared;
   }
 

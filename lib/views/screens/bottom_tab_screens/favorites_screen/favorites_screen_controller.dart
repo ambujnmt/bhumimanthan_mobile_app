@@ -19,9 +19,10 @@ class FavoritesScreenController extends GetxController {
 
     if (!res.success) return;
 
-    items.value = (res.data['data']['properties'] as List)
-        .map((json) => FavPropertyModel.fromJson(json))
-        .toList();
+    items.value = JsonParser.parseList(
+      res.data['data']['properties'],
+      (json) => FavPropertyModel.fromJson(json),
+    );
   }
 
   Future<void> removeFavorite(FavPropertyModel property) async {

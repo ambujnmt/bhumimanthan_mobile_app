@@ -1,3 +1,5 @@
+import 'package:bhumi_manthan/utils/app_imports.dart';
+
 class EventsModel {
   final int? id;
   final String? title;
@@ -25,7 +27,7 @@ class EventsModel {
   final String? brochure;
   final bool? isActive;
   final String? createdAt;
-  final String? updatedAt;
+  final String updatedAt;
   final List<EventImage> images;
   final String? eventTypeLabel;
   final String? expectedFootfallLabel;
@@ -58,7 +60,7 @@ class EventsModel {
     this.brochure,
     this.isActive,
     this.createdAt,
-    this.updatedAt,
+    required this.updatedAt,
     this.images = const [],
     this.eventTypeLabel,
     this.expectedFootfallLabel,
@@ -94,9 +96,10 @@ class EventsModel {
       isActive: json['is_active'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
-      images: (json['images'] as List? ?? [])
-          .map((e) => EventImage.fromJson(e))
-          .toList(),
+      images: JsonParser.parseList(
+        json['images'],
+        (event) => EventImage.fromJson(event),
+      ),
       eventTypeLabel: json['event_type_label'],
       expectedFootfallLabel: json['expected_footfall_label'],
       highlightLabels: List<String>.from(json['highlight_labels'] ?? []),

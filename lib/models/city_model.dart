@@ -1,3 +1,5 @@
+import 'package:bhumi_manthan/helpers/json_parser.dart';
+
 class CityModel {
   final int id;
   final int stateId;
@@ -40,9 +42,10 @@ class CityModel {
       createdAt: json['created_at'] ?? '',
       updatedAt: json['updated_at'] ?? '',
       propertiesCount: json['properties_count'] ?? 0,
-      state: json['state'] != null
-          ? CityStateModel.fromJson(json['state'])
-          : null,
+      state: JsonParser.tryParse(
+        json['state'],
+        (city) => CityStateModel.fromJson(city),
+      ),
     );
   }
 

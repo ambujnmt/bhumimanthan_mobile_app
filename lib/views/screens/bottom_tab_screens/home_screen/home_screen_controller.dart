@@ -23,17 +23,19 @@ class HomeScreenController extends GetxController {
   Future<void> _getBanners() async {
     final res = await _api.get('/banners');
     if (!res.success) return;
-    banners.value = (res.data['data']['banners'] as List)
-        .map((json) => HomeBanner.fromJson(json))
-        .toList();
+    banners.value = JsonParser.parseList(
+      res.data['data']['banners'],
+      (json) => HomeBanner.fromJson(json),
+    );
   }
 
   Future<void> _getCategories() async {
     final res = await _api.get('/property-categories');
     if (!res.success) return;
-    categories.value = (res.data['data']['categories'] as List)
-        .map((json) => CategoryModel.fromJson(json))
-        .toList();
+    categories.value = JsonParser.parseList(
+      res.data['data']['categories'],
+      (json) => CategoryModel.fromJson(json),
+    );
   }
 
   Future<void> _getFeatured() async {
@@ -42,17 +44,19 @@ class HomeScreenController extends GetxController {
       queries: {'limit': '15'},
     );
     if (!res.success) return;
-    featuredItems.value = (res.data['data']['properties'] as List)
-        .map((json) => FeaturedProperty.fromJson(json))
-        .toList();
+    featuredItems.value = JsonParser.parseList(
+      res.data['data']['properties'],
+      (json) => FeaturedProperty.fromJson(json),
+    );
   }
 
   Future<void> _getProjects() async {
     final res = await _api.get('/projects', queries: {'limit': '15'});
     if (!res.success) return;
-    projects.value = (res.data['data']['projects'] as List)
-        .map((json) => ProjectsModel.fromJson(json))
-        .toList();
+    projects.value = JsonParser.parseList(
+      res.data['data']['projects'],
+      (json) => ProjectsModel.fromJson(json),
+    );
   }
 
   Future<void> _getCities() async {
@@ -61,25 +65,28 @@ class HomeScreenController extends GetxController {
       queries: {'popular': '1', 'limit': '50'},
     );
     if (!res.success) return;
-    cities.value = (res.data['data']['cities'] as List)
-        .map((json) => CityModel.fromJson(json))
-        .toList();
+    cities.value = JsonParser.parseList(
+      res.data['data']['cities'],
+      (json) => CityModel.fromJson(json),
+    );
   }
 
   Future<void> _getLuxury() async {
     final res = await _api.get('/properties/luxury', queries: {'limit': '15'});
     if (!res.success) return;
-    luxuryItems.value = (res.data['data']['properties'] as List)
-        .map((json) => FeaturedProperty.fromJson(json))
-        .toList();
+    luxuryItems.value = JsonParser.parseList(
+      res.data['data']['properties'],
+      (json) => FeaturedProperty.fromJson(json),
+    );
   }
 
   Future<void> _getBlogs() async {
     final res = await _api.get('/blogs', queries: {'limit': '15'});
     if (!res.success) return;
-    blogs.value = (res.data['data']['blogs'] as List)
-        .map((json) => BlogModel.fromJson(json))
-        .toList();
+    blogs.value = JsonParser.parseList(
+      res.data['data']['blogs'],
+      (json) => BlogModel.fromJson(json),
+    );
   }
 
   Future<void> refreshData() async {

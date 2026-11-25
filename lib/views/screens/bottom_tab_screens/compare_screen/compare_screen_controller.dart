@@ -11,9 +11,10 @@ class CompareScreenController extends GetxController {
   Future<void> _getData() async {
     final res = await _api.get('/compare/list');
     if (!res.success) return;
-    tabs.value = (res.data['data']['groups'] as List)
-        .map((json) => ComparedTab.fromJson(json))
-        .toList();
+    tabs.value = JsonParser.parseList(
+      res.data['data']['groups'],
+      (json) => ComparedTab.fromJson(json),
+    );
   }
 
   Future<void> refreshData() async {

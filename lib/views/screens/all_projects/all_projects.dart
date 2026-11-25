@@ -23,9 +23,10 @@ class _AllProjectsState extends State<AllProjects> {
   Future<void> _getData() async {
     final res = await _api.get('/projects');
     if (!res.success) return;
-    items.value = (res.data['data']['projects'] as List)
-        .map((json) => ProjectDetailsModel.fromJson(json))
-        .toList();
+    items.value = JsonParser.parseList(
+      res.data['data']['projects'],
+      (json) => ProjectDetailsModel.fromJson(json),
+    );
   }
 
   Future<void> refreshData() async {

@@ -23,9 +23,10 @@ class _AllLuxuryPropertiesScreenState extends State<AllLuxuryPropertiesScreen> {
   Future<void> _getData() async {
     final res = await _api.get('/properties/luxury', queries: {'luxury': '1'});
     if (!res.success) return;
-    items.value = (res.data['data']['properties'] as List)
-        .map((json) => FeaturedProperty.fromJson(json))
-        .toList();
+    items.value = JsonParser.parseList<FeaturedProperty>(
+      res.data['data']['properties'],
+      (json) => FeaturedProperty.fromJson(json),
+    );
   }
 
   Future<void> refreshData() async {

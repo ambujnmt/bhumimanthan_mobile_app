@@ -41,7 +41,7 @@ class CompareProperty {
       bathrooms: json['bathrooms'] as int?,
       area: json['area'] as num?,
       pricePerSqft: json['price_per_sqft'] as num?,
-      propertyType: json['property_type'] ?? '',
+      propertyType: json['property_type'],
       furnishing: json['furnishing'] ?? '',
       possession: json['possession'] as String?,
     );

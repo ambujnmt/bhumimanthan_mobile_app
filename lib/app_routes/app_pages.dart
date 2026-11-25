@@ -12,6 +12,7 @@ import 'package:bhumi_manthan/views/screens/bottom_tab_screens/compare_screen/co
 import 'package:bhumi_manthan/views/screens/category_details/category_details.dart';
 import 'package:bhumi_manthan/views/screens/chat_screens/user_to_agent_chat_screen/user_to_agent_chat_screen.dart';
 import 'package:bhumi_manthan/views/screens/contact_us/contact_us.dart';
+import 'package:bhumi_manthan/views/screens/event_details_screen/event_details_screen.dart';
 import 'package:bhumi_manthan/views/screens/events_screen/events_screen.dart';
 import 'package:bhumi_manthan/views/screens/notifications_screen/notifications_screen.dart';
 import 'package:bhumi_manthan/views/screens/privacy_policy/privacy_policy.dart';
@@ -119,5 +120,9 @@ class AppPages {
     GetPage(name: AppRoutes.compareScreen, page: () => CompareScreen()),
     GetPage(name: AppRoutes.allCitiesScreen, page: () => AllCitiesScreen()),
     GetPage(name: AppRoutes.chatHistoryScreen, page: () => ChatHistoryScreen()),
+    GetPage(
+      name: AppRoutes.eventDetailsScreen,
+      page: () => EventDetailsScreen(),
+    ),
   ];
 }

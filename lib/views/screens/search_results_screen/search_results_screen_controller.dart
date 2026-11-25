@@ -25,9 +25,10 @@ class SearchResultsScreenController extends GetxController {
     );
     if (!res.success) return false;
     items.addAll(
-      (res.data['data']['properties'] as List)
-          .map((json) => SearchPropertyModel.fromJson(json))
-          .toList(),
+      JsonParser.parseList(
+        res.data['data']['properties'],
+        (json) => SearchPropertyModel.fromJson(json),
+      ),
     );
     final lastPage = res.data['data']['pagination']['last_page'];
     isLastPage.value = _currentPage >= lastPage;

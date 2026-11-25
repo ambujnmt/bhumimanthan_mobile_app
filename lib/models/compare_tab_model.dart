@@ -1,3 +1,5 @@
+import 'package:bhumi_manthan/utils/app_imports.dart';
+
 class ComparedTab {
   final String propertyType;
   final int count;
@@ -22,12 +24,10 @@ class ComparedTab {
       max: json['max'] ?? 0,
       canAdd: json['can_add'] ?? false,
       canCompare: json['can_compare'] ?? false,
-      properties: (json['properties'] as List<dynamic>? ?? [])
-          .map(
-            (item) =>
-                ComparedProperty.fromJson(Map<String, dynamic>.from(item)),
-          )
-          .toList(),
+      properties: JsonParser.parseList(
+        json['properties'],
+        (item) => ComparedProperty.fromJson(Map<String, dynamic>.from(item)),
+      ),
     );
   }
 

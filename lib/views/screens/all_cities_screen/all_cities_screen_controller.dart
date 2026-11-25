@@ -13,9 +13,10 @@ class AllCitiesScreenController extends GetxController {
   Future<void> _getData() async {
     final res = await ApiServices().get('/cities', queries: {'popular': '1'});
     if (!res.success) return;
-    cities.value = (res.data['data']['cities'] as List)
-        .map((json) => CityModel.fromJson(json))
-        .toList();
+    cities.value = JsonParser.parseList<CityModel>(
+      res.data['data']['cities'],
+      (json) => CityModel.fromJson(json),
+    );
   }
 
   void searchCity(String query) {

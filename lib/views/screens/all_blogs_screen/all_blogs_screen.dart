@@ -22,9 +22,10 @@ class _AllBlogsScreenState extends State<AllBlogsScreen> {
   Future<void> _getData() async {
     final res = await _api.get('/blogs');
     if (!res.success) return;
-    items.value = (res.data['data']['blogs'] as List)
-        .map((json) => BlogModel.fromJson(json))
-        .toList();
+    items.value = JsonParser.parseList<BlogModel>(
+      res.data['data']['blogs'],
+      (json) => BlogModel.fromJson(json),
+    );
   }
 
   Future<void> refreshData() async {

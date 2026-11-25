@@ -1,3 +1,5 @@
+import 'package:bhumi_manthan/utils/app_imports.dart';
+
 class CategoryModel {
   final int id;
   final String name;
@@ -19,9 +21,10 @@ class CategoryModel {
       name: json['name'] ?? '',
       slug: json['slug'] ?? '',
       sortOrder: json['sort_order'] ?? 0,
-      children: (json['children'] as List<dynamic>? ?? [])
-          .map((e) => CategoryChildModel.fromJson(e))
-          .toList(),
+      children: JsonParser.parseList(
+        json['children'],
+        (child) => CategoryChildModel.fromJson(child),
+      ),
     );
   }
 }

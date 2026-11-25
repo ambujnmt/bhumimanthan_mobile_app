@@ -20,11 +20,14 @@ class _EventsTabState extends State<EventsTab>
   Future<void> _getData() async {
     final res = await _api.get('/events');
     if (!res.success) return;
-    events.value = _parseFromResponse(res.data['data']['events'] as List);
+    events.value = _parseFromResponse(res.data['data']['events']);
   }
 
-  List<EventsModel> _parseFromResponse(List<dynamic> data) {
-    final list = data.map((json) => EventsModel.fromJson(json)).toList();
+  List<EventsModel> _parseFromResponse(dynamic data) {
+    final List<EventsModel> list = JsonParser.parseList(
+      data,
+      (k) => EventsModel.fromJson(k),
+    );
 
     final today = DateUtils.dateOnly(DateTime.now());
 
@@ -89,54 +92,58 @@ class _EventsTabState extends State<EventsTab>
 }
 
 Widget _eventCard(BuildContext context, EventsModel event) {
-  return AppContainer(
-    clip: Clip.antiAlias,
-    padding: EdgeInsets.zero,
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        AppNetworkImage(
-          height: 160,
-          width: double.infinity,
-          imgUrl: event.image,
-          fit: BoxFit.cover,
-        ),
-
-        Padding(
-          padding: EdgeInsets.all(AppDimentions.screenPaddingS),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                event.title ?? '',
-                style: const TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              const SizedBox(height: 7),
-
-              Text(
-                event.description ?? '',
-                style: TextStyle(
-                  fontSize: 13,
-                  height: 1.4,
-                  color: Colors.grey.shade600,
-                ),
-              ),
-
-              const SizedBox(height: 16),
-
-              _eventInfo(
-                Icons.calendar_month_outlined,
-                '${formatDateTime(event.eventDate)}\nto\n${formatDateTime(event.endDate)}',
-              ),
-              const SizedBox(height: 9),
-              _eventInfo(Icons.location_on_outlined, event.location ?? ''),
-            ],
+  return InkWell(
+    onTap: () =>
+        Get.toNamed(AppRoutes.eventDetailsScreen, arguments: {'id': event.id}),
+    child: AppContainer(
+      clip: Clip.antiAlias,
+      padding: EdgeInsets.zero,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AppNetworkImage(
+            height: 160,
+            width: double.infinity,
+            imgUrl: event.image,
+            fit: BoxFit.cover,
           ),
-        ),
-      ],
+
+          Padding(
+            padding: EdgeInsets.all(AppDimentions.screenPaddingS),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  event.title ?? '',
+                  style: const TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 7),
+
+                Text(
+                  event.description ?? '',
+                  style: TextStyle(
+                    fontSize: 13,
+                    height: 1.4,
+                    color: Colors.grey.shade600,
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+
+                _eventInfo(
+                  Icons.calendar_month_outlined,
+                  '${formatDateTime(event.eventDate)}\nto\n${formatDateTime(event.endDate)}',
+                ),
+                const SizedBox(height: 9),
+                _eventInfo(Icons.location_on_outlined, event.location ?? ''),
+              ],
+            ),
+          ),
+        ],
+      ),
     ),
   );
 }

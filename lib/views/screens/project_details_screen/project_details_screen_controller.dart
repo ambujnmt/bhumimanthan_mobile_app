@@ -13,7 +13,11 @@ class ProjectDetailsScreenController extends GetxController {
   Future<void> _getData() async {
     final res = await _api.get('/projects/detail/$idOrSlug');
     if (!res.success) return;
-    data.value = ProjectDetailsModel.fromJson(res.data['data']['project']);
+
+    data.value = JsonParser.tryParse(
+      res.data['data']['project'],
+      (json) => ProjectDetailsModel.fromJson(json),
+    );
   }
 
   Future<void> refreshData() async {

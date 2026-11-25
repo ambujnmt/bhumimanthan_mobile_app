@@ -11,7 +11,10 @@ class UserStorage {
   static UserModel? getUserData() {
     final user = SharedPrefs.getString(_userDataKey);
     if (user == null) return null;
-    return UserModel.fromJson(jsonDecode(user));
+    return JsonParser.tryParse(
+      jsonDecode(user),
+      (json) => UserModel.fromJson(json),
+    );
   }
 
   static Future<void> setToken(String token) async {

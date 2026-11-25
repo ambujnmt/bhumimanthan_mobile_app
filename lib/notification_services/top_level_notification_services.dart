@@ -11,7 +11,12 @@ import 'notificaion_services.dart';
 Future<void> showNotificationPopup(RemoteMessage message) async {
   debugPrint('fcm message received: ${message.data}');
   // final payload = jsonDecode();
-  final data = FcmDataModel.fromJson(message.data);
+  final data = JsonParser.tryParse<FcmDataModel>(
+    message.data,
+    (json) => FcmDataModel.fromJson(json),
+  );
+
+  if (data == null) return;
 
   // StyleInformation? style;
   // final imgUrl =
