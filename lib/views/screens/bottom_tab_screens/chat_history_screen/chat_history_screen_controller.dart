@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:bhumi_manthan/zz_main_screen/main_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../../utils/app_imports.dart';
@@ -19,6 +20,7 @@ class ChatHistoryScreenController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    Get.put(ChatIconController());
     refreshData();
   }
 

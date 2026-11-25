@@ -7,6 +7,7 @@ import 'package:bhumi_manthan/views/screens/auth_screens/forget_password_screen/
 import 'package:bhumi_manthan/views/screens/auth_screens/login_screen/login_screen.dart';
 import 'package:bhumi_manthan/views/screens/auth_screens/welcome_screen/welcome_screen.dart';
 import 'package:bhumi_manthan/views/screens/blog_details_screen/blog_details_screen.dart';
+import 'package:bhumi_manthan/views/screens/bottom_tab_screens/chat_history_screen/chat_history_screen.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/compare_screen/compare_screen.dart';
 import 'package:bhumi_manthan/views/screens/category_details/category_details.dart';
 import 'package:bhumi_manthan/views/screens/chat_screens/user_to_agent_chat_screen/user_to_agent_chat_screen.dart';
@@ -117,5 +118,6 @@ class AppPages {
     GetPage(name: AppRoutes.categoryDetails, page: () => CategoryDetails()),
     GetPage(name: AppRoutes.compareScreen, page: () => CompareScreen()),
     GetPage(name: AppRoutes.allCitiesScreen, page: () => AllCitiesScreen()),
+    GetPage(name: AppRoutes.chatHistoryScreen, page: () => ChatHistoryScreen()),
   ];
 }

@@ -26,24 +26,28 @@ class _EventsTabState extends State<EventsTab>
   List<EventsModel> _parseFromResponse(List<dynamic> data) {
     final list = data.map((json) => EventsModel.fromJson(json)).toList();
 
-    final now = DateTime.now();
+    final today = DateUtils.dateOnly(DateTime.now());
 
     if (widget.filter == 'live') {
-      return list
-          .where(
-            (t) =>
-                DateTime.parse(t.eventDate!).isBefore(now) &&
-                DateTime.parse(t.endDate!).isAfter(now),
-          )
-          .toList();
+      return list.where((t) {
+        final startDate = DateTime.tryParse(t.eventDate ?? '');
+        final endDate = DateTime.tryParse(t.endDate ?? '');
+
+        if (startDate == null || endDate == null) return false;
+
+        return !today.isBefore(DateUtils.dateOnly(startDate)) &&
+            !today.isAfter(DateUtils.dateOnly(endDate));
+      }).toList();
     }
     if (widget.filter == 'upcoming') {
       return list
-          .where((t) => DateTime.parse(t.eventDate!).isAfter(now))
+          .where((t) => DateTime.parse(t.eventDate!).isAfter(today))
           .toList();
     }
 
-    return list.where((t) => DateTime.parse(t.endDate!).isBefore(now)).toList();
+    return list
+        .where((t) => DateTime.parse(t.endDate!).isBefore(today))
+        .toList();
   }
 
   Future<void> refreshData() async {
@@ -64,17 +68,22 @@ class _EventsTabState extends State<EventsTab>
   Widget build(BuildContext context) {
     super.build(context);
     return Obx(
-      () => isLoading.value
-          ? AppLoader.widget()
-          : events.value == null
-          ? ApiErrorWidget()
-          : ListView.separated(
-              itemCount: events.value!.length,
-              padding: EdgeInsets.all(AppDimentions.defaultScreenPadding),
-              itemBuilder: (context, index) =>
-                  _eventCard(context, events.value![index]),
-              separatorBuilder: (context, index) => heightSpace10,
-            ),
+      () => AppRefreshIndicator(
+        onRefresh: refreshData,
+        child: isLoading.value
+            ? AppLoader.widget()
+            : events.value == null
+            ? ApiErrorWidget()
+            : events.value!.isEmpty
+            ? NoDataAvailable()
+            : ListView.separated(
+                itemCount: events.value!.length,
+                padding: EdgeInsets.all(AppDimentions.defaultScreenPadding),
+                itemBuilder: (context, index) =>
+                    _eventCard(context, events.value![index]),
+                separatorBuilder: (context, index) => heightSpace10,
+              ),
+      ),
     );
   }
 }

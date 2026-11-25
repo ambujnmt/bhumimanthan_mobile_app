@@ -52,8 +52,8 @@ class _MenuScreenState extends State<MenuScreen>
               ),
               _MenuItem(
                 icon: Icons.notifications_none_rounded,
-                title: 'Events',
-                onTap: () => _navigate(AppRoutes.eventsScreen),
+                title: 'Chats',
+                onTap: () => _navigate(AppRoutes.chatHistoryScreen),
               ),
             ]),
 

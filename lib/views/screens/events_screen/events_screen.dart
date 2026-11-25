@@ -16,7 +16,7 @@ class _EventsScreenState extends State<EventsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(title: 'Events'),
+      appBar: CustomAppbar(title: 'Events', showLeading: false),
       body: Column(
         children: [
           CustomTab(

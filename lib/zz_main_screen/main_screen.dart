@@ -250,38 +250,38 @@ class _LiveIndicatorState extends State<LiveIndicator>
   }
 }
 
-class ChatWithBadge extends StatefulWidget {
-  final bool isActive;
-  const ChatWithBadge({super.key, required this.isActive});
+// class ChatWithBadge extends StatefulWidget {
+//   final bool isActive;
+//   const ChatWithBadge({super.key, required this.isActive});
 
-  @override
-  State<ChatWithBadge> createState() => _ChatWithBadgeState();
-}
+//   @override
+//   State<ChatWithBadge> createState() => _ChatWithBadgeState();
+// }
 
-class _ChatWithBadgeState extends State<ChatWithBadge> {
-  final _con = Get.put(ChatIconController());
+// class _ChatWithBadgeState extends State<ChatWithBadge> {
+//   final _con = Get.put(ChatIconController());
 
-  @override
-  Widget build(BuildContext context) {
-    return Obx(() {
-      final showLabel = _con.unreadChatIds.isNotEmpty;
-      return Badge(
-        isLabelVisible: showLabel,
-        backgroundColor: red,
-        label: CustomText.kText(
-          _con.unreadChatIds.length.toString(),
-          color: white,
-        ),
-        child: Image.asset(
-          height: 22,
-          width: 22,
-          Images.chatIcon,
-          color: widget.isActive ? AppColors.primary : AppColors.subtitle,
-        ),
-      );
-    });
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Obx(() {
+//       final showLabel = _con.unreadChatIds.isNotEmpty;
+//       return Badge(
+//         isLabelVisible: showLabel,
+//         backgroundColor: red,
+//         label: CustomText.kText(
+//           _con.unreadChatIds.length.toString(),
+//           color: white,
+//         ),
+//         child: Image.asset(
+//           height: 22,
+//           width: 22,
+//           Images.chatIcon,
+//           color: widget.isActive ? AppColors.primary : AppColors.subtitle,
+//         ),
+//       );
+//     });
+//   }
+// }
 
 class ChatIconController extends GetxController {
   final currentUserId = UserController.user.value?.id.toString();

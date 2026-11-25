@@ -21,7 +21,7 @@ class _ChatHistoryScreenState extends State<ChatHistoryScreen>
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      appBar: CustomAppbar(title: 'Chat History', showLeading: false),
+      appBar: CustomAppbar(title: 'Chat History'),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection(_con.collectionName)
