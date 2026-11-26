@@ -8,7 +8,7 @@ class PdsSellerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SectionWidget(
-      title: 'Seller/Agent Information',
+      title: 'Agent/Seller Information',
       padding: EdgeInsets.zero,
       content: Column(
         children: [
@@ -55,17 +55,10 @@ class PdsSellerWidget extends StatelessWidget {
             ),
           ),
           heightSpace15,
-          // AppTextfield(hintText: 'Your name'),
-          // AppTextfield(
-          //   hintText: 'Your mobile number',
-          //   inputType: TextInputType.phone,
-          // ),
           CustomButton(
-            text: 'Chat with Seller/Agent',
-            onTap: () => Get.toNamed(
-              AppRoutes.userToAgentChatScreen,
-              arguments: {'id': con.data.value!.id},
-            ),
+            text: 'View Number',
+            onTap: () =>
+                Get.toNamed(AppRoutes.submitUserDetails, arguments: {'id': 2}),
           ),
         ],
       ),

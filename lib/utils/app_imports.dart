@@ -8,6 +8,7 @@ export 'package:get/get.dart';
 export 'package:skeletonizer/skeletonizer.dart';
 
 // App-wide custom imports
+export 'package:bhumi_manthan/views/widgets/pagination_end_widget.dart';
 export 'package:bhumi_manthan/helpers/json_parser.dart';
 export 'package:bhumi_manthan/views/widgets/app_fade_animated_switcher.dart';
 export 'package:bhumi_manthan/controllers/user_controller.dart';

@@ -1,3 +1,4 @@
+import 'package:bhumi_manthan/models/nearby_agent_model.dart';
 import 'package:bhumi_manthan/models/blog_model.dart';
 import 'package:bhumi_manthan/models/category_model.dart';
 import 'package:bhumi_manthan/models/city_model.dart';
@@ -19,6 +20,7 @@ class HomeScreenController extends GetxController {
   final luxuryItems = <FeaturedProperty>[].obs;
   final banners = <HomeBanner>[].obs;
   final blogs = <BlogModel>[].obs;
+  final agents = <AgentModel>[].obs;
 
   Future<void> _getBanners() async {
     final res = await _api.get('/banners');
@@ -89,6 +91,15 @@ class HomeScreenController extends GetxController {
     );
   }
 
+  Future<void> _getTopAgents() async {
+    final res = await _api.get('/agents/nearby', queries: {'limit': '15'});
+    if (!res.success) return;
+    agents.value = JsonParser.parseList<AgentModel>(
+      res.data['data']['agents'],
+      (json) => AgentModel.fromJson(json),
+    );
+  }
+
   Future<void> refreshData() async {
     isLoading(true);
     await Future.wait([
@@ -99,6 +110,7 @@ class HomeScreenController extends GetxController {
       _getCities(),
       _getLuxury(),
       _getBlogs(),
+      _getTopAgents(),
     ]);
     isLoading(false);
   }

@@ -12,34 +12,14 @@ class SearchResultsScreen extends StatefulWidget {
 
 class _SearchResultsScreenState extends State<SearchResultsScreen> {
   final _con = Get.put(SearchResultsScreenController());
-  final sc = ScrollController();
-
-  @override
-  void initState() {
-    super.initState();
-
-    sc.addListener(() {
-      if (sc.position.pixels >= sc.position.maxScrollExtent) {
-        onScrollEnd();
-      }
-    });
-  }
-
-  void onScrollEnd() {
-    debugPrint('Reached end of list');
-    _con.loadMore();
-  }
-
-  @override
-  void dispose() {
-    sc.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppbar(scrollController: sc, title: 'Search Results'),
+      appBar: CustomAppbar(
+        scrollController: _con.scrollController,
+        title: 'Search Results',
+      ),
       body: Obx(
         () => AppFadeAnimatedSwitcher(
           child: _con.isLoading.value
@@ -47,9 +27,9 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
               : _con.items.isEmpty
               ? NoDataAvailable(title: 'No results found')
               : Scrollbar(
-                  controller: sc,
+                  controller: _con.scrollController,
                   child: ListView.separated(
-                    controller: sc,
+                    controller: _con.scrollController,
                     physics: AlwaysScrollableScrollPhysics(),
                     padding: const EdgeInsets.all(
                       AppDimentions.defaultScreenPadding,
@@ -57,27 +37,11 @@ class _SearchResultsScreenState extends State<SearchResultsScreen> {
                     itemCount: _con.items.length + 1,
                     itemBuilder: (context, index) {
                       if (index == _con.items.length) {
-                        return SizedBox(
-                          height: 100,
-                          child: Center(
-                            child: Obx(
-                              () => _con.isLoadingMore.value
-                                  ? AppLoader.widget(size: 35)
-                                  : _con.isLastPage.value &&
-                                        _con.items.length > 4
-                                  ? CustomText.kText(
-                                      'You have reached the end',
-                                      weight: FontWeight.w600,
-                                    )
-                                  : _con.items.length > 4
-                                  ? CustomText.kText(
-                                      'Something went wrong!',
-                                      color: red,
-                                      // Add your preferred text styling here
-                                    )
-                                  : SizedBox.shrink(),
-                            ),
-                          ),
+                        return PaginationPageEndWidget(
+                          isLoadingMore: _con.isLoadingMore,
+                          hasError: _con.hasPaginationError,
+                          pagination: _con.pagination,
+                          enabled: _con.items.length > 2,
                         );
                       }
 

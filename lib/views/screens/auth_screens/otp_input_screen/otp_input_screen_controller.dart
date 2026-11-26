@@ -15,13 +15,13 @@ class OtpInputScreenController extends GetxController {
     AppToast.success('OTP resent successfully.');
     otpController.clear();
     otpError('');
-    startTimer();
+    _startTimer();
   }
 
   Timer? timer;
   late final timeLeft = args.waitDuration.obs;
 
-  void startTimer() {
+  void _startTimer() {
     timeLeft.value = args.waitDuration;
     timer?.cancel();
     timer = Timer.periodic(const Duration(seconds: 1), (t) {
@@ -36,7 +36,7 @@ class OtpInputScreenController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    startTimer();
+    _startTimer();
   }
 }
 

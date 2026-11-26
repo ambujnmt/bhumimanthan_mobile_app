@@ -1,26 +1,16 @@
 import '../../../../../utils/app_imports.dart';
-import '../../../broker_seller_details_screen/broker_seller_details_screen.dart';
+import '../home_screen_controller.dart';
 
 class HomeBrokerSellerSlider extends StatelessWidget {
-  final String title;
-  final List<BrokerSeller> items;
-  final Function(BrokerSeller)? onTap;
-  final VoidCallback? onSeeAll;
-
-  const HomeBrokerSellerSlider({
-    super.key,
-    this.title = 'Top Brokers & Sellers',
-    required this.items,
-    this.onTap,
-    this.onSeeAll,
-  });
+  HomeBrokerSellerSlider({super.key});
+  final _con = Get.find<HomeScreenController>();
 
   @override
   Widget build(BuildContext context) {
-    if (items.isEmpty) return const SizedBox.shrink();
+    if (_con.agents.isEmpty) return const SizedBox.shrink();
 
     return SectionWidget(
-      title: title,
+      title: 'Top Brokers & Sellers',
       content: SizedBox(
         height: 210,
         child: ListView.separated(
@@ -28,31 +18,42 @@ class HomeBrokerSellerSlider extends StatelessWidget {
             horizontal: AppDimentions.defaultScreenPadding,
           ),
           scrollDirection: Axis.horizontal,
-          itemCount: items.length,
+          itemCount: _con.agents.length,
           separatorBuilder: (_, _) => widthSpace12,
           itemBuilder: (context, index) {
-            final item = items[index];
+            final item = _con.agents[index];
             return AppContainer(
               width: 165,
               border: Border.all(color: grey.shade200, width: 1.5),
               child: Column(
                 children: [
-                  CircleAvatar(
-                    radius: 35,
-                    backgroundImage: item.image.isNotEmpty
-                        ? NetworkImage(item.image)
-                        : null,
-                    child: item.image.isEmpty
-                        ? const Icon(Icons.person, size: 35)
-                        : null,
+                  AppContainer(
+                    height: 70,
+                    width: 70,
+                    clip: Clip.hardEdge,
+                    shape: BoxShape.circle,
+                    padding: EdgeInsets.zero,
+                    child: item.image == null
+                        ? Center(
+                            child: Image.asset(
+                              Images.userIcon,
+                              height: 42,
+                              width: 42,
+                            ),
+                          )
+                        : AppNetworkImage(
+                            imgUrl: item.image,
+                            fit: BoxFit.cover,
+                          ),
                   ),
+
                   const SizedBox(height: 9),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Flexible(
                         child: Text(
-                          item.name,
+                          item.name ?? '',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: const TextStyle(
@@ -61,7 +62,7 @@ class HomeBrokerSellerSlider extends StatelessWidget {
                           ),
                         ),
                       ),
-                      if (item.isVerified)
+                      if (item.verified)
                         const Padding(
                           padding: EdgeInsets.only(left: 3),
                           child: Icon(
@@ -74,7 +75,7 @@ class HomeBrokerSellerSlider extends StatelessWidget {
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    item.location,
+                    item.cities.first,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
@@ -86,7 +87,7 @@ class HomeBrokerSellerSlider extends StatelessWidget {
                       const Icon(Icons.star, size: 15, color: Colors.orange),
                       const SizedBox(width: 3),
                       Text(
-                        '${item.rating} (${item.reviews})',
+                        '${item.ratingAvg} (${item.ratingCount})',
                         style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
@@ -100,7 +101,10 @@ class HomeBrokerSellerSlider extends StatelessWidget {
                     height: 32,
                     textSize: 15,
                     color: AppColors.secondary,
-                    onTap: () => Get.to(() => BrokerSellerDetailsScreen()),
+                    onTap: () => Get.toNamed(
+                      AppRoutes.brokerSellerDetailsScreen,
+                      arguments: {'id': item.key},
+                    ),
                   ),
                 ],
               ),

@@ -1,4 +1,5 @@
 import 'package:bhumi_manthan/views/screens/about_us/about_us.dart';
+import 'package:bhumi_manthan/views/screens/agent_contact_screens/submit_user_details/submit_user_details.dart';
 import 'package:bhumi_manthan/views/screens/all_blogs_screen/all_blogs_screen.dart';
 import 'package:bhumi_manthan/views/screens/all_cities_screen/all_cities_screen.dart';
 import 'package:bhumi_manthan/views/screens/all_luxury_properties_screen/all_luxury_properties_screen.dart';
@@ -9,16 +10,18 @@ import 'package:bhumi_manthan/views/screens/auth_screens/welcome_screen/welcome_
 import 'package:bhumi_manthan/views/screens/blog_details_screen/blog_details_screen.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/chat_history_screen/chat_history_screen.dart';
 import 'package:bhumi_manthan/views/screens/bottom_tab_screens/compare_screen/compare_screen.dart';
+import 'package:bhumi_manthan/views/screens/broker_seller_details_screen/broker_seller_details_screen.dart';
 import 'package:bhumi_manthan/views/screens/category_details/category_details.dart';
 import 'package:bhumi_manthan/views/screens/chat_screens/user_to_agent_chat_screen/user_to_agent_chat_screen.dart';
 import 'package:bhumi_manthan/views/screens/contact_us/contact_us.dart';
 import 'package:bhumi_manthan/views/screens/event_details_screen/event_details_screen.dart';
 import 'package:bhumi_manthan/views/screens/events_screen/events_screen.dart';
+import 'package:bhumi_manthan/views/screens/agent_contact_screens/agent_contact_details_screen.dart';
 import 'package:bhumi_manthan/views/screens/notifications_screen/notifications_screen.dart';
 import 'package:bhumi_manthan/views/screens/privacy_policy/privacy_policy.dart';
 import 'package:bhumi_manthan/views/screens/project_details_screen/project_details_screen.dart';
 import 'package:bhumi_manthan/views/screens/property_compare_screen/properties_compare_screen.dart';
-import 'package:bhumi_manthan/views/screens/property_enquiry_screen/property_enquiry_screen.dart';
+import 'package:bhumi_manthan/views/screens/enquiry_screen/property_enquiry_screen.dart';
 import 'package:bhumi_manthan/views/screens/search_screen/search_screen.dart';
 import 'package:bhumi_manthan/views/screens/terms_and_conditions/terms_and_conditions.dart';
 import 'package:bhumi_manthan/zz_main_screen/main_screen.dart';
@@ -33,7 +36,7 @@ import '../views/screens/edit_profile_screen/edit_profile_screen.dart';
 import '../views/screens/network_image_view_screen/network_image_view_screen.dart';
 import '../views/screens/property_details_screen/property_details_screen.dart';
 import '../views/screens/property_details_screen/property_details_screen_binding.dart';
-import '../views/screens/property_enquiry_screen/property_enquiry_screen_controller.dart';
+import '../views/screens/enquiry_screen/property_enquiry_screen_controller.dart';
 import '../views/screens/search_results_screen/search_results_screen.dart';
 
 class AppPages {
@@ -120,6 +123,15 @@ class AppPages {
     GetPage(name: AppRoutes.compareScreen, page: () => CompareScreen()),
     GetPage(name: AppRoutes.allCitiesScreen, page: () => AllCitiesScreen()),
     GetPage(name: AppRoutes.chatHistoryScreen, page: () => ChatHistoryScreen()),
+    GetPage(
+      name: AppRoutes.brokerSellerDetailsScreen,
+      page: () => BrokerSellerDetailsScreen(),
+    ),
+    GetPage(name: AppRoutes.submitUserDetails, page: () => SubmitUserDetails()),
+    GetPage(
+      name: AppRoutes.agentContactDetailsScreen,
+      page: () => AgentContactDetailsScreen(),
+    ),
     GetPage(
       name: AppRoutes.eventDetailsScreen,
       page: () => EventDetailsScreen(),

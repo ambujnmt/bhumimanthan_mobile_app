@@ -1,5 +1,5 @@
 import 'package:bhumi_manthan/utils/app_imports.dart';
-import 'package:bhumi_manthan/views/screens/property_enquiry_screen/property_enquiry_screen_controller.dart';
+import 'package:bhumi_manthan/views/screens/enquiry_screen/property_enquiry_screen_controller.dart';
 
 import 'widgets/pes_checkboz.dart';
 
@@ -92,36 +92,6 @@ class _PropertyEnquiryScreenState extends State<PropertyEnquiryScreen> {
                 errorText: _con.phoneError,
               ),
 
-              // AppDropdownField(
-              //   isRequired: true,
-              //   label: 'Interested In',
-              //   hintText: 'Select',
-              //   selected: _con.selectedInterest.value,
-              //   items: _interests,
-              //   onSelect: (item) => _con.selectedInterest(item),
-              //   errorText: _con.typeError,
-              // ),
-
-              // AppDropdownField(
-              //   isRequired: true,
-              //   label: 'Budget',
-              //   hintText: 'Select your budget',
-              //   selected: _con.selectedBudget.value,
-              //   items: _budgets,
-              //   onSelect: (item) => _con.selectedBudget(item),
-              //   errorText: _con.budgetError,
-              // ),
-
-              // AppTextfield(
-              //   isRequired: true,
-              //   hintText: 'Tell us what you would like to know',
-              //   controller: _con.moreController,
-              //   minLines: 3,
-              //   maxLines: 5,
-              //   capitalization: TextCapitalization.sentences,
-              //   label: 'More Details',
-              //   errorText: _con.moreError,
-              // ),
               Obx(
                 () => CommunicationConsent(
                   value: _con.consent.value,

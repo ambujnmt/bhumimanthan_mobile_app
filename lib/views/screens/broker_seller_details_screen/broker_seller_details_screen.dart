@@ -1,5 +1,7 @@
 import 'package:bhumi_manthan/utils/app_imports.dart';
 
+import '../../../models/agent_data_model.dart';
+
 class BrokerSellerDetailsScreen extends StatefulWidget {
   const BrokerSellerDetailsScreen({super.key});
 
@@ -10,34 +12,73 @@ class BrokerSellerDetailsScreen extends StatefulWidget {
 
 class _BrokerSellerDetailsScreenState extends State<BrokerSellerDetailsScreen> {
   final sc = ScrollController();
+
+  String? agentKey;
+
+  final isLoading = false.obs;
+
+  final data = Rxn<AgentDataModel>();
+
+  Future<void> _getData() async {
+    final res = await ApiServices().get('/agents/$agentKey');
+    if (!res.success) return;
+    data.value = JsonParser.tryParse(
+      res.data['data'],
+      (json) => AgentDataModel.fromJson(json),
+    );
+  }
+
+  Future<void> refreshData() async {
+    isLoading(true);
+    await _getData();
+    isLoading(false);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    agentKey = Get.arguments?['id']?.toString();
+    if (agentKey == null) return;
+    refreshData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppbar(scrollController: sc, title: ''),
-      body: ListView(
-        controller: sc,
-        children: [
-          _profileHeader(),
-          _experienceLocation(),
-          _listedProperties(),
-          _ratingSummary(),
-          _reviews(),
-          heightSpace100,
-        ],
-      ),
+      body: Obx(() {
+        if (isLoading.value) return AppLoader.widget();
+        if (data.value == null) return ApiErrorWidget();
+        return ListView(
+          controller: sc,
+          children: [
+            _profileHeader(),
+            _experienceRatingAverage(),
+            // _listedProperties(),
+            _ratingSummary(),
+            _reviews(),
+            heightSpace100,
+          ],
+        );
+      }),
     );
   }
 
   Widget _profileHeader() {
+    final agent = data.value!.agent!;
     return Column(
       children: [
         heightSpace10,
-        const CircleAvatar(
-          radius: 48,
-          backgroundImage: NetworkImage('https://i.pravatar.cc/200?img=12'),
+        AppContainer(
+          height: 95,
+          width: 95,
+          shape: BoxShape.circle,
+          clip: Clip.hardEdge,
+          padding: EdgeInsets.zero,
+          child: AppNetworkImage(imgUrl: agent.image, fit: BoxFit.cover),
         ),
         const SizedBox(height: 12),
-        CustomText.kText('Rahul Sharma', size: 21, weight: FontWeight.w600),
+        CustomText.kText(agent.name ?? '', size: 21, weight: FontWeight.w600),
         const SizedBox(height: 6),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
@@ -45,8 +86,8 @@ class _BrokerSellerDetailsScreenState extends State<BrokerSellerDetailsScreen> {
             color: const Color(0xffE8F1FF),
             borderRadius: BorderRadius.circular(20),
           ),
-          child: const Text(
-            'Broker',
+          child: Text(
+            agent.type ?? 'Unknown',
             style: TextStyle(
               color: Colors.blue,
               fontSize: 12,
@@ -60,22 +101,24 @@ class _BrokerSellerDetailsScreenState extends State<BrokerSellerDetailsScreen> {
           children: [
             Icon(Icons.location_on_outlined, color: Colors.blueGrey, size: 18),
             SizedBox(width: 4),
-            CustomText.kText('Dwarka, Delhi', color: Colors.blueGrey),
+            CustomText.kText(agent.cities.first, color: Colors.blueGrey),
           ],
         ),
         Padding(
           padding: const EdgeInsets.all(AppDimentions.defaultScreenPadding),
           child: CustomButton(
             width: 230,
-            text: '9876567890',
-            leftIcon: Icons.call,
+            text: 'View Number',
+            onTap: () =>
+                Get.toNamed(AppRoutes.submitUserDetails, arguments: {'id': 1}),
           ),
         ),
       ],
     );
   }
 
-  Widget _experienceLocation() {
+  Widget _experienceRatingAverage() {
+    final agent = data.value!.agent!;
     return Container(
       color: Colors.white,
       margin: const EdgeInsets.only(top: 8),
@@ -85,14 +128,18 @@ class _BrokerSellerDetailsScreenState extends State<BrokerSellerDetailsScreen> {
           Expanded(
             child: _infoItem(
               Icons.star,
-              '4.8',
-              '124 Reviews',
+              agent.ratingAvg.toString(),
+              '${agent.ratingCount} Reviews',
               iconColor: orange,
             ),
           ),
           Container(height: 45, width: 1, color: Colors.grey.shade200),
           Expanded(
-            child: _infoItem(Icons.work_outline, 'Experience', '8 Years'),
+            child: _infoItem(
+              Icons.work_outline,
+              'Experience',
+              agent.experience ?? 'Unknown',
+            ),
           ),
         ],
       ),
@@ -120,83 +167,86 @@ class _BrokerSellerDetailsScreenState extends State<BrokerSellerDetailsScreen> {
     );
   }
 
-  Widget _listedProperties() {
-    return _section(
-      'Listed Properties',
-      Column(
-        children: [
-          _propertyItem(
-            'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400',
-            'Luxury Independent Villa',
-            'Dwarka, New Delhi',
-            '₹2.5 Cr',
-          ),
-          const Divider(height: 22),
-          _propertyItem(
-            'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400',
-            'Modern 3 BHK Apartment',
-            'Rohini, Delhi',
-            '₹85 Lac',
-          ),
-          const Divider(height: 22),
-          _propertyItem(
-            'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=400',
-            'Premium Residential House',
-            'Janakpuri, Delhi',
-            '₹1.8 Cr',
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _listedProperties() {
+  //   final items = data.value!.properties;
+  //   return SectionWidget(
+  //     title: 'Listed Properties (${items.length})',
+  //     content: Padding(
+  //       padding: const EdgeInsets.symmetric(
+  //         horizontal: AppDimentions.defaultScreenPadding,
+  //       ),
+  //       child: Column(
+  //         spacing: 10,
+  //         children: items
+  //             .take(5)
+  //             .map(
+  //               (i) => _propertyItem(
+  //                 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=400',
+  //                 'Luxury Independent Villa',
+  //                 'Dwarka, New Delhi',
+  //                 '₹2.5 Cr',
+  //               ),
+  //             )
+  //             .toList(),
+  //       ),
+  //     ),
+  //   );
+  // }
 
-  Widget _propertyItem(
-    String image,
-    String name,
-    String location,
-    String price,
-  ) {
-    return Row(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Image.network(image, height: 75, width: 90, fit: BoxFit.cover),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                name,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 13,
-                ),
-              ),
-              const SizedBox(height: 5),
-              Text(
-                location,
-                style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
-              ),
-              const SizedBox(height: 5),
-              Text(
-                price,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 13,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
+  // Widget _propertyItem(
+  //   String image,
+  //   String name,
+  //   String location,
+  //   String price,
+  // ) {
+  //   return Row(
+  //     children: [
+  //       ClipRRect(
+  //         borderRadius: BorderRadius.circular(10),
+  //         child: AppNetworkImage(
+  //           imgUrl: image,
+  //           height: 75,
+  //           width: 90,
+  //           fit: BoxFit.cover,
+  //         ),
+  //       ),
+  //       const SizedBox(width: 12),
+  //       Expanded(
+  //         child: Column(
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: [
+  //             Text(
+  //               name,
+  //               maxLines: 1,
+  //               overflow: TextOverflow.ellipsis,
+  //               style: const TextStyle(
+  //                 fontWeight: FontWeight.w600,
+  //                 fontSize: 13,
+  //               ),
+  //             ),
+  //             const SizedBox(height: 5),
+  //             Text(
+  //               location,
+  //               style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
+  //             ),
+  //             const SizedBox(height: 5),
+  //             Text(
+  //               price,
+  //               style: const TextStyle(
+  //                 fontWeight: FontWeight.bold,
+  //                 fontSize: 13,
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Widget _ratingSummary() {
+    final agent = data.value!.agent;
+    final rating = data.value!.ratingBreakdown;
     return _section(
       'Rating Summary',
       Column(
@@ -205,23 +255,26 @@ class _BrokerSellerDetailsScreenState extends State<BrokerSellerDetailsScreen> {
             children: [
               Column(
                 children: [
-                  const Text(
-                    '4.8',
+                  Text(
+                    '${agent?.ratingAvg ?? '0'}',
                     style: TextStyle(fontSize: 38, fontWeight: FontWeight.bold),
                   ),
                   const Icon(Icons.star, color: Colors.orange),
-                  const Text('124 Reviews', style: TextStyle(fontSize: 11)),
+                  Text(
+                    '${agent?.ratingCount} Reviews',
+                    style: TextStyle(fontSize: 11),
+                  ),
                 ],
               ),
               const SizedBox(width: 25),
               Expanded(
                 child: Column(
                   children: [
-                    _ratingBar(5, 85),
-                    _ratingBar(4, 25),
-                    _ratingBar(3, 8),
-                    _ratingBar(2, 4),
-                    _ratingBar(1, 2),
+                    _ratingBar(5, rating?.five ?? 0),
+                    _ratingBar(4, rating?.four ?? 0),
+                    _ratingBar(3, rating?.three ?? 0),
+                    _ratingBar(2, rating?.two ?? 0),
+                    _ratingBar(1, rating?.one ?? 0),
                   ],
                 ),
               ),
@@ -262,59 +315,59 @@ class _BrokerSellerDetailsScreenState extends State<BrokerSellerDetailsScreen> {
   }
 
   Widget _reviews() {
+    final reviews = data.value!.reviews;
     return _section(
       'Customer Reviews',
       Column(
-        children: [
-          _reviewItem(
-            'Amit Verma',
-            'https://i.pravatar.cc/100?img=11',
-            5,
-            'Very professional and helpful. Helped me find the perfect property within my budget.',
-            '2 days ago',
-          ),
-          const Divider(height: 25),
-          _reviewItem(
-            'Priya Singh',
-            'https://i.pravatar.cc/100?img=47',
-            4,
-            'Good experience. The entire property visit and documentation process was smooth.',
-            '1 week ago',
-          ),
-          const Divider(height: 25),
-          _reviewItem(
-            'Rohit Mehta',
-            'https://i.pravatar.cc/100?img=13',
-            5,
-            'Excellent service and quick response. Highly recommended.',
-            '2 weeks ago',
-          ),
-        ],
+        spacing: 10,
+        children: reviews
+            .take(30)
+            .map(
+              (r) => _reviewItem(
+                r.userName ?? 'Unavailable',
+                r.rating ?? 0,
+                r.review ?? '',
+                formatDateTime(r.updatedAt.toString()),
+              ),
+            )
+            .toList(),
       ),
     );
   }
 
-  Widget _reviewItem(
-    String name,
-    String image,
-    int rating,
-    String review,
-    String date,
-  ) {
+  Widget _reviewItem(String name, int rating, String review, String date) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
-            CircleAvatar(radius: 19, backgroundImage: NetworkImage(image)),
+            CircleAvatar(radius: 22, child: Icon(Icons.person_outline)),
             const SizedBox(width: 10),
             Expanded(
-              child: Text(
-                name,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 13,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 13,
+                    ),
+                  ),
+                  heightSpace5,
+                  Row(
+                    children: List.generate(
+                      5,
+                      (index) => Icon(
+                        Icons.star,
+                        size: 15,
+                        color: index < rating
+                            ? Colors.orange
+                            : Colors.grey.shade300,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             Text(
@@ -323,17 +376,7 @@ class _BrokerSellerDetailsScreenState extends State<BrokerSellerDetailsScreen> {
             ),
           ],
         ),
-        const SizedBox(height: 7),
-        Row(
-          children: List.generate(
-            5,
-            (index) => Icon(
-              Icons.star,
-              size: 15,
-              color: index < rating ? Colors.orange : Colors.grey.shade300,
-            ),
-          ),
-        ),
+
         const SizedBox(height: 7),
         Text(
           review,
@@ -343,6 +386,8 @@ class _BrokerSellerDetailsScreenState extends State<BrokerSellerDetailsScreen> {
             color: Colors.grey.shade700,
           ),
         ),
+        heightSpace7,
+        Divider(color: grey.shade300, thickness: 1.2, height: 0),
       ],
     );
   }

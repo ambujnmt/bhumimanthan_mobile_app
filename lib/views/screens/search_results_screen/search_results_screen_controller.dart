@@ -10,17 +10,15 @@ class SearchResultsScreenController extends GetxController {
 
   final items = <SearchPropertyModel>[].obs;
 
-  final isLastPage = false.obs;
-  final isLoadingMore = false.obs;
-  final _perPage = '12';
-  int _currentPage = 1;
-
   Future<bool> _getData() async {
     final res = await _api.get(
       '/search/properties',
       queries: {
         ...queries,
-        ...{'page': _currentPage.toString(), 'per_page': _perPage},
+        ...{
+          'page': (pagination.currentPage + 1).toString(),
+          'per_page': pagination.perPage.toString(),
+        },
       },
     );
     if (!res.success) return false;
@@ -30,28 +28,14 @@ class SearchResultsScreenController extends GetxController {
         (json) => SearchPropertyModel.fromJson(json),
       ),
     );
-    final lastPage = res.data['data']['pagination']['last_page'];
-    isLastPage.value = _currentPage >= lastPage;
+    final paginationJson = res.data['data']['pagination'];
+    pagination =
+        JsonParser.tryParse(
+          paginationJson,
+          (json) => PaginationModel.fromJson(json),
+        ) ??
+        PaginationModel();
     return true;
-  }
-
-  Future<void> loadMore() async {
-    if (isLoadingMore.value) {
-      debugPrint('skip more loading, wait for running loader');
-      return;
-    }
-
-    if (isLastPage.value) {
-      debugPrint('skip more loading, reached last page');
-      return;
-    }
-
-    _currentPage++;
-    isLoadingMore(true);
-    final success = await _getData();
-    isLoadingMore(false);
-    if (success) return;
-    _currentPage--;
   }
 
   Future<void> refreshData() async {
@@ -63,6 +47,50 @@ class SearchResultsScreenController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    _startListener();
     refreshData();
+  }
+
+  final isLoadingMore = false.obs;
+  final scrollController = ScrollController();
+  final hasPaginationError = false.obs;
+  var pagination = PaginationModel();
+
+  Future<void> _loadMore() async {
+    isLoadingMore(true);
+    hasPaginationError.value = !await _getData();
+    isLoadingMore(false);
+  }
+
+  void _startListener() {
+    scrollController.addListener(() {
+      if (scrollController.position.pixels >=
+          scrollController.position.maxScrollExtent) {
+        _onScrollEnds();
+      }
+    });
+  }
+
+  void _onScrollEnds() {
+    final currentPage = pagination.currentPage;
+    final lastPage = pagination.lastPage;
+    debugPrint('\nPagination:\ncurrent page:$currentPage\nlast page:$lastPage');
+
+    if (isLoadingMore.value) {
+      debugPrint('Pagination: Skip more loading, already loading more');
+      return;
+    }
+    if (currentPage >= lastPage) {
+      debugPrint('Pagination: Skip more loading, reached last page');
+      return;
+    }
+    debugPrint('Pagination: Loading more...');
+    _loadMore();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    scrollController.dispose();
   }
 }

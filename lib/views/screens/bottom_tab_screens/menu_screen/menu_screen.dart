@@ -50,11 +50,11 @@ class _MenuScreenState extends State<MenuScreen>
                 title: 'Notifications',
                 onTap: () => _navigate(AppRoutes.notificationsScreen),
               ),
-              _MenuItem(
-                icon: Icons.notifications_none_rounded,
-                title: 'Chats',
-                onTap: () => _navigate(AppRoutes.chatHistoryScreen),
-              ),
+              // _MenuItem(
+              //   icon: Icons.notifications_none_rounded,
+              //   title: 'Chats',
+              //   onTap: () => _navigate(AppRoutes.chatHistoryScreen),
+              // ),
             ]),
 
             const SizedBox(height: 24),

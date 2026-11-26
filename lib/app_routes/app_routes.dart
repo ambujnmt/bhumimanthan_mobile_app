@@ -34,4 +34,7 @@ abstract class AppRoutes {
   static const allCitiesScreen = '/all-cities';
   static const chatHistoryScreen = '/chat-history';
   static const eventDetailsScreen = '/event-details';
+  static const submitUserDetails = '/get-agent-contact';
+  static const agentContactDetailsScreen = '/agent-contact-details';
+  static const brokerSellerDetailsScreen = '/agent-details';
 }
